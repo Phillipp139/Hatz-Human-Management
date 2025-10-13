@@ -96,25 +96,31 @@
     </div>
   </header>
   <main id="main-content">
-    <section id="hero" class="section hero section--full-height">
+    <section id="hero" class="section hero section--full-height" data-js-hero>
       <div class="container hero__inner hero__inner--split">
         <div class="hero__copy">
-          <h1 class="hero__headline reveal" data-js-reveal>Neues Denken. Neue Wege.</h1>
+          <h1 class="hero__headline hero-animate" data-hero-stage="slogan">
+            <span class="hero__headline-inner">
+              <span class="hero__headline-line">Neues Denken</span>
+              <span class="hero__headline-line">Neue Wege</span>
+            </span>
+          </h1>
           <div class="hero__profile">
-            <h2 class="hero__name reveal" data-js-reveal>Rainer Hatz – Performance Coaching individuell für Unternehmen und Teams</h2>
-            <p class="hero__sub reveal" data-js-reveal>Ich begleite Sie, Ihr Potenzial zu entfalten – individuell, strategisch und in Ihrer zukunftsorientierten Unternehmenskultur.</p>
+            <h2 class="hero__name hero-animate" data-hero-stage="name">Rainer Hatz – Performance Coaching individuell für Unternehmen und Teams</h2>
+            <p class="hero__sub hero-animate" data-hero-stage="sub">Ich begleite Sie, Ihr Potenzial zu entfalten – individuell, strategisch.</p>
           </div>
-          <div class="hero__actions reveal" data-js-reveal>
-            <a class="btn btn--primary" href="#kontakt">Erstgespräch sichern</a>
-            <a class="btn btn--ghost" href="#angebot">Programme entdecken</a>
+          <div class="hero__actions">
+            <a class="btn btn--primary hero-animate" data-hero-stage="cta-primary" href="#kontakt">Erstgespräch sichern</a>
+            <a class="btn btn--ghost hero-animate" data-hero-stage="cta-secondary" href="#angebot">Programme entdecken</a>
           </div>
         </div>
-        <div class="hero__media">
-          <div class="hero__portrait reveal" data-js-reveal>
-            <img src="Bilder/BIldRainer.jpg" alt="Rainer Hatz" loading="lazy" />
+        <div class="hero__media hero-animate" data-hero-stage="portrait">
+          <div class="hero__portrait">
+            <img src="assets/images/PoertaitSakko-Photoroom.png" alt="Rainer Hatz" loading="lazy" />
           </div>
         </div>
       </div>
+      <div class="hero__band hero-animate" aria-hidden="true" data-hero-parallax data-hero-stage="band"></div>
     </section>
     <section id="referenzen" class="section trustbar" aria-labelledby="referenzen-title">
       <div class="container">
