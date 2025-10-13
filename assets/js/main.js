@@ -14,6 +14,10 @@
   const carouselToggle = doc.querySelector("[data-js-carousel-toggle]");
   const marquee = doc.querySelector("[data-js-marquee]");
   const revealEls = Array.from(doc.querySelectorAll("[data-js-reveal]"));
+  const heroSection = doc.querySelector("[data-js-hero]");
+  const heroStages = heroSection ? Array.from(heroSection.querySelectorAll("[data-hero-stage]")) : [];
+  const heroParallax = heroSection?.querySelector("[data-hero-parallax]") || null;
+  const heroPortrait = heroSection?.querySelector(".hero__portrait") || null;
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   let navFocusElements = [];
   let navFocusIndex = 0;
@@ -23,6 +27,34 @@
   let carouselTimer = null;
   let carouselAutoplay = !prefersReducedMotion.matches;
   let marqueeController = null;
+  const heroState = {
+    observer: null,
+    isActive: false,
+    parallaxRaf: null,
+  };
+
+  const setHeroBandDynamicOffset = (value) => {
+    if (!heroParallax) return;
+    const numeric = Number.isFinite(value) ? value : 0;
+    heroParallax.style.setProperty("--hero-band-dynamic-offset", `${numeric.toFixed(2)}px`);
+  };
+
+  const setHeroBandParallaxY = (value) => {
+    if (!heroParallax) return;
+    const numeric = Number.isFinite(value) ? value : 0;
+    heroParallax.style.setProperty("--hero-band-parallax-y", `${numeric.toFixed(2)}px`);
+  };
+
+  const updateHeroBandHorizontal = (heroRect, portraitRect) => {
+    if (!heroParallax || !portraitRect) return;
+    if (window.innerWidth >= 900) {
+      const leftOffset = Math.max(0, portraitRect.left - heroRect.left - 36);
+      heroParallax.style.setProperty("--hero-band-left", `${leftOffset.toFixed(2)}px`);
+    } else {
+      heroParallax.style.removeProperty("--hero-band-left");
+      heroParallax.style.removeProperty("--hero-band-right");
+    }
+  };
 
   const scrollToTarget = (target) => {
     if (!target) return;
@@ -189,6 +221,156 @@
       { passive: true }
     );
     updateHeader();
+  };
+
+  const setHeroActive = (active) => {
+    if (!heroSection || !heroStages.length) return;
+    if (active) {
+      if (heroState.isActive) return;
+      heroState.isActive = true;
+      heroSection.setAttribute("data-hero-active", "true");
+    } else {
+      if (!heroState.isActive) return;
+      heroState.isActive = false;
+      heroSection.removeAttribute("data-hero-active");
+      if (!prefersReducedMotion.matches && heroParallax) {
+        setHeroBandParallaxY(0);
+      }
+      setHeroBandDynamicOffset(0);
+      if (heroParallax) {
+        heroParallax.style.removeProperty("--hero-band-left");
+        heroParallax.style.removeProperty("--hero-band-right");
+      }
+    }
+  };
+
+  const updateHeroParallax = () => {
+    heroState.parallaxRaf = null;
+    if (!heroSection || !heroParallax || prefersReducedMotion.matches) return;
+    const rect = heroSection.getBoundingClientRect();
+    const viewportHeight = window.innerHeight || doc.documentElement.clientHeight || 0;
+    if (viewportHeight <= 0) return;
+
+    if (rect.bottom <= 0 || rect.top >= viewportHeight) {
+      setHeroBandParallaxY(0);
+      setHeroBandDynamicOffset(0);
+      heroParallax.style.removeProperty("--hero-band-left");
+      heroParallax.style.removeProperty("--hero-band-right");
+      return;
+    }
+
+    if (heroPortrait) {
+      const portraitRect = heroPortrait.getBoundingClientRect();
+      const offsetBottom = rect.bottom - portraitRect.bottom;
+      const clampedOffset = Math.max(-120, Math.min(120, offsetBottom));
+      setHeroBandDynamicOffset(clampedOffset);
+      updateHeroBandHorizontal(rect, portraitRect);
+    } else {
+      setHeroBandDynamicOffset(0);
+      setHeroBandParallaxY(0);
+      heroParallax.style.removeProperty("--hero-band-left");
+      heroParallax.style.removeProperty("--hero-band-right");
+    }
+
+    const heroCenter = rect.top + rect.height * 0.5;
+    const viewportCenter = viewportHeight * 0.5;
+    const distance = heroCenter - viewportCenter;
+    const normalized = Math.max(-1, Math.min(1, distance / viewportHeight));
+    const range = 12;
+    const offset = Math.max(-range, Math.min(range, normalized * -range));
+    setHeroBandParallaxY(offset);
+  };
+
+  const requestHeroParallaxUpdate = () => {
+    if (!heroParallax || heroState.parallaxRaf !== null) return;
+    heroState.parallaxRaf = window.requestAnimationFrame(updateHeroParallax);
+  };
+
+  const handleHeroIntersection = (entries) => {
+    entries.forEach((entry) => {
+      if (!heroSection || entry.target !== heroSection) return;
+      if (entry.isIntersecting) {
+        setHeroActive(true);
+        requestHeroParallaxUpdate();
+      } else {
+        const viewportHeight = window.innerHeight || doc.documentElement.clientHeight || 0;
+        if (viewportHeight <= 0) {
+          setHeroActive(false);
+          return;
+        }
+        if (entry.boundingClientRect.bottom <= 0 || entry.boundingClientRect.top >= viewportHeight) {
+          setHeroActive(false);
+        }
+      }
+    });
+  };
+
+  const enableHeroObserver = () => {
+    if (!heroSection || !heroStages.length) return;
+    if (!heroState.observer) {
+      heroState.observer = new IntersectionObserver(handleHeroIntersection, {
+        threshold: 0.45,
+        rootMargin: "-12% 0px -24% 0px",
+      });
+    }
+    heroState.observer.observe(heroSection);
+  };
+
+  const disableHeroObserver = () => {
+    heroState.observer?.disconnect();
+  };
+
+  const applyReducedMotionToHero = (reduced) => {
+    if (!heroSection || !heroStages.length) return;
+    if (reduced) {
+      disableHeroObserver();
+      setHeroActive(true);
+      if (heroParallax) {
+        setHeroBandParallaxY(0);
+        setHeroBandDynamicOffset(0);
+        heroParallax.style.removeProperty("--hero-band-left");
+        heroParallax.style.removeProperty("--hero-band-right");
+      }
+    } else {
+      enableHeroObserver();
+      heroSection.removeAttribute("data-hero-active");
+      heroState.isActive = false;
+      requestHeroParallaxUpdate();
+      setHeroBandDynamicOffset(0);
+      heroParallax?.style.removeProperty("--hero-band-left");
+      heroParallax?.style.removeProperty("--hero-band-right");
+      setHeroBandParallaxY(0);
+      const rect = heroSection.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || doc.documentElement.clientHeight || 0;
+      if (rect.bottom >= 0 && rect.top <= viewportHeight) {
+        window.requestAnimationFrame(() => setHeroActive(true));
+      }
+    }
+  };
+
+  const initHero = () => {
+    if (!heroSection || !heroStages.length) return;
+    if (!prefersReducedMotion.matches) {
+      enableHeroObserver();
+    } else {
+      setHeroActive(true);
+    }
+    if (heroParallax) {
+      window.addEventListener("scroll", requestHeroParallaxUpdate, { passive: true });
+      window.addEventListener("resize", requestHeroParallaxUpdate);
+      setHeroBandDynamicOffset(0);
+      heroParallax.style.removeProperty("--hero-band-left");
+      heroParallax.style.removeProperty("--hero-band-right");
+      setHeroBandParallaxY(0);
+      requestHeroParallaxUpdate();
+    }
+    if (!prefersReducedMotion.matches) {
+      const rect = heroSection.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || doc.documentElement.clientHeight || 0;
+      if (rect.bottom >= 0 && rect.top <= viewportHeight) {
+        window.requestAnimationFrame(() => setHeroActive(true));
+      }
+    }
   };
 
   const handleReveal = (entries, observer) => {
@@ -627,6 +809,7 @@
     initThemeToggle();
     initSmoothScroll();
     initHeaderObserver();
+    initHero();
     initReveal();
     initAccordion();
     initOfferHub();
@@ -635,6 +818,7 @@
     prefersReducedMotion.addEventListener("change", (event) => {
       const prefersReduced = event.matches;
       carouselAutoplay = !prefersReduced;
+      applyReducedMotionToHero(prefersReduced);
       if (prefersReduced) {
         stopCarousel();
         marqueeController?.stop();
