@@ -51,24 +51,24 @@
     <div class="site-header__inner-wrap">
       <div class="site-header__inner">
         <div class="site-header__brand">
-          <a class="site-logo" href="#hero" aria-label="Zur Startsektion">
+          <a class="site-logo" href="/#hero" aria-label="Zur Startsektion">
             <span class="site-logo__mark" aria-hidden="true"></span>
             <span>HATZ-Human Management</span>
           </a>
         </div>
         <nav class="site-nav" aria-label="Hauptnavigation" data-js-nav data-focus-trap>
           <ul id="primary-navigation" class="site-nav__list">
-            <li><a href="#angebot">Angebot</a></li>
-            <li><a href="#referenzen">Referenzen</a></li>
-            <li><a href="#methode">Methodik</a></li>
-            <li><a href="#ueber">Über</a></li>
-            <li><a href="#faq">FAQ</a></li>
-            <li><a href="#kontakt">Kontakt</a></li>
-            <li class="site-nav__cta"><a class="btn btn--primary" href="#kontakt">Erstgespräch</a></li>
+            <li><a href="/#angebot">Angebot</a></li>
+            <li><a href="/#referenzen">Referenzen</a></li>
+            <li><a href="/#methode">Methodik</a></li>
+            <li><a href="/#ueber">Über</a></li>
+            <li><a href="/#faq">FAQ</a></li>
+            <li><a href="/#kontakt">Kontakt</a></li>
+            <li class="site-nav__cta"><a class="btn btn--primary" href="/#kontakt">Erstgespräch</a></li>
           </ul>
         </nav>
         <div class="site-header__controls">
-          <a class="btn btn--primary site-header__cta" href="#kontakt">Erstgespräch</a>
+          <a class="btn btn--primary site-header__cta" href="/#kontakt">Erstgespräch</a>
           <button class="theme-toggle" type="button" aria-label="Darstellung umschalten" data-js-theme-toggle>
             <span class="theme-icon theme-icon--sun" aria-hidden="true">
               <svg viewBox="0 0 24 24" role="img" focusable="false">
@@ -130,10 +130,11 @@
         <div class="hero__media hero-animate" data-hero-stage="portrait">
           <div class="hero__portrait">
             <img src="assets/images/PoertaitSakko-Photoroom.png" alt="Rainer Hatz" loading="lazy" />
+            <span class="hero__accent hero__accent--horizontal hero-animate" data-hero-stage="band" aria-hidden="true"></span>
+            <span class="hero__accent hero__accent--vertical hero-animate" data-hero-stage="band-vertical" aria-hidden="true"></span>
           </div>
         </div>
       </div>
-      <div class="hero__band hero-animate" aria-hidden="true" data-hero-parallax data-hero-stage="band"></div>
     </section>
     <section id="referenzen" class="section trustbar" aria-labelledby="referenzen-title">
       <div class="logo-marquee trustbar__marquee" data-js-marquee>
@@ -186,50 +187,57 @@
         </header>
 
         <div class="offer__grid" data-offer-grid>
-          <button class="offer-card offer-card--unternehmen" type="button" data-offer-card aria-expanded="false"
-            aria-controls="offer-card-details-unternehmen" aria-label="Für Unternehmen – Weitere Details anzeigen">
+          <a class="offer-card offer-card--unternehmen" href="/angebot/unternehmen/" data-offer-card
+            aria-expanded="false" aria-controls="offer-card-details-unternehmen"
+            aria-label="Für Unternehmen – Weitere Details anzeigen">
             <span class="offer-card__media" aria-hidden="true">
-              <img class="offer-card__img" src="assets/Images/Icons/tisch.png" alt="Team um Konferenztisch von oben"
+              <img class="offer-card__img" src="assets/images/Icons/tisch.png" alt="Team um Konferenztisch von oben"
                 loading="lazy" width="512" height="512"
                 sizes="(min-width: 1024px) 18vw, (min-width: 640px) 30vw, 70vw" />
             </span>
             <span class="offer-card__head">
-              <span class="offer-card__title">FÜR UNTERNEHMEN</span>
+              <span class="offer-card__title" id="offer-card-title-unternehmen">FÜR UNTERNEHMEN</span>
             </span>
-            <span class="offer-card__details" id="offer-card-details-unternehmen">
+            <span class="offer-card__details" id="offer-card-details-unternehmen" role="region"
+              aria-labelledby="offer-card-title-unternehmen" aria-hidden="true">
               <span class="offer-card__details-inner">Business Programme, Workshops, Seminare, Coaching</span>
             </span>
-          </button>
+          </a>
 
-          <button class="offer-card offer-card--sportler" type="button" data-offer-card aria-expanded="false"
+          <a class="offer-card offer-card--sportler" href="/angebot/sportler/" data-offer-card aria-expanded="false"
             aria-controls="offer-card-details-sportler" aria-label="Für Sportler – Weitere Details anzeigen">
             <span class="offer-card__media" aria-hidden="true">
-              <img class="offer-card__img" src="assets/Images/Icons/sprinter.png" alt="Sprinter in Startposition"
+              <img class="offer-card__img" src="assets/images/Icons/sprinter.png" alt="Sprinter in Startposition"
                 loading="lazy" width="512" height="512"
                 sizes="(min-width: 1024px) 18vw, (min-width: 640px) 30vw, 70vw" />
             </span>
             <span class="offer-card__head">
-              <span class="offer-card__title">FÜR SPORTLER</span>
+              <span class="offer-card__title" id="offer-card-title-sportler">FÜR SPORTLER</span>
             </span>
-            <span class="offer-card__details" id="offer-card-details-sportler">
+            <span class="offer-card__details" id="offer-card-details-sportler" role="region"
+              aria-labelledby="offer-card-title-sportler" aria-hidden="true">
               <span class="offer-card__details-inner">Mentaltraining, weitere Angebote</span>
             </span>
-          </button>
+          </a>
 
-          <button class="offer-card offer-card--privatpersonen" type="button" data-offer-card aria-expanded="false"
-            aria-controls="offer-card-details-privatpersonen" aria-label="Für Privatpersonen – Weitere Details anzeigen">
+          <a class="offer-card offer-card--privatpersonen" href="/angebot/privatpersonen/" data-offer-card
+            aria-expanded="false" aria-controls="offer-card-details-privatpersonen"
+            aria-label="Für Privatpersonen – Weitere Details anzeigen">
             <span class="offer-card__media" aria-hidden="true">
-              <img class="offer-card__img" src="assets/Images/Icons/steine.png" alt="Gestapelte Steine auf Fels"
+              <img class="offer-card__img offer-card__img--bg" src="assets/images/Icons/baum.png" alt=""
+                aria-hidden="true" loading="lazy" width="1280" height="854" />
+              <img class="offer-card__img" src="assets/images/Icons/steine.png" alt="Gestapelte Steine auf Fels"
                 loading="lazy" width="512" height="512"
                 sizes="(min-width: 1024px) 18vw, (min-width: 640px) 30vw, 70vw" />
             </span>
             <span class="offer-card__head">
-              <span class="offer-card__title">FÜR PRIVATPERSONEN</span>
+              <span class="offer-card__title" id="offer-card-title-privatpersonen">FÜR PRIVATPERSONEN</span>
             </span>
-            <span class="offer-card__details" id="offer-card-details-privatpersonen">
+            <span class="offer-card__details" id="offer-card-details-privatpersonen" role="region"
+              aria-labelledby="offer-card-title-privatpersonen" aria-hidden="true">
               <span class="offer-card__details-inner">Life-Coaching, Business-Coaching</span>
             </span>
-          </button>
+          </a>
         </div>
 
         <div class="offer__details" data-offer-details>
@@ -253,32 +261,37 @@
           display: grid;
           gap: clamp(1.5rem, 3vw, 2.5rem);
           grid-template-columns: 1fr;
+          grid-auto-rows: auto;
+          align-items: start;
         }
 
         @media (min-width: 640px) {
           .offer__grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
+            grid-auto-rows: auto;
           }
         }
 
         @media (min-width: 1024px) {
           .offer__grid {
             grid-template-columns: repeat(3, minmax(0, 1fr));
+            grid-auto-rows: auto;
           }
         }
 
         .offer-card {
+          --offer-card-pad: clamp(1.9rem, 5.5vw, 3rem);
           border: 0;
           background-color: #1f3c88;
           color: #fff;
           border-radius: 26px;
-          min-height: clamp(18rem, 34vw, 21rem);
-          padding: clamp(1.75rem, 5vw, 2.75rem);
+          min-height: clamp(20rem, 36vw, 23rem);
+          padding: var(--offer-card-pad);
           display: flex;
           flex-direction: column;
           align-items: flex-start;
           justify-content: flex-start;
-          gap: clamp(1.25rem, 3vw, 1.75rem);
+          gap: clamp(1rem, 2.6vw, 1.55rem);
           cursor: pointer;
           text-align: left;
           box-shadow: 0 18px 48px -24px rgba(31, 60, 136, 0.55);
@@ -287,6 +300,12 @@
           overflow: visible;
           isolation: isolate;
           align-self: start;
+        }
+
+        .offer-card:link,
+        .offer-card:visited {
+          color: #fff;
+          text-decoration: none;
         }
 
         .offer-card--sportler {
@@ -303,7 +322,7 @@
           display: block;
           width: clamp(12rem, 22vw, 18rem);
           pointer-events: none;
-          margin: -1.5rem -1.25rem -0.5rem 0;
+          margin: -1.5rem -1.25rem -1.05rem 0;
           align-self: flex-end;
           position: relative;
           z-index: 1;
@@ -315,22 +334,47 @@
         }
 
         .offer-card--sportler .offer-card__media {
-          margin-right: -3.35rem;
-          width: clamp(12.8rem, 24vw, 19.5rem);
+          margin-right: -3.25rem;
+          width: clamp(12.6rem, 23.2vw, 19.2rem);
+          margin-bottom: -1.95rem;
+        }
+
+        .offer-card--privatpersonen .offer-card__media {
+          position: relative;
         }
 
         .offer-card__img {
           width: 100%;
           height: auto;
           display: block;
-          transform: translateY(6%) scale(0.86);
+          transform: translateY(5%) scale(0.9);
           transform-origin: center;
           opacity: 1;
           transition: transform 320ms ease;
         }
 
+        .offer-card--privatpersonen .offer-card__img {
+          position: relative;
+          z-index: 2;
+        }
+
+        .offer-card--privatpersonen .offer-card__img--bg {
+          position: absolute;
+          bottom: 0;
+          left: -18%;
+          width: 125%;
+          max-width: none;
+          opacity: 0.85;
+          pointer-events: none;
+          z-index: 1;
+          transform: translateY(4%) scale(0.92);
+          transition: transform 320ms ease;
+        }
+
         .offer-card__head {
-          display: block;
+          display: flex;
+          align-items: flex-end;
+          min-height: clamp(3.6rem, 5vw, 4.4rem);
         }
 
         .offer-card__title {
@@ -339,6 +383,8 @@
           letter-spacing: 0.1em;
           text-transform: uppercase;
           font-weight: 600;
+          white-space: nowrap;
+          overflow: hidden;
         }
 
         .offer-card__details {
@@ -349,6 +395,7 @@
           visibility: hidden;
           transform: translateY(-10px);
           transition: max-height 320ms ease, opacity 320ms ease, transform 320ms ease, visibility 0s linear 320ms;
+          margin-top: clamp(0.5rem, 1.8vw, 1.1rem);
         }
 
         .offer-card__details-inner {
@@ -371,19 +418,46 @@
 
         .offer-card:is(:hover, :focus-visible) .offer-card__img,
         .offer-card.is-open .offer-card__img {
-          transform: translateY(-12%) scale(1.28);
+          transform: translateY(-14%) scale(1.34);
+        }
+
+        .offer-card:is(:hover, :focus-visible) .offer-card__details,
+        .offer-card.is-open .offer-card__details {
+          max-height: 14rem;
+          opacity: 1;
+          visibility: visible;
+          transform: translateY(0);
+          transition-delay: 0s;
         }
 
         .offer-card--sportler:is(:hover, :focus-visible) .offer-card__img,
         .offer-card--sportler.is-open .offer-card__img,
         .offer-card--privatpersonen:is(:hover, :focus-visible) .offer-card__img,
         .offer-card--privatpersonen.is-open .offer-card__img {
-          transform: translateY(-22%) scale(1.42);
+          transform: translateY(-24%) scale(1.52);
         }
 
         .offer-card--sportler:is(:hover, :focus-visible) .offer-card__img,
         .offer-card--sportler.is-open .offer-card__img {
-          transform: translateY(-26%) scale(1.6);
+          transform: translateY(-28%) scale(1.68);
+        }
+
+        .offer-card--privatpersonen .offer-card__img {
+          transform: translateY(10%) scale(0.92);
+        }
+
+        .offer-card--privatpersonen:is(:hover, :focus-visible) .offer-card__img,
+        .offer-card--privatpersonen.is-open .offer-card__img {
+          transform: translateY(-14%) scale(1.36);
+        }
+
+        .offer-card--privatpersonen .offer-card__img--bg {
+          transform: translateY(8%) scale(0.84);
+        }
+
+        .offer-card--privatpersonen:is(:hover, :focus-visible) .offer-card__img--bg,
+        .offer-card--privatpersonen.is-open .offer-card__img--bg {
+          transform: translateY(-10%) scale(1.08);
         }
 
         @media (max-width: 1023px) {
@@ -409,12 +483,6 @@
             font-size: clamp(1.05rem, 2.6vw, 1.25rem);
             letter-spacing: 0.08em;
           }
-
-          .offer-card__head {
-            min-height: 4.2rem;
-            display: flex;
-            align-items: flex-end;
-          }
         }
 
         @media (max-width: 767px) {
@@ -437,14 +505,6 @@
           .offer-card.is-open {
             transform: translateY(-4px) scale(1.01);
           }
-        }
-        .offer-card:is(:hover, :focus-visible) .offer-card__details,
-        .offer-card.is-open .offer-card__details {
-          max-height: 12rem;
-          opacity: 1;
-          visibility: visible;
-          transform: translateY(0);
-          transition-delay: 0s;
         }
 
         .offer__details {
@@ -483,48 +543,79 @@
           const cards = Array.from(document.querySelectorAll('[data-offer-card]'));
           const grid = document.querySelector('[data-offer-grid]');
           const details = document.querySelector('[data-offer-details]');
-          const hoverNone = window.matchMedia('(hover: none)');
           const pointerCoarse = window.matchMedia('(pointer: coarse)');
 
-          const shouldToggle = () => hoverNone.matches || pointerCoarse.matches;
+          const isTouchLike = () => pointerCoarse.matches;
+
+          const setDetailsState = (card, expanded) => {
+            const panel = card.querySelector('.offer-card__details');
+            if (panel) {
+              panel.setAttribute('aria-hidden', expanded ? 'false' : 'true');
+            }
+          };
+
+          const openCard = (card) => {
+            card.classList.add('is-open');
+            card.setAttribute('aria-expanded', 'true');
+            setDetailsState(card, true);
+          };
+
+          const collapseCard = (card) => {
+            card.classList.remove('is-open');
+            card.setAttribute('aria-expanded', 'false');
+            setDetailsState(card, false);
+          };
 
           const closeCards = (except) => {
             cards.forEach((card) => {
-              if (card !== except) {
-                card.classList.remove('is-open');
-                card.setAttribute('aria-expanded', 'false');
+              if (!except || card !== except) {
+                collapseCard(card);
               }
             });
           };
+
+          if (typeof pointerCoarse.addEventListener === 'function') {
+            pointerCoarse.addEventListener('change', () => {
+              if (!isTouchLike()) {
+                closeCards();
+              }
+            });
+          }
 
           cards.forEach((card) => {
             card.addEventListener('focus', () => {
               if (!card.classList.contains('is-open')) {
                 card.setAttribute('aria-expanded', 'true');
+                setDetailsState(card, true);
               }
             });
 
             card.addEventListener('blur', () => {
               if (!card.classList.contains('is-open')) {
                 card.setAttribute('aria-expanded', 'false');
+                setDetailsState(card, false);
               }
             });
 
             card.addEventListener('click', (event) => {
-              if (!shouldToggle()) {
+              if (!isTouchLike()) {
+                closeCards();
                 return;
               }
-              event.preventDefault();
-              const isOpen = card.classList.toggle('is-open');
-              card.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-              if (isOpen) {
-                closeCards(card);
+
+              if (!card.classList.contains('is-open')) {
+                event.preventDefault();
+                closeCards();
+                openCard(card);
+                return;
               }
+
+              closeCards();
             });
           });
 
           document.addEventListener('click', (event) => {
-            if (!shouldToggle()) {
+            if (!isTouchLike()) {
               return;
             }
             if (grid && !grid.contains(event.target)) {
@@ -862,7 +953,7 @@
   <footer class="site-footer" role="contentinfo">
     <div class="container site-footer__inner">
       <div class="site-footer__brand">
-        <a class="site-logo" href="#hero" aria-label="Zur Startsektion">
+        <a class="site-logo" href="/#hero" aria-label="Zur Startsektion">
           <span class="site-logo__mark" aria-hidden="true"></span>
         </a>
         <p>Hatz Human-Management – Exklusive Begleitung für Führungskräfte im Wandel.</p>
@@ -870,12 +961,12 @@
       <div class="site-footer__nav">
         <h2 class="sr-only">Fußzeilen-Navigation</h2>
         <ul>
-          <li><a href="#angebot">Angebot</a></li>
-          <li><a href="#referenzen">Referenzen</a></li>
-          <li><a href="#methode">Methode</a></li>
-          <li><a href="#ueber">Über</a></li>
-          <li><a href="#faq">FAQ</a></li>
-          <li><a href="#kontakt">Kontakt</a></li>
+          <li><a href="/#angebot">Angebot</a></li>
+          <li><a href="/#referenzen">Referenzen</a></li>
+          <li><a href="/#methode">Methode</a></li>
+          <li><a href="/#ueber">Über</a></li>
+          <li><a href="/#faq">FAQ</a></li>
+          <li><a href="/#kontakt">Kontakt</a></li>
         </ul>
       </div>
       <div class="site-footer__meta">
@@ -899,3 +990,8 @@
 </body>
 
 </html>
+        @media (max-width: 639px) {
+          .offer-card__title {
+            white-space: normal;
+          }
+        }
