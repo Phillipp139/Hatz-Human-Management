@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Angebot Sportler – Platzhalter | HATZ-Human Management</title>
+  <meta name="description" content="Platzhalterbeschreibung für das Angebot Sportler von HATZ-Human Management." />
+  <meta property="og:title" content="Angebot Sportler – HATZ-Human Management" />
+  <meta property="og:description" content="Platzhalterinhalt für die Angebotsseite Sportler." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.rainer-leadership.de/angebot/sportler/" />
+  <meta property="og:image" content="https://www.rainer-leadership.de/assets/img/og-image.jpg" />
+  <link rel="stylesheet" href="../../assets/fonts/WEB/css/plein.css" />
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+  <style>
+     :root {
+       --page-space: clamp(2.5rem, 6vw, 4rem);
+     }
+
+     .page-hero {
+       padding: calc(var(--page-space) / 2) 0 clamp(1.5rem, 3.5vw, 2.2rem);
+     }
+
+     .page-hero__grid {
+       display: grid;
+       gap: clamp(2rem, 5vw, 3rem);
+       grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+       align-items: center;
+     }
+
+     .page-hero__copy {
+       display: grid;
+       gap: clamp(1.2rem, 3.2vw, 1.8rem);
+     }
+
+     .page-hero__subtitle {
+       margin: 0;
+       font-size: clamp(1.02rem, 0.45vw + 0.95rem, 1.3rem);
+       color: rgba(10, 35, 66, 0.7);
+       letter-spacing: 0.05em;
+       text-transform: uppercase;
+     }
+
+     .page-hero__text {
+       display: grid;
+       gap: clamp(0.8rem, 2vw, 1.2rem);
+       margin: 0;
+       max-width: 58ch;
+       color: rgba(10, 35, 66, 0.9);
+     }
+
+     .page-hero__actions {
+       display: flex;
+       gap: clamp(1rem, 2.5vw, 1.4rem);
+       margin-top: clamp(1.8rem, 4vw, 2.6rem);
+     }
+
+     .page-hero__media {
+       display: flex;
+       justify-content: flex-end;
+       align-items: flex-end;
+     }
+
+     .hero__headline--tight {
+       margin: 0;
+       font-size: clamp(3.8rem, 2.7vw + 3.1rem, 4.7rem);
+     }
+
+     .hero__profile--compact {
+       display: grid;
+       gap: clamp(0.8rem, 2vw, 1.2rem);
+     }
+
+     .hero__name--compact {
+       margin: 0;
+       display: grid;
+       gap: 0.35rem;
+     }
+
+     .hero__name--compact .hero__name-main {
+       font-size: clamp(1.15rem, 0.5vw + 1.05rem, 1.45rem);
+       letter-spacing: 0.02em;
+     }
+
+     .hero__name--compact .hero__name-line {
+       text-transform: uppercase;
+       letter-spacing: 0.12em;
+       font-size: clamp(0.85rem, 0.3vw + 0.8rem, 1rem);
+     }
+
+     .hero__sub--compact {
+       margin: 0;
+       max-width: 58ch;
+       line-height: 1.65;
+       color: rgba(10, 35, 66, 0.85);
+     }
+
+     .hero__portrait--compact {
+       max-width: clamp(420px, 38vw, 560px);
+       margin-inline: auto 0;
+       margin-top: clamp(4rem, 7vw, 5.5rem);
+     }
+
+     .hero__portrait--compact .hero__accent--horizontal {
+       left: clamp(-6rem, -12vw, -4rem);
+       right: clamp(-0.3rem, -0.6vw, -0.18rem);
+       height: clamp(2px, 0.35vw, 4px);
+     }
+
+     .hero__portrait--compact .hero__accent--vertical {
+       height: clamp(5.4rem, 15vw, 8.4rem);
+       width: clamp(3px, 0.35vw, 5px);
+     }
+
+     @media (max-width: 1023px) {
+       .page-hero__grid {
+         grid-template-columns: minmax(0, 1fr);
+       }
+
+       .page-hero__media {
+         justify-content: flex-start;
+         margin-top: clamp(2rem, 5vw, 3rem);
+       }
+
+       .hero__portrait--compact {
+         margin-inline: 0;
+         max-width: clamp(320px, 60vw, 400px);
+       }
+     }
+
+     .sport-voices {
+       padding: clamp(2rem, 5vw, 3.2rem) 0;
+     }
+
+      .sport-voices__grid {
+       display: grid;
+       gap: clamp(2rem, 4vw, 3rem);
+       grid-template-columns: repeat(2, minmax(0, 1fr));
+       align-items: stretch;
+     }
+
+      .sport-voices__left {
+       display: grid;
+       align-content: start;
+       justify-content: start;
+       gap: clamp(1rem, 2vw, 1.4rem);
+     }
+
+      .sport-voices__heading {
+       margin: 0 0 clamp(1.2rem, 3vw, 1.6rem);
+       font-size: clamp(1rem, 0.6vw + 0.95rem, 1.3rem);
+       letter-spacing: 0.14em;
+       text-transform: uppercase;
+       color: rgba(10, 35, 66, 0.6);
+     }
+
+      .sport-voices__card {
+       position: relative;
+       background: #cfe2f3;
+       border-radius: 20px;
+       box-shadow: 0 32px 60px -40px rgba(12, 52, 94, 0.55);
+       aspect-ratio: 1 / 1;
+       width: 100%;
+       max-width: clamp(420px, 44vw, 560px);
+       overflow: visible;
+       display: grid;
+     }
+
+    .sport-voices__slide {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: clamp(1.2rem, 2.4vw, 1.6rem);
+      align-content: start;
+      opacity: 0;
+      transform: translateX(4%);
+      transition: opacity 600ms ease, transform 600ms ease;
+      padding: clamp(1.8rem, 4vw, 2.6rem);
+      border-radius: inherit;
+       background: inherit;
+     }
+
+      .sport-voices__slide.is-active {
+       opacity: 1;
+       transform: translateX(0);
+       pointer-events: auto;
+     }
+
+      .sport-voices__slide.is-exiting-left {
+       opacity: 0;
+       transform: translateX(-6%);
+     }
+
+      .sport-voices__slide.is-exiting-right {
+       opacity: 0;
+       transform: translateX(6%);
+     }
+
+      .sport-voices__slide.is-enter-from-right {
+       opacity: 0;
+       transform: translateX(6%);
+     }
+
+      .sport-voices__slide.is-enter-from-left {
+       opacity: 0;
+       transform: translateX(-6%);
+     }
+
+      .sport-voices__quote {
+       margin: 0;
+       font-size: clamp(1.18rem, 0.7vw + 1.1rem, 1.54rem);
+       line-height: 1.6;
+       color: rgba(10, 35, 66, 0.92);
+       font-weight: 500;
+     }
+
+      .sport-voices__label {
+       margin: 0;
+       font-size: clamp(2rem, 1.6vw + 1.8rem, 2.8rem);
+       line-height: 1.15;
+       letter-spacing: 0.02em;
+       color: rgba(10, 35, 66, 0.95);
+       font-weight: 600;
+     }
+
+      .sport-voices__person {
+       display: grid;
+       grid-template-columns: auto 1fr;
+       align-items: center;
+       gap: clamp(0.8rem, 1.8vw, 1rem);
+       color: rgba(10, 35, 66, 0.85);
+       font-weight: 600;
+     }
+
+    .sport-voices__avatar {
+      width: clamp(132px, 14vw, 168px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(12, 52, 94, 0.12), rgba(12, 52, 94, 0.28));
+       border: 2px solid rgba(10, 35, 66, 0.15);
+       position: relative;
+       background-repeat: no-repeat;
+       background-size: cover;
+       background-position: center;
+     }
+
+      .sport-voices__name {
+       display: grid;
+       gap: clamp(0.18rem, 0.4vw, 0.32rem);
+       font-size: clamp(1.05rem, 0.6vw + 1rem, 1.28rem);
+       line-height: 1.35;
+     }
+
+     .sport-voices__right {
+       padding: clamp(1.8rem, 4vw, 2.6rem);
+       display: grid;
+       gap: clamp(1rem, 2.4vw, 1.6rem);
+     }
+
+    .sport-gallery {
+      padding: clamp(1.2rem, 3vw, 1.8rem) 0 clamp(2rem, 4vw, 2.6rem);
+      margin-top: clamp(1.2rem, 3vw, 1.8rem);
+    }
+
+    .sport-gallery__heading {
+      margin: 0 0 clamp(1.2rem, 2.6vw, 1.6rem);
+      font-size: clamp(1.2rem, 0.8vw + 1.1rem, 1.7rem);
+      color: rgba(10, 35, 66, 0.8);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .sport-gallery__card {
+      background: #cfe2f3;
+      border-radius: 20px;
+      box-shadow: 0 32px 60px -40px rgba(12, 52, 94, 0.55);
+      padding: clamp(0.8rem, 2.2vw, 1.2rem);
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+      min-height: clamp(120px, 16vw, 180px);
+    }
+
+    .sport-gallery__viewport {
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .sport-gallery__track {
+      display: flex;
+      gap: clamp(0.9rem, 1.8vw, 1.3rem);
+      align-items: center;
+      transform: translateX(0);
+      will-change: transform;
+    }
+
+    .sport-gallery__figure {
+      flex: 0 0 clamp(150px, 11.5vw, 208px);
+      aspect-ratio: 1;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      isolation: isolate;
+      background: rgba(255, 255, 255, 0.4);
+      display: grid;
+      place-items: center;
+    }
+
+    .sport-gallery__image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .sport-gallery__caption {
+      position: absolute;
+      inset: auto 0 0 0;
+      padding: 0.45rem 0.65rem;
+      font-size: clamp(0.68rem, 0.28vw + 0.64rem, 0.82rem);
+      line-height: 1.2;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: rgba(10, 35, 66, 0.8);
+      color: #fff;
+      transform: translateY(105%);
+      transition: transform 220ms ease;
+    }
+
+    .sport-gallery__figure:hover .sport-gallery__caption,
+    .sport-gallery__figure:focus-within .sport-gallery__caption {
+      transform: translateY(0);
+    }
+
+      .sport-voices__title {
+       margin: 0;
+       font-size: clamp(1.6rem, 0.9vw + 1.4rem, 2.1rem);
+       color: rgba(10, 35, 66, 0.95);
+     }
+
+      .sport-voices__text {
+       margin: 0;
+       line-height: 1.68;
+       color: rgba(10, 35, 66, 0.85);
+     }
+
+    .sport-voices__control {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: clamp(40px, 5vw, 50px);
+      aspect-ratio: 1;
+       border-radius: 50%;
+       border: 1px solid rgba(10, 35, 66, 0.12);
+       background: rgba(255, 255, 255, 0.82);
+       color: rgba(10, 35, 66, 0.6);
+       display: inline-flex;
+       align-items: center;
+       justify-content: center;
+      cursor: pointer;
+      transition: background 220ms ease, color 220ms ease, border-color 220ms ease, transform 220ms ease;
+      z-index: 5;
+    }
+
+      .sport-voices__control--prev {
+       left: calc(-2.4rem);
+     }
+
+     .sport-voices__control--next {
+      right: calc(-2.4rem);
+      transform: translate(50%, -50%);
+    }
+
+    .sport-voices__control:hover,
+    .sport-voices__control:focus-visible {
+      background: rgba(10, 35, 66, 0.14);
+      border-color: rgba(10, 35, 66, 0.28);
+      color: rgba(10, 35, 66, 0.88);
+      outline: none;
+      transform: translate(-50%, -50%) scale(1.03);
+    }
+
+    .sport-voices__control--next:hover,
+    .sport-voices__control--next:focus-visible {
+      transform: translate(50%, -50%) scale(1.03);
+    }
+
+    .sport-voices__control-icon {
+      display: block;
+      width: 1.15em;
+      height: 1.15em;
+    }
+
+    @media (max-width: 1023px) {
+      .sport-voices__grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .sport-voices__card {
+        aspect-ratio: auto;
+        width: 100%;
+        max-width: none;
+        min-height: clamp(360px, 68vw, 460px);
+      }
+
+      .sport-voices__control--prev {
+        left: calc(-1.6rem);
+      }
+
+      .sport-voices__control--next {
+        right: calc(-1.6rem);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .sport-voices__control {
+        width: clamp(36px, 7vw, 44px);
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .sport-voices__control--prev {
+        left: 0.4rem;
+        transform: translate(0, -50%);
+      }
+
+      .sport-voices__control--next {
+        right: 0.4rem;
+        transform: translate(0, -50%);
+      }
+
+      .sport-voices__control:hover,
+      .sport-voices__control:focus-visible {
+        transform: translate(0, -50%) scale(1.03);
+      }
+    }
+  </style>
+</head>
+
+<body data-theme="light">
+  <a href="#main-content" class="skip-link">Zum Inhalt springen</a>
+  <header class="site-header" data-js-header role="banner">
+     <div class="site-header__inner-wrap">
+       <div class="site-header__inner">
+         <div class="site-header__brand">
+           <a class="site-logo" href="/#hero" aria-label="Zur Startsektion">
+             <span class="site-logo__mark" aria-hidden="true"></span>
+             <span>HATZ-Human Management</span>
+           </a>
+         </div>
+         <nav class="site-nav" aria-label="Hauptnavigation" data-js-nav data-focus-trap>
+           <ul id="primary-navigation" class="site-nav__list">
+             <li><a href="/#angebot" aria-current="page">Angebot</a></li>
+             <li><a href="/#referenzen">Referenzen</a></li>
+             <li><a href="/#methode">Methodik</a></li>
+             <li><a href="/#ueber">Über</a></li>
+             <li><a href="/#faq">FAQ</a></li>
+             <li><a href="/#kontakt">Kontakt</a></li>
+             <li class="site-nav__cta"><a class="btn btn--primary" href="/#kontakt">Erstgespräch</a></li>
+           </ul>
+         </nav>
+         <div class="site-header__controls">
+           <a class="btn btn--primary site-header__cta" href="/#kontakt">Erstgespräch</a>
+           <button class="theme-toggle" type="button" aria-label="Darstellung umschalten" data-js-theme-toggle>
+             <span class="theme-icon theme-icon--sun" aria-hidden="true">
+               <svg viewBox="0 0 24 24" role="img" focusable="false">
+                 <circle cx="12" cy="12" r="5" />
+                 <g>
+                   <line x1="12" y1="1" x2="12" y2="4" />
+                   <line x1="12" y1="20" x2="12" y2="23" />
+                   <line x1="4.22" y1="4.22" x2="6.34" y2="6.34" />
+                   <line x1="17.66" y1="17.66" x2="19.78" y2="19.78" />
+                   <line x1="1" y1="12" x2="4" y2="12" />
+                   <line x1="20" y1="12" x2="23" y2="12" />
+                   <line x1="4.22" y1="19.78" x2="6.34" y2="17.66" />
+                   <line x1="17.66" y1="6.34" x2="19.78" y2="4.22" />
+                 </g>
+               </svg>
+             </span>
+             <span class="theme-icon theme-icon--moon" aria-hidden="true">
+               <svg viewBox="0 0 24 24" role="img" focusable="false">
+                 <path d="M21 14.5A9 9 0 0110.5 3 7 7 0 1021 14.5z" />
+               </svg>
+             </span>
+           </button>
+           <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation"
+             aria-label="Navigation umschalten" data-js-nav-toggle>
+             <span class="sr-only">Menü öffnen</span>
+             <span class="nav-toggle__label" aria-hidden="true"></span>
+           </button>
+         </div>
+       </div>
+     </div>
+  </header>
+
+  <main id="main-content">
+     <section class="section page-hero" aria-labelledby="page-title">
+       <div class="container page-hero__grid">
+         <div class="page-hero__copy">
+           <p class="breadcrumb" aria-label="Brotkrumenpfad">
+             <a href="/#angebot">Angebot</a>
+             <span aria-hidden="true"> › </span>
+             <span>Sportler:innen</span>
+           </p>
+           <h1 class="hero__headline hero__headline--tight" id="page-title">
+             <span class="hero__headline-inner">
+               <span class="hero__headline-line">Mentaltraining</span>
+               <span class="hero__headline-line">für Sportler:innen<span class="hero__dot">.</span></span>
+             </span>
+           </h1>
+           <div class="hero__profile hero__profile--compact">
+             <h2 class="hero__name hero__name--compact">
+               <span class="hero__name-main">Mentale Stärke als Schlüssel</span>
+               <span class="hero__name-line hero__name-line--accent">zu Spitzenleistung und nachhaltigem Erfolg</span>
+             </h2>
+             <p class="hero__sub hero__sub--compact">Mentales Training unterstützt Sportler:innen dabei, unter Druck
+               fokussiert zu bleiben, Rückschläge als Chancen zu nutzen und ihre innere Stärke gezielt zu aktivieren.
+               Durch individuelle Trainingsmethoden entwickeln Athlet:innen mentale Routinen, um in entscheidenden
+               Momenten Leistung mit Leichtigkeit abzurufen.</p>
+           </div>
+           <div class="page-hero__actions">
+             <a class="btn btn--primary" href="/#kontakt">Kostenfreies Erstgespräch sichern</a>
+           </div>
+         </div>
+         <div class="page-hero__media">
+           <div class="hero__portrait hero__portrait--compact">
+             <img src="../../assets/images/PoertaitSakko-Photoroom.png" alt="Rainer Hatz" loading="lazy" />
+             <span class="hero__accent hero__accent--horizontal" aria-hidden="true"></span>
+             <span class="hero__accent hero__accent--vertical" aria-hidden="true"></span>
+           </div>
+       </div>
+     </div>
+    </section>
+
+     <section class="section sport-voices" aria-labelledby="sport-voices-title">
+       <div class="container sport-voices__grid">
+         <div class="sport-voices__left">
+           <h2 class="sport-voices__heading" id="sport-voices-title">Erfolgsgeschichten meiner Klient:innen</h2>
+           <div class="sport-voices__card" data-js-sport-voices>
+             <article class="sport-voices__slide is-active" data-js-sport-voice>
+               <p class="sport-voices__label">Silbermedaille bei den Olympischen Spielen in Athen</p>
+               <blockquote class="sport-voices__quote">„Erkenne dein Potenzial, trainiere mental – und dein Fokus trägt dich auf das Treppchen.“</blockquote>
+               <footer class="sport-voices__person">
+                <span class="sport-voices__avatar" aria-hidden="true"
+                  style="background-image: url('../../assets/images/athletes/Lusch.jpg');"></span>
+                 <span class="sport-voices__name">
+                  <span class="hero__name-main">Christian Lusch</span>
+                  <span class="hero__name-line hero__name-line--accent">Deutscher Sportschütze</span>
+                 </span>
+               </footer>
+             </article>
+             <article class="sport-voices__slide" data-js-sport-voice>
+               <p class="sport-voices__label">Team-Vizeweltmeister 2014 danach Weltmeister 2018</p>
+               <blockquote class="sport-voices__quote">„.“</blockquote>
+               <footer class="sport-voices__person">
+                 <span class="sport-voices__avatar" aria-hidden="true"
+                  style="background-image: url('../../assets/images/athletes/Horne.jpg');"></span>
+                 <span class="sport-voices__name">
+                  <span class="hero__name-main">Jonathan Horne</span>
+                  <span class="hero__name-line hero__name-line--accent">Karate-Weltmeister</span>
+                 </span>
+               </footer>
+             </article>
+             <article class="sport-voices__slide" data-js-sport-voice>
+               <p class="sport-voices__label">Zurück in den Flow</p>
+               <blockquote class="sport-voices__quote">„Durch das Training mit Rainer habe ich gelernt, nach Rückschlägen sofort wieder in meinen Fokus zu finden.“</blockquote>
+               <footer class="sport-voices__person">
+                 <span class="sport-voices__avatar" aria-hidden="true"
+                  style="background-image: url('../../assets/images/athletes/John_Sperle.JPG');"></span>
+                 <span class="sport-voices__name">
+                  <span class="hero__name-main">John Sperle</span>
+                  <span class="hero__name-line hero__name-line--accent">Tennisprofi, 2. Bundesliga</span>
+                 </span>
+               </footer>
+             </article>
+             <article class="sport-voices__slide" data-js-sport-voice>
+               <p class="sport-voices__label">Deutsche Vizemeisterin 2023</p>
+               <blockquote class="sport-voices__quote">„Ich gehe heute mit einer ganz anderen Ruhe an den Start und kann meine Stärken gezielt abrufen.“</blockquote>
+               <footer class="sport-voices__person">
+                 <span class="sport-voices__avatar" aria-hidden="true"
+                  style="background-image: url('../../assets/images/athletes/wagner.jpg');"></span>
+                 <span class="sport-voices__name">
+                  <span class="hero__name-main">Stephanie Wagner</span>
+                  <span class="hero__name-line hero__name-line--accent">Deutsche Profi-Tennisspielerin</span>
+                 </span>
+               </footer>
+             </article>
+             <button type="button" class="sport-voices__control sport-voices__control--prev" data-js-sport-prev aria-label="Vorheriges Zitat">
+               <svg class="sport-voices__control-icon" viewBox="0 0 16 16" role="img" focusable="false">
+                 <path d="M10.53 3.47a.75.75 0 0 0-1.06 0L5.44 7.5a.75.75 0 0 0 0 1.06l4.03 4.03a.75.75 0 1 0 1.06-1.06L7.03 8l3.5-3.47a.75.75 0 0 0 0-1.06Z" fill="currentColor" />
+               </svg>
+             </button>
+             <button type="button" class="sport-voices__control sport-voices__control--next" data-js-sport-next aria-label="Nächstes Zitat">
+               <svg class="sport-voices__control-icon" viewBox="0 0 16 16" role="img" focusable="false">
+                 <path d="M5.47 12.53a.75.75 0 0 0 1.06 0L10.56 8.5a.75.75 0 0 0 0-1.06L6.53 3.41a.75.75 0 0 0-1.06 1.06L8.97 8l-3.5 3.47a.75.75 0 0 0 0 1.06Z" fill="currentColor" />
+               </svg>
+             </button>
+           </div>
+         </div>
+         <div class="sport-voices__right">
+           <h3 class="sport-voices__title">Mentale Stärke als entscheidender Erfolgsfaktor</h3>
+           <p class="sport-voices__text">Im Leistungssport entscheidet der Kopf über Sieg oder Niederlage. Mentaltraining
+             hilft Athlet:innen, den Fokus zu halten, Rückschläge als Lernmomente zu sehen und ihr inneres Gleichgewicht
+             zu bewahren – selbst in herausfordernden Wettkampfsituationen.</p>
+           <p class="sport-voices__text">Durch individuell abgestimmte Methoden lernen sie, ihre Energie gezielt zu
+             steuern und mit mentaler Klarheit an ihre Leistungsgrenzen zu gehen. So entsteht die nötige Leichtigkeit, um
+             Bestleistungen dann abzurufen, wenn es wirklich zählt.</p>
+         </div>
+       </div>
+     </section>
+
+    <section class="section sport-gallery" aria-labelledby="sport-gallery-title">
+      <div class="container">
+        <h3 class="sport-gallery__heading" id="sport-gallery-title">Impressionen aus dem Mentaltraining</h3>
+        <div class="sport-gallery__card">
+          <div class="sport-gallery__viewport">
+            <div class="sport-gallery__track" data-js-sport-gallery>
+              <figure class="sport-gallery__figure" tabindex="0">
+                <img class="sport-gallery__image" src="../../assets/images/athletes/Galerie/Achim Burkart Vize-Meister Straße.jpg" alt="Athletenportrait Achim Burkart Vize-Meister Straße" loading="lazy" />
+                <figcaption class="sport-gallery__caption">Achim Burkart Vize-Meister Straße</figcaption>
+              </figure>
+              <figure class="sport-gallery__figure" tabindex="0">
+                <img class="sport-gallery__image" src="../../assets/images/athletes/Galerie/Alicia Schmälze Deutsche Jugenmeisterin.jpg" alt="Athletenportrait Alicia Schmälze Deutsche Jugenmeisterin" loading="lazy" />
+                <figcaption class="sport-gallery__caption">Alicia Schmälze Deutsche Jugenmeisterin</figcaption>
+              </figure>
+              <figure class="sport-gallery__figure" tabindex="0">
+                <img class="sport-gallery__image" src="../../assets/images/athletes/Galerie/Beate Guss bei den Olympischen Spielen London .jpg" alt="Athletenportrait Beate Guss bei den Olympischen Spielen London" loading="lazy" />
+                <figcaption class="sport-gallery__caption">Beate Guss bei den Olympischen Spielen London</figcaption>
+              </figure>
+              <figure class="sport-gallery__figure" tabindex="0">
+                <img class="sport-gallery__image" src="../../assets/images/athletes/Galerie/EM Bronze deutsche Karate Damen .jpg" alt="Athletenportrait EM Bronze deutsche Karate Damen" loading="lazy" />
+                <figcaption class="sport-gallery__caption">EM Bronze deutsche Karate Damen</figcaption>
+              </figure>
+              <figure class="sport-gallery__figure" tabindex="0">
+                <img class="sport-gallery__image" src="../../assets/images/athletes/Galerie/Europameisterschaft 2012.jpg" alt="Athletenportrait Europameisterschaft 2012" loading="lazy" />
+                <figcaption class="sport-gallery__caption">Europameisterschaft 2012</figcaption>
+              </figure>
+              <figure class="sport-gallery__figure" tabindex="0">
+                <img class="sport-gallery__image" src="../../assets/images/athletes/Galerie/Fabienne Degrood Tennis Leistungsport.jpg" alt="Athletenportrait Fabienne Degrood Tennis Leistungsport" loading="lazy" />
+                <figcaption class="sport-gallery__caption">Fabienne Degrood Tennis Leistungsport</figcaption>
+              </figure>
+              <figure class="sport-gallery__figure" tabindex="0">
+                <img class="sport-gallery__image" src="../../assets/images/athletes/Galerie/Ingvild Bayer Landesmeisterin Kraftdreikampf.jpg" alt="Athletenportrait Ingvild Bayer Landesmeisterin Kraftdreikampf" loading="lazy" />
+                <figcaption class="sport-gallery__caption">Ingvild Bayer Landesmeisterin Kraftdreikampf</figcaption>
+              </figure>
+              <figure class="sport-gallery__figure" tabindex="0">
+                <img class="sport-gallery__image" src="../../assets/images/athletes/Galerie/Isabell von Loga Bronze bei U20-EM.jpg" alt="Athletenportrait Isabell von Loga Bronze bei U20-EM" loading="lazy" />
+                <figcaption class="sport-gallery__caption">Isabell von Loga Bronze bei U20-EM</figcaption>
+              </figure>
+              <figure class="sport-gallery__figure" tabindex="0">
+                <img class="sport-gallery__image" src="../../assets/images/athletes/Galerie/Jonathan Horne Karate-Weltmeister 2018.JPG" alt="Athletenportrait Jonathan Horne Karate-Weltmeister 2018" loading="lazy" />
+                <figcaption class="sport-gallery__caption">Jonathan Horne Karate-Weltmeister 2018</figcaption>
+              </figure>
+              <figure class="sport-gallery__figure" tabindex="0">
+                <img class="sport-gallery__image" src="../../assets/images/athletes/Galerie/Marc Kevin Gölnner Tennisakademie.jpg" alt="Athletenportrait Marc Kevin Gölnner Tennisakademie" loading="lazy" />
+                <figcaption class="sport-gallery__caption">Marc Kevin Gölnner Tennisakademie</figcaption>
+              </figure>
+              <figure class="sport-gallery__figure" tabindex="0">
+                <img class="sport-gallery__image" src="../../assets/images/athletes/Galerie/Ronny Kockel Torwart 1. Bundesliga.jpg" alt="Athletenportrait Ronny Kockel Torwart 1. Bundesliga" loading="lazy" />
+                <figcaption class="sport-gallery__caption">Ronny Kockel Torwart 1. Bundesliga</figcaption>
+              </figure>
+              <figure class="sport-gallery__figure" tabindex="0">
+                <img class="sport-gallery__image" src="../../assets/images/athletes/Galerie/Silke Seecamp Extrem bei der  &quot;Panamericana&quot; Alaska.jpg" alt="Athletenportrait Silke Seecamp Extrem bei der Panamericana Alaska" loading="lazy" />
+                <figcaption class="sport-gallery__caption">Silke Seecamp Extrem bei der Panamericana Alaska</figcaption>
+              </figure>
+              <figure class="sport-gallery__figure" tabindex="0">
+                <img class="sport-gallery__image" src="../../assets/images/athletes/Galerie/Stephanie Wagner Deutsche Vizemeisterin 2023.jpg" alt="Athletenportrait Stephanie Wagner Deutsche Vizemeisterin 2023" loading="lazy" />
+                <figcaption class="sport-gallery__caption">Stephanie Wagner Deutsche Vizemeisterin 2023</figcaption>
+              </figure>
+              <figure class="sport-gallery__figure" tabindex="0">
+                <img class="sport-gallery__image" src="../../assets/images/athletes/Galerie/Timo Gißler Mehrfacher deutscher Meißter.jpg" alt="Athletenportrait Timo Gißler Mehrfacher deutscher Meißter" loading="lazy" />
+                <figcaption class="sport-gallery__caption">Timo Gißler Mehrfacher deutscher Meißter</figcaption>
+              </figure>
+              <figure class="sport-gallery__figure" tabindex="0">
+                <img class="sport-gallery__image" src="../../assets/images/athletes/Galerie/Verena Jooß EM-Bronze.jpg" alt="Athletenportrait Verena Jooß EM-Bronze" loading="lazy" />
+                <figcaption class="sport-gallery__caption">Verena Jooß EM-Bronze</figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+     <div class="site-footer__inner">
+       <div class="site-footer__brand">
+         <a class="site-logo site-logo--footer" href="/#hero" aria-label="Zur Startsektion">
+           <span class="site-logo__mark" aria-hidden="true"></span>
+           <span>HATZ-Human Management</span>
+         </a>
+         <p>Executive Coaching &amp; Mentoring für Führungskräfte, Teams und Leistungssport.</p>
+       </div>
+       <div class="site-footer__meta">
+         <ul class="site-footer__social">
+           <li><a href="https://www.linkedin.com/in/rainer-hatz-a41a6711b/"
+               aria-label="LinkedIn Profil von HATZ-Human Management">LinkedIn</a></li>
+           <li><a href="mailto:info@hatz-hm.de"
+               aria-label="E-Mail an HATZ-Human Management senden">E-Mail</a></li>
+         </ul>
+         <ul class="site-footer__legal">
+           <li><a href="../../legal/impressum.html">Impressum</a></li>
+           <li><a href="../../legal/datenschutz.html">Datenschutz</a></li>
+         </ul>
+         <p class="site-footer__copyright">© 2024 HATZ-Human Management. Alle Rechte vorbehalten.</p>
+       </div>
+     </div>
+  </footer>
+
+  <script src="../../assets/js/main.js" defer></script>
+  <script>
+     document.addEventListener("DOMContentLoaded", () => {
+       const container = document.querySelector("[data-js-sport-voices]");
+       if (!container) {
+         return;
+       }
+
+       const slides = Array.from(container.querySelectorAll("[data-js-sport-voice]"));
+       const prevBtn = container.querySelector("[data-js-sport-prev]");
+       const nextBtn = container.querySelector("[data-js-sport-next]");
+
+       if (slides.length <= 1) {
+         if (prevBtn) prevBtn.hidden = true;
+         if (nextBtn) nextBtn.hidden = true;
+         return;
+       }
+
+       const transitionDuration = 600;
+       let activeIndex = slides.findIndex((slide) => slide.classList.contains("is-active"));
+       if (activeIndex < 0) {
+         activeIndex = 0;
+         slides[0].classList.add("is-active");
+       }
+
+       slides.forEach((slide, index) => {
+         slide.style.zIndex = String(slides.length - index);
+         if (index !== activeIndex) {
+           slide.classList.remove("is-active");
+         }
+       });
+
+       const cleanupClasses = (slide) => {
+         slide.classList.remove("is-exiting-left", "is-exiting-right", "is-enter-from-left", "is-enter-from-right");
+       };
+
+       const show = (nextIndex, direction) => {
+         if (nextIndex === activeIndex || nextIndex < 0 || nextIndex >= slides.length) {
+           return;
+         }
+
+         const currentSlide = slides[activeIndex];
+         const nextSlide = slides[nextIndex];
+
+         cleanupClasses(currentSlide);
+         cleanupClasses(nextSlide);
+
+         currentSlide.classList.remove("is-active");
+         currentSlide.classList.add(direction === "next" ? "is-exiting-left" : "is-exiting-right");
+
+         nextSlide.classList.add(direction === "next" ? "is-enter-from-right" : "is-enter-from-left");
+         nextSlide.getBoundingClientRect();
+         nextSlide.classList.add("is-active");
+         nextSlide.classList.remove(direction === "next" ? "is-enter-from-right" : "is-enter-from-left");
+
+         window.setTimeout(() => {
+           cleanupClasses(currentSlide);
+         }, transitionDuration);
+
+         activeIndex = nextIndex;
+       };
+
+       const move = (delta) => {
+         const direction = delta > 0 ? "next" : "prev";
+         const normalizedDelta = delta > 0 ? 1 : -1;
+         const nextIndex = (activeIndex + normalizedDelta + slides.length) % slides.length;
+         show(nextIndex, direction);
+       };
+
+       prevBtn?.addEventListener("click", () => move(-1));
+       nextBtn?.addEventListener("click", () => move(1));
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const galleryTrack = document.querySelector("[data-js-sport-gallery]");
+      if (!galleryTrack) {
+        return;
+      }
+
+      const SPEED_PX_PER_SECOND = 70;
+      const card = galleryTrack.closest(".sport-gallery__card");
+
+      galleryTrack.style.animationPlayState = "paused";
+
+      if (!galleryTrack.dataset.originalCount) {
+        galleryTrack.dataset.originalCount = String(galleryTrack.children.length);
+      }
+
+      if (galleryTrack.dataset.galleryCloned !== "true") {
+        const items = Array.from(galleryTrack.children);
+        const clones = items.map((item) => {
+          const clone = item.cloneNode(true);
+          clone.setAttribute("aria-hidden", "true");
+          clone.removeAttribute("tabindex");
+          return clone;
+        });
+        clones.forEach((clone) => galleryTrack.appendChild(clone));
+        galleryTrack.dataset.galleryCloned = "true";
+      }
+
+      const computeBaseWidth = () => {
+        const originalCount = Number(galleryTrack.dataset.originalCount || 0);
+        if (!originalCount) {
+          return 0;
+        }
+
+        const styles = window.getComputedStyle(galleryTrack);
+        const gapValueRaw = styles.columnGap && styles.columnGap !== "normal"
+          ? styles.columnGap
+          : styles.gap;
+        const gapValue = parseFloat(gapValueRaw) || 0;
+
+        let width = 0;
+        for (let i = 0; i < originalCount; i += 1) {
+          const item = galleryTrack.children[i];
+          if (!item) {
+            break;
+          }
+          width += item.getBoundingClientRect().width;
+        }
+
+        if (originalCount > 1) {
+          width += gapValue * (originalCount - 1);
+        }
+
+        return width;
+      };
+
+      const applyAnimation = () => {
+        const baseWidth = computeBaseWidth();
+
+        if (!Number.isFinite(baseWidth) || baseWidth <= 0) {
+          galleryTrack.style.removeProperty("--gallery-distance");
+          galleryTrack.style.removeProperty("--gallery-duration");
+          galleryTrack.style.animationPlayState = "paused";
+          galleryTrack.style.transform = "translateX(0)";
+          return;
+        }
+
+        const duration = baseWidth / SPEED_PX_PER_SECOND;
+        galleryTrack.style.setProperty("--gallery-distance", `${baseWidth}px`);
+        galleryTrack.style.setProperty("--gallery-duration", `${duration}s`);
+        galleryTrack.style.transform = "translateX(0)";
+        galleryTrack.style.animation = "none";
+        void galleryTrack.offsetWidth;
+        galleryTrack.style.removeProperty("animation");
+        galleryTrack.style.animationPlayState = prefersReducedMotion.matches ? "paused" : "running";
+      };
+
+      const waitForImages = () => {
+        const images = Array.from(galleryTrack.querySelectorAll("img"));
+        if (!images.length) {
+          return Promise.resolve();
+        }
+
+        const pending = images
+          .filter((img) => !img.complete)
+          .map(
+            (img) =>
+              new Promise((resolve) => {
+                img.addEventListener("load", resolve, { once: true });
+                img.addEventListener("error", resolve, { once: true });
+              }),
+          );
+
+        if (!pending.length) {
+          return Promise.resolve();
+        }
+
+        return Promise.all(pending);
+      };
+
+      waitForImages()
+        .catch(() => {})
+        .finally(() => {
+          applyAnimation();
+        });
+
+      applyAnimation();
+
+      const handleResize = () => {
+        window.requestAnimationFrame(applyAnimation);
+      };
+      window.addEventListener("resize", handleResize);
+
+      const setPaused = (paused) => {
+        const durationVar = galleryTrack.style.getPropertyValue("--gallery-duration");
+        if (!durationVar) {
+          return;
+        }
+        galleryTrack.style.animationPlayState = paused ? "paused" : "running";
+      };
+
+      card?.addEventListener("mouseenter", () => setPaused(true));
+      card?.addEventListener("mouseleave", () => setPaused(prefersReducedMotion.matches));
+      card?.addEventListener("focusin", () => setPaused(true));
+      card?.addEventListener("focusout", () => setPaused(prefersReducedMotion.matches));
+
+      const handleMotionChange = () => {
+        applyAnimation();
+      };
+
+      if (typeof prefersReducedMotion.addEventListener === "function") {
+        prefersReducedMotion.addEventListener("change", handleMotionChange);
+      } else if (typeof prefersReducedMotion.addListener === "function") {
+        prefersReducedMotion.addListener(handleMotionChange);
+      }
+
+      document.addEventListener("visibilitychange", () => {
+        const shouldPause = document.visibilityState !== "visible" || prefersReducedMotion.matches;
+        setPaused(shouldPause);
+      });
+    });
+  </script>
+</body>
+
+</html>
