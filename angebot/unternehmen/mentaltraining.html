@@ -162,21 +162,22 @@
 
     .theme-card {
       position: relative;
-      padding: clamp(1.4rem, 3.4vw, 1.9rem);
+      padding: clamp(1.1rem, 3vw, 1.7rem);
+      padding-right: clamp(2.5rem, 5.8vw, 3.1rem);
       border-radius: 16px;
       background: #0a2342;
       color: #fff;
       border: 1px solid rgba(255, 255, 255, 0.12);
       text-align: left;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
+      text-transform: none;
+      letter-spacing: 0.015em;
       font-weight: 600;
       display: grid;
-      gap: 0.4rem;
-      line-height: 1.45;
-      word-break: keep-all;
+      gap: 0.45rem;
+      line-height: 1.55;
+      font-size: clamp(0.74rem, 0.35vw + 0.7rem, 0.9rem);
+      overflow-wrap: anywhere;
       hyphens: auto;
-      overflow-wrap: break-word;
       transition: transform 220ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 220ms cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -294,6 +295,16 @@
       font-size: clamp(1rem, 0.45vw + 0.95rem, 1.18rem);
       text-transform: none;
       letter-spacing: 0.01em;
+    }
+
+    @media (max-width: 540px) {
+      .theme-card {
+        font-size: clamp(0.7rem, 0.8vw + 0.62rem, 0.84rem);
+        line-height: 1.6;
+        padding: clamp(0.95rem, 4.5vw, 1.4rem);
+        padding-right: clamp(2.2rem, 7.2vw, 2.8rem);
+        letter-spacing: 0.01em;
+      }
     }
 
     .investment {

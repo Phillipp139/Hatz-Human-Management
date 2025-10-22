@@ -14,11 +14,13 @@
   const carouselToggle = doc.querySelector("[data-js-carousel-toggle]");
   const marquee = doc.querySelector("[data-js-marquee]");
   const revealEls = Array.from(doc.querySelectorAll("[data-js-reveal]"));
+  const pointerFineMedia = window.matchMedia("(pointer: fine)");
   const heroSection = doc.querySelector("[data-js-hero]");
   const heroStages = heroSection ? Array.from(heroSection.querySelectorAll("[data-hero-stage]")) : [];
   const heroParallax = heroSection?.querySelector("[data-hero-parallax]") || null;
   const heroPortrait = heroSection?.querySelector(".hero__portrait") || null;
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const heroPortraitImage = heroPortrait?.querySelector("img") || null;
   let navFocusElements = [];
   let navFocusIndex = 0;
   let navIsOpen = false;
@@ -27,11 +29,30 @@
   let carouselTimer = null;
   let carouselAutoplay = !prefersReducedMotion.matches;
   let marqueeController = null;
+  let customCursor = null;
+  let customCursorVisible = false;
   const heroState = {
     observer: null,
     isActive: false,
     parallaxRaf: null,
   };
+  const cursorState = {
+    isReducedMotion: prefersReducedMotion.matches,
+  };
+  const cursorInteractiveSelector = [
+    "a[href]",
+    "button",
+    "[role=\"button\"]",
+    ".btn",
+    ".offerings-card",
+    ".site-nav__list a",
+    ".nav-toggle",
+    ".carousel__btn",
+    ".site-logo"
+  ].join(", ");
+  const themeInfoOverlay = doc.querySelector("[data-js-theme-info-overlay]");
+  const themeInfoTriggers = Array.from(doc.querySelectorAll("[data-js-theme-info-trigger]"));
+  const themeInfoClose = themeInfoOverlay?.querySelector("[data-js-theme-info-close]") || null;
 
   const setHeroBandDynamicOffset = (value) => {
     if (!heroParallax) return;
@@ -53,6 +74,98 @@
     } else {
       heroParallax.style.removeProperty("--hero-band-left");
       heroParallax.style.removeProperty("--hero-band-right");
+    }
+  };
+
+  const isInteractiveCursorTarget = (element) => {
+    if (!(element instanceof Element)) return null;
+    const candidate = element.closest(cursorInteractiveSelector);
+    if (!candidate) return null;
+    if (candidate.hasAttribute("disabled") || candidate.getAttribute("aria-disabled") === "true") return null;
+    if (candidate.matches("input, textarea, select, [contenteditable=\"true\"]")) return null;
+    return candidate;
+  };
+
+  const hideCustomCursor = () => {
+    if (!customCursor) return;
+    customCursor.classList.remove("is-visible", "is-pressed");
+    customCursorVisible = false;
+  };
+
+  const handleCursorPointerMove = (event) => {
+    if (!customCursor) return;
+    customCursor.style.left = `${event.clientX}px`;
+    customCursor.style.top = `${event.clientY}px`;
+    const interactiveTarget = isInteractiveCursorTarget(event.target instanceof Element ? event.target : null);
+    if (interactiveTarget) {
+      if (!customCursorVisible) {
+        customCursor.classList.add("is-visible");
+        customCursorVisible = true;
+      }
+    } else if (customCursorVisible) {
+      hideCustomCursor();
+    }
+  };
+
+  const handleCursorPointerLeave = () => {
+    hideCustomCursor();
+  };
+
+  const handleCursorPointerDown = () => {
+    if (!customCursor || !customCursorVisible) return;
+    customCursor.classList.add("is-pressed");
+  };
+
+  const handleCursorPointerUp = () => {
+    if (!customCursor) return;
+    customCursor.classList.remove("is-pressed");
+  };
+
+  const destroyCustomCursor = () => {
+    if (!customCursor) return;
+    doc.removeEventListener("pointermove", handleCursorPointerMove);
+    doc.removeEventListener("pointerleave", handleCursorPointerLeave);
+    doc.removeEventListener("pointerdown", handleCursorPointerDown);
+    doc.removeEventListener("pointerup", handleCursorPointerUp);
+    customCursor.remove();
+    customCursor = null;
+    customCursorVisible = false;
+    body.classList.remove("has-custom-cursor");
+  };
+
+  const handlePointerFineChange = (event) => {
+    if (event.matches) {
+      createCustomCursor();
+    } else {
+      destroyCustomCursor();
+    }
+  };
+
+  const createCustomCursor = () => {
+    if (customCursor || !pointerFineMedia.matches) return;
+    customCursor = doc.createElement("span");
+    customCursor.className = "cursor-dot";
+    if (cursorState.isReducedMotion) {
+      customCursor.classList.add("is-reduced-motion");
+    }
+    body.appendChild(customCursor);
+    customCursor.style.left = "-100px";
+    customCursor.style.top = "-100px";
+    body.classList.add("has-custom-cursor");
+    doc.addEventListener("pointermove", handleCursorPointerMove);
+    doc.addEventListener("pointerleave", handleCursorPointerLeave);
+    doc.addEventListener("pointerdown", handleCursorPointerDown);
+    doc.addEventListener("pointerup", handleCursorPointerUp);
+  };
+
+  const initCustomCursor = () => {
+    if (pointerFineMedia.matches) {
+      createCustomCursor();
+    }
+    if (typeof pointerFineMedia.addEventListener === "function") {
+      pointerFineMedia.addEventListener("change", handlePointerFineChange);
+    } else if (typeof pointerFineMedia.addListener === "function") {
+      pointerFineMedia.addListener(handlePointerFineChange);
     }
   };
 
@@ -363,7 +476,22 @@
       heroParallax.style.removeProperty("--hero-band-right");
       setHeroBandParallaxY(0);
       requestHeroParallaxUpdate();
+      updateHeroParallax();
     }
+    const primeHeroParallax = () => {
+      requestHeroParallaxUpdate();
+      updateHeroParallax();
+    };
+    if (heroPortraitImage) {
+      if (heroPortraitImage.complete && heroPortraitImage.naturalHeight > 0) {
+        window.requestAnimationFrame(primeHeroParallax);
+      } else {
+        heroPortraitImage.addEventListener("load", () => window.requestAnimationFrame(primeHeroParallax), {
+          once: true
+        });
+      }
+    }
+    window.addEventListener("load", () => window.requestAnimationFrame(primeHeroParallax), { once: true });
     if (!prefersReducedMotion.matches) {
       const rect = heroSection.getBoundingClientRect();
       const viewportHeight = window.innerHeight || doc.documentElement.clientHeight || 0;
@@ -441,6 +569,91 @@
     });
   };
 
+  // Simple disclosure toggles for About section
+  const initDisclosure = () => {
+    const disclosures = Array.from(doc.querySelectorAll('[data-js-disclosure]'));
+    if (!disclosures.length) return;
+    let openPanel = null;
+    const closeOpen = () => {
+      if (!openPanel) return;
+      const { button, panel } = openPanel;
+      button.setAttribute('aria-expanded', 'false');
+      panel.setAttribute('hidden', '');
+      openPanel = null;
+    };
+    disclosures.forEach((wrap) => {
+      const button = wrap.querySelector('button');
+      const panel = wrap.querySelector('.disclosure__panel');
+      if (!button || !panel) return;
+      button.addEventListener('click', (e) => {
+        const isOpen = button.getAttribute('aria-expanded') === 'true';
+        if (isOpen) {
+          button.setAttribute('aria-expanded', 'false');
+          panel.setAttribute('hidden', '');
+          openPanel = null;
+        } else {
+          closeOpen();
+          button.setAttribute('aria-expanded', 'true');
+          panel.removeAttribute('hidden');
+          openPanel = { button, panel };
+        }
+      });
+    });
+    doc.addEventListener('click', (event) => {
+      if (!openPanel) return;
+      const { button, panel } = openPanel;
+      if (button.contains(event.target) || panel.contains(event.target)) return;
+      closeOpen();
+    });
+    doc.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeOpen();
+    });
+  };
+
+  // Sticky für About: CSS-Sticky mit mittiger Top-Position; JS berechnet nur Variablen (symmetrisch, ohne Sprünge)
+  const initStickyAbout = () => {
+    const section = doc.querySelector('#ueber.section.about.sticky-layout');
+    if (!section) return;
+    const sticky = section.querySelector('.col-left .sticky-box');
+    const colLeft = section.querySelector('.about__media.col-left') || section.querySelector('.col-left');
+    if (!sticky || !colLeft) return;
+
+    const headerEl = doc.querySelector('[data-js-header]');
+    const getHeaderHeight = () => (headerEl ? headerEl.getBoundingClientRect().height : 0);
+    const EXTRA = 30; // Puffer unterhalb Header für frühes Kleben
+
+    const measureAndSet = () => {
+      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+      if (isMobile) {
+        sticky.style.removeProperty('--sticky-top');
+        sticky.style.removeProperty('--sticky-offset');
+        return;
+      }
+      const headerH = getHeaderHeight();
+      const offset = Math.round(headerH + EXTRA);
+      sticky.style.setProperty('--sticky-offset', offset + 'px');
+
+      // Boxhöhe (Bild + Caption) messen und vertikal mittig (leicht höher) positionieren
+      const boxHeight = sticky.scrollHeight;
+      const centerTop = Math.max(offset, Math.round((window.innerHeight - boxHeight) / 2) - 8);
+      sticky.style.setProperty('--sticky-top', centerTop + 'px');
+    };
+
+    const onResize = () => { measureAndSet(); };
+    window.addEventListener('resize', onResize);
+    window.addEventListener('orientationchange', onResize);
+    const img = sticky.querySelector('img');
+    if (img) {
+      if (img.complete) {
+        measureAndSet();
+      } else {
+        img.addEventListener('load', measureAndSet, { once: true });
+      }
+    }
+    // initial
+    measureAndSet();
+  };
+
   const updateCarouselPosition = () => {
     if (!carouselTrack) return;
     const items = Array.from(carouselTrack.children);
@@ -455,6 +668,7 @@
     carouselIndex = ((index % items.length) + items.length) % items.length;
     items.forEach((item, idx) => {
       item.setAttribute("tabindex", idx === carouselIndex ? "0" : "-1");
+      item.setAttribute("aria-hidden", idx === carouselIndex ? "false" : "true");
     });
     updateCarouselPosition();
   };
@@ -477,39 +691,40 @@
   const initCarousel = () => {
     if (!carousel || !carouselTrack) return;
     const items = Array.from(carouselTrack.children);
-    carouselTrack.style.gridTemplateColumns = `repeat(${items.length}, 100%)`;
+    // Ensure first slide visible
     goToSlide(0);
+    // Dots navigation
+    const dots = Array.from(carousel.querySelectorAll('[data-js-carousel-dot]'));
+    const syncDots = () => {
+      dots.forEach((dot, idx) => {
+        const active = idx === carouselIndex;
+        dot.classList.toggle('is-active', active);
+        dot.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+    };
+    if (dots.length) {
+      dots.forEach((dot, idx) => {
+        dot.addEventListener('click', () => {
+          goToSlide(idx);
+          syncDots();
+        });
+      });
+      syncDots();
+    }
     if (carouselPrev) {
       carouselPrev.addEventListener("click", () => {
         goToSlide(carouselIndex - 1);
+        dots.length && syncDots();
       });
     }
     if (carouselNext) {
       carouselNext.addEventListener("click", () => {
         goToSlide(carouselIndex + 1);
+        dots.length && syncDots();
       });
     }
-    if (carouselToggle) {
-      carouselToggle.addEventListener("click", () => {
-        const isPaused = carouselToggle.getAttribute("aria-pressed") === "true";
-        if (isPaused) {
-          carouselToggle.setAttribute("aria-pressed", "false");
-          carouselAutoplay = true;
-          startCarousel();
-        } else {
-          carouselToggle.setAttribute("aria-pressed", "true");
-          carouselAutoplay = false;
-          stopCarousel();
-        }
-      });
-    }
-    carousel.addEventListener("mouseenter", stopCarousel);
-    carousel.addEventListener("mouseleave", startCarousel);
-    carousel.addEventListener("focusin", stopCarousel);
-    carousel.addEventListener("focusout", () => {
-      if (!carousel.contains(doc.activeElement)) startCarousel();
-    });
-    startCarousel();
+    // Disable autoplay when dots are present to keep control consistent
+    stopCarousel();
   };
 
   const initOfferHub = () => {
@@ -804,6 +1019,111 @@
     };
   };
 
+  const initThemeInfoOverlay = () => {
+    if (!themeInfoOverlay || !themeInfoTriggers.length) return;
+    const closeButton = themeInfoClose;
+    const panel = themeInfoOverlay.querySelector(".theme-card-overlay__panel");
+    let activeTrigger = null;
+
+    const setOverlayState = (visible) => {
+      themeInfoOverlay.classList.toggle("is-visible", visible);
+      themeInfoOverlay.setAttribute("aria-hidden", String(!visible));
+      if (visible) {
+        themeInfoOverlay.removeAttribute("hidden");
+        doc.addEventListener("keydown", handleKeydown);
+      } else {
+        themeInfoOverlay.setAttribute("hidden", "");
+        doc.removeEventListener("keydown", handleKeydown);
+      }
+    };
+
+    const focusCloseButton = () => {
+      if (!closeButton) return;
+      window.requestAnimationFrame(() => {
+        closeButton.focus({ preventScroll: true });
+      });
+    };
+
+    const openOverlay = (trigger) => {
+      if (themeInfoOverlay.classList.contains("is-visible")) return;
+      activeTrigger = trigger;
+      trigger?.setAttribute("aria-expanded", "true");
+      setOverlayState(true);
+      focusCloseButton();
+    };
+
+    const closeOverlay = () => {
+      if (!themeInfoOverlay.classList.contains("is-visible")) return;
+      setOverlayState(false);
+      if (activeTrigger) {
+        activeTrigger.setAttribute("aria-expanded", "false");
+        window.requestAnimationFrame(() => {
+          activeTrigger?.focus({ preventScroll: true });
+        });
+      }
+      activeTrigger = null;
+    };
+
+    const handleKeydown = (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeOverlay();
+      } else if (event.key === "Tab" && panel) {
+        const focusable = Array.from(panel.querySelectorAll("a[href], button:not([disabled]), [tabindex]:not([tabindex=\"-1\"])"));
+        if (!focusable.length) return;
+        const firstEl = focusable[0];
+        const lastEl = focusable[focusable.length - 1];
+        if (event.shiftKey && doc.activeElement === firstEl) {
+          event.preventDefault();
+          lastEl.focus();
+        } else if (!event.shiftKey && doc.activeElement === lastEl) {
+          event.preventDefault();
+          firstEl.focus();
+        }
+      }
+    };
+
+    themeInfoTriggers.forEach((trigger) => {
+      trigger.addEventListener("click", (event) => {
+        const button = event.currentTarget;
+        if (trigger.tagName.toLowerCase() === "button") {
+          event.preventDefault();
+        }
+        if (themeInfoOverlay.classList.contains("is-visible") && button === activeTrigger) {
+          closeOverlay();
+        } else {
+          openOverlay(button);
+        }
+      });
+    });
+
+    closeButton?.addEventListener("click", (event) => {
+      event.preventDefault();
+      closeOverlay();
+    });
+
+    themeInfoOverlay.addEventListener("click", (event) => {
+      if (event.target === themeInfoOverlay) {
+        closeOverlay();
+      }
+    });
+
+    doc.addEventListener("click", (event) => {
+      if (!themeInfoOverlay.classList.contains("is-visible")) {
+        return;
+      }
+      if (themeInfoOverlay.contains(event.target)) {
+        return;
+      }
+      if (activeTrigger && activeTrigger.contains(event.target)) {
+        return;
+      }
+      closeOverlay();
+    });
+
+    setOverlayState(false);
+  };
+
   const init = () => {
     initNav();
     initThemeToggle();
@@ -814,11 +1134,17 @@
     initAccordion();
     initOfferHub();
     initCarousel();
+    initDisclosure();
+    initStickyAbout();
+    initCustomCursor();
+    initThemeInfoOverlay();
     marqueeController = initMarquee();
     prefersReducedMotion.addEventListener("change", (event) => {
       const prefersReduced = event.matches;
       carouselAutoplay = !prefersReduced;
       applyReducedMotionToHero(prefersReduced);
+      cursorState.isReducedMotion = prefersReduced;
+      customCursor?.classList.toggle("is-reduced-motion", prefersReduced);
       if (prefersReduced) {
         stopCarousel();
         marqueeController?.stop();

@@ -29,7 +29,7 @@
         "image": "https://www.rainer-leadership.de/assets/img/portrait-rainer.jpg",
         "url": "https://www.rainer-leadership.de/",
         "telephone": "+49 89 1234 5678",
-        "email": "kontakt@rainer-leadership.de",
+        "email": "info@hatz-hm.de",
         "address": {
           "@type": "PostalAddress",
           "streetAddress": "Maximilianstraße 45",
@@ -38,8 +38,7 @@
           "addressCountry": "DE"
         },
         "sameAs": [
-          "https://www.linkedin.com/company/rainer-leadership/",
-          "https://www.instagram.com/rainer.leadership/"
+          "https://www.linkedin.com/in/rainer-hatz-a41a6711b/"
         ]
       }
     </script>
@@ -53,12 +52,19 @@
         <div class="site-header__brand">
           <a class="site-logo" href="/#hero" aria-label="Zur Startsektion">
             <span class="site-logo__mark" aria-hidden="true"></span>
-            <span>HATZ-Human Management</span>
+            <img class="site-logo__text" src="Bilder/Logolinks.png" alt="HATZ Human-Management" />
           </a>
         </div>
         <nav class="site-nav" aria-label="Hauptnavigation" data-js-nav data-focus-trap>
           <ul id="primary-navigation" class="site-nav__list">
-            <li><a href="/#angebot">Angebot</a></li>
+            <li class="site-nav__item has-submenu">
+              <a href="/angebot/" class="site-nav__link" aria-haspopup="true" aria-expanded="false">Angebot</a>
+              <ul class="site-subnav" aria-label="Untermenü Angebot">
+                <li><a href="/angebot/unternehmen/">Für Unternehmen</a></li>
+                <li><a href="/angebot/sportler/">Für Sportler</a></li>
+                <li><a href="/angebot/privatpersonen/">Für Privatpersonen</a></li>
+              </ul>
+            </li>
             <li><a href="/#referenzen">Referenzen</a></li>
             <li><a href="/#methode">Methodik</a></li>
             <li><a href="/#ueber">Über</a></li>
@@ -108,7 +114,8 @@
             <span class="hero__headline-inner">
               <span class="hero__headline-line">Neues</span>
               <span class="hero__headline-line">Denken<span class="hero__dot">.</span></span>
-              <span class="hero__headline-line hero__headline-line--wide">Neue Wege<span class="hero__dot">.</span></span>
+              <span class="hero__headline-line hero__headline-line--wide">Neue Wege<span
+                  class="hero__dot">.</span></span>
             </span>
           </h1>
           <div class="hero__profile">
@@ -130,8 +137,7 @@
         <div class="hero__media hero-animate" data-hero-stage="portrait">
           <div class="hero__portrait">
             <img src="assets/images/PoertaitSakko-Photoroom.png" alt="Rainer Hatz" loading="lazy" />
-            <span class="hero__accent hero__accent--horizontal hero-animate" data-hero-stage="band" aria-hidden="true"></span>
-            <span class="hero__accent hero__accent--vertical hero-animate" data-hero-stage="band-vertical" aria-hidden="true"></span>
+            <span class="hero__accent hero__accent--horizontal" aria-hidden="true"></span>
           </div>
         </div>
       </div>
@@ -173,7 +179,8 @@
         <div class="trustbar__heading">
           <div class="trustbar__headline">
             <h2 id="referenzen-title">Referenzen</h2>
-            <p>In den vergangenen Jahren durfte ich zahlreiche Unternehmen, Leistungssportler und Privatpersonen begleiten
+            <p>In den vergangenen Jahren durfte ich zahlreiche Unternehmen, Leistungssportler und Privatpersonen
+              begleiten
               und in ihrer Entwicklung unterstützen.</p>
             <a class="btn btn--ghost trustbar__cta" href="#referenzen">Alle anzeigen</a>
           </div>
@@ -241,9 +248,12 @@
         </div>
 
         <div class="offer__details" data-offer-details>
-          <p>„Gewonnen wird im Kopf – und verloren auch.“ Erfolg beginnt im Bewusstsein. „Gewonnen wird im Kopf“ bedeutet,
-            Emotionen bewusst zu steuern, gezielt zu dosieren und konstruktiv zu lenken – im Sport, im Business und im privaten Leben.
-            „Verlieren“ verstehe ich als Erkenntnisprozess: die Chance zu lernen, zu wachsen und mentale Stärke weiterzuentwickeln.</p>
+          <p>„Gewonnen wird im Kopf – und verloren auch.“ Erfolg beginnt im Bewusstsein. „Gewonnen wird im Kopf“
+            bedeutet,
+            Emotionen bewusst zu steuern, gezielt zu dosieren und konstruktiv zu lenken – im Sport, im Business und im
+            privaten Leben.
+            „Verlieren“ verstehe ich als Erkenntnisprozess: die Chance zu lernen, zu wachsen und mentale Stärke
+            weiterzuentwickeln.</p>
         </div>
       </div>
 
@@ -524,6 +534,7 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
+
           .offer-card,
           .offer-card__img,
           .offer-card__details,
@@ -658,7 +669,7 @@
       <div class="container">
         <div class="method__wrapper">
           <div class="method__header reveal" data-js-reveal>
-            <h2 id="methode-title">Mein Ansatz</h2>
+            <h2 id="methode-title">Mein Ansatz<span class="hero__dot">.</span></h2>
             <p class="method__subtitle">Mentales Coaching mit Klarheit, Empathie und Struktur</p>
           </div>
 
@@ -667,27 +678,38 @@
             <blockquote>
               <p>„Jede Herausforderung ist ein Impuls für Entwicklung.“</p>
             </blockquote>
-            <p>Wenn Menschen mit einer Herausforderung zu mir kommen, betrachte ich diese nicht als Problem, sondern als Einladung zur Weiterentwicklung. Ich frage mich: Welche Botschaft möchte dieses Thema dem Menschen, dem Team oder dem Unternehmen vermitteln? So entsteht ein individueller Coaching-Prozess, der auf die spezifische Situation und Persönlichkeit abgestimmt ist.</p>
+            <p>Wenn Menschen mit einer Herausforderung zu mir kommen, betrachte ich diese nicht als Problem, sondern als
+              Einladung zur Weiterentwicklung. Ich frage mich: Welche Botschaft möchte dieses Thema dem Menschen, dem
+              Team oder dem Unternehmen vermitteln? So entsteht ein individueller Coaching-Prozess, der auf die
+              spezifische Situation und Persönlichkeit abgestimmt ist.</p>
           </article>
 
           <article class="method__block reveal" data-js-reveal>
             <span class="method__eyebrow">Erfahrung &amp; Methode</span>
-            <p>Mit über 25 Jahren Erfahrung in Coaching, Weiterbildung und Lehre verbinde ich fundierte Methodik mit Empathie und Klarheit. Mein Ansatz bringt Kopf und Bauch in Einklang – also kognitive Strukturen und emotionale Intuition. Dadurch entsteht innere Balance, authentische Handlungsfähigkeit und nachhaltige Veränderung.</p>
+            <p>Mit über 25 Jahren Erfahrung in Coaching, Weiterbildung und Lehre verbinde ich fundierte Methodik mit
+              Empathie und Klarheit. Mein Ansatz bringt Kopf und Bauch in Einklang – also kognitive Strukturen und
+              emotionale Intuition. Dadurch entsteht innere Balance, authentische Handlungsfähigkeit und nachhaltige
+              Veränderung.</p>
           </article>
 
           <article class="method__block reveal" data-js-reveal>
             <span class="method__eyebrow">Wirkung beim Menschen</span>
-            <p>Ich begleite Menschen dabei, sich selbst besser zu verstehen, bewusste Entscheidungen zu treffen und ihren Weg mit Klarheit, Vertrauen und innerer Stärke zu gehen.</p>
+            <p>Ich begleite Menschen dabei, sich selbst besser zu verstehen, bewusste Entscheidungen zu treffen und
+              ihren Weg mit Klarheit, Vertrauen und innerer Stärke zu gehen.</p>
           </article>
 
           <article class="method__block reveal" data-js-reveal>
             <span class="method__eyebrow">Teams &amp; Unternehmen</span>
-            <p>Auch Teams und Unternehmen sind lebendige Energiekörper, die in eine stimmige Form gebracht werden wollen. Wie bei einer Wolke geht es darum, ihre Struktur zu erkennen, mit der gewünschten Richtung abzugleichen und daraus klare Dynamik zu entwickeln. So entsteht Orientierung, Energie und die Kraft, den gemeinsamen Flug bewusst zu gestalten.</p>
+            <p>Auch Teams und Unternehmen sind lebendige Energiekörper, die in eine stimmige Form gebracht werden
+              wollen. Wie bei einer Wolke geht es darum, ihre Struktur zu erkennen, mit der gewünschten Richtung
+              abzugleichen und daraus klare Dynamik zu entwickeln. So entsteht Orientierung, Energie und die Kraft, den
+              gemeinsamen Flug bewusst zu gestalten.</p>
           </article>
 
           <article class="method__block reveal" data-js-reveal>
             <span class="method__eyebrow">Einladung</span>
-            <p>Ob individuell oder im Team – ich lade Sie ein, gemeinsam den Weg für einen klaren, zukunftsorientierten und authentischen Flug zu gestalten.</p>
+            <p>Ob individuell oder im Team – ich lade Sie ein, gemeinsam den Weg für einen klaren, zukunftsorientierten
+              und authentischen Flug zu gestalten.</p>
           </article>
         </div>
       </div>
@@ -695,98 +717,220 @@
     <section id="cases" class="section cases" aria-labelledby="cases-title">
       <div class="container">
         <div class="section__head">
-          <h2 id="cases-title">Cases &amp; Stimmen</h2>
-          <p>Ausgewählte Engagements, die zeigen, wie sich Leadership neu ausrichten lässt.</p>
+          <h2 id="cases-title">Aktuelles & Beispiele aus der Praxis</h2>
+          <p>Einblicke in aktuelle Projekte, Workshops und Formate, die in Zusammenarbeit mit Unternehmen entstanden
+            sind. Themen, die in der Praxis bewegen – individuell entwickelt und umgesetzt.</p>
         </div>
         <div class="cases__layout">
           <div class="cases__grid">
             <article class="card reveal" data-js-reveal>
-              <h3>Case Study: Global Tech AG</h3>
-              <p>Vom silobasierten Konzern zur vernetzten Leadership-Community – inkl. KPI-Sprung in Time-to-Decision.
+              <h3>Verbindlichkeit als Erfolgsfaktor – Workshop mit der BELLE AG</h3>
+              <p>Auf Wunsch der BELLE AG wurde ein maßgeschneiderter Workshop zum Thema „Verbindlichkeit als
+                Erfolgsfaktor“ entwickelt und durchgeführt.
+                In enger Abstimmung mit dem Unternehmen entstand ein praxisnahes Format, das Führungskräfte und Teams
+                dabei unterstützt, Verbindlichkeit als Kernkompetenz im Arbeitsalltag zu verankern.
               </p>
-              <a class="card__link" href="mailto:cases@rainer-leadership.de?subject=Case%20Study%20Anfrage">Mehr
-                erfahren</a>
+              <div class="card__actions">
+                <a class="card__link" href="mailto:info@hatz-hm.de?subject=Case%20Study%20Anfrage">Mehr
+                  erfahren</a>
+                <img class="card__logo" src="Bilder/referenzen/image.png" alt="Projektlogo" loading="lazy" />
+              </div>
             </article>
             <article class="card reveal" data-js-reveal>
-              <h3>Case Study: Summit Ventures</h3>
-              <p>Scaling Leadership für ein hyperwachsendes Scale-up mit Fokus auf Resilienz &amp; Storytelling.</p>
-              <a class="card__link" href="mailto:cases@rainer-leadership.de?subject=Summit%20Ventures">Mehr erfahren</a>
+              <h3>Individueller Vortrag auf Anfrage von BOSCH</h3>
+              <p>Gemeinsam mit BOSCH wurde ein interaktiver Vortrag zum Thema „Digitalisierung – Wann unterstützt sie
+                uns?“ entwickelt.
+                Der Vortrag beleuchtete, wie Digitalisierung im Arbeitsalltag sinnvoll eingesetzt werden kann, um
+                Prozesse zu erleichtern, Kommunikation zu fördern und Arbeitsabläufe effizient zu gestalten – ohne den
+                Menschen aus dem Mittelpunkt zu rücken.</p>
+              <div class="card__actions">
+                <a class="card__link" href="mailto:info@hatz-hm.de?subject=Summit%20Ventures">Mehr erfahren</a>
+                <img class="card__logo" src="Bilder/referenzen/1024px-Bosch-logotype.svg.png" alt="BOSCH Logo"
+                  loading="lazy" />
+              </div>
             </article>
           </div>
-          <div class="carousel" data-js-carousel>
-            <div class="carousel__inner" data-js-carousel-track aria-live="polite">
-              <article class="carousel__item">
-                <blockquote>
-                  <p>„Rainer hat unser Executive Team in sechs Wochen auf ein neues Level gehoben – Fokus, Klarheit,
-                    Vertrauen.“</p>
-                </blockquote>
-                <footer class="carousel__meta">
-                  <p>Dr. Lina Herzog</p>
-                  <p>Chief People Officer, Arclite Group</p>
-                </footer>
-              </article>
-              <article class="carousel__item">
-                <blockquote>
-                  <p>„Das Coaching ist ein echter Sparringsraum, in dem wir blinde Flecken sichtbar machen und sofort
-                    handeln.“</p>
-                </blockquote>
-                <footer class="carousel__meta">
-                  <p>Philip Falk</p>
-                  <p>Founder &amp; CEO, Lumena Labs</p>
-                </footer>
-              </article>
-              <article class="carousel__item">
-                <blockquote>
-                  <p>„Mit jedem Workshop entsteht Momentum. Kulturveränderung ist kein Buzzword mehr, sondern gelebte
-                    Praxis.“</p>
-                </blockquote>
-                <footer class="carousel__meta">
-                  <p>Sabine Körner</p>
-                  <p>Vorständin Transformation, SummitForge Industries</p>
-                </footer>
-              </article>
+          <div class="cases__right">
+            <div class="section__head cases__right-head">
+              <h3>Stimmen aus dem Coaching</h3>
+              <p>Erfahrungen und Rückmeldungen meiner Klienten aus individuellen Coachings</p>
             </div>
-            <div class="carousel__controls">
-              <button class="carousel__btn" type="button" aria-label="Vorheriges Testimonial anzeigen"
-                data-js-carousel-prev></button>
-              <button class="carousel__btn" type="button" aria-label="Nächstes Testimonial anzeigen"
-                data-js-carousel-next></button>
-              <button class="carousel__btn carousel__btn--toggle" type="button" aria-pressed="false"
-                aria-label="Automatische Wiedergabe pausieren" data-js-carousel-toggle></button>
+            <div class="carousel carousel--compact" data-js-carousel>
+              <div class="carousel__inner" data-js-carousel-track aria-live="polite">
+                <article class="carousel__item">
+                  <blockquote>
+                    <p>"Ich profitiere immer noch von den
+                      damals verinnerlichten mentalen Techniken. Es hat mir für meinen beruflichen
+                      Werdegang unwahrscheinlich viel gebracht“</p>
+                  </blockquote>
+                  <footer class="carousel__meta">
+                    <p>C. Lusch</p>
+                    <p>Senior Solution Architect, SAP</p>
+                  </footer>
+                </article>
+                <article class="carousel__item">
+                  <blockquote>
+                    <p>„Herr Hatz hat unseren Unternehmen mit seinem klaren Analysen geholfen, Prozesse zu verschlanken
+                      und zu vereinfachen. Herr Hatz erkennt Reibungspunkte und findet die richtigen individuellen
+                      Lösungen.“</p>
+                  </blockquote>
+                  <footer class="carousel__meta">
+                    <p>J. Kammerer</p>
+                    <p>Geschäftsführer, B GmbH</p>
+                  </footer>
+                </article>
+                <article class="carousel__item">
+                  <blockquote>
+                    <p>„Die Zusammenarbeit mit Herrn Hatz verläuft äußerst professionell und einfühlsam. Ich werde Herrn
+                      Hatz bedenkenlos weiterempfehlen“</p>
+                  </blockquote>
+                  <footer class="carousel__meta">
+                    <p>C. Kohler</p>
+                    <p>Privatperson</p>
+                  </footer>
+                </article>
+                <article class="carousel__item">
+                  <blockquote>
+                    <p>„große Hilfe bei mentaler Vorbereitung, tolle Zusammenarbeit und jederzeit erreichbar“</p>
+                  </blockquote>
+                  <footer class="carousel__meta">
+                    <p>W. Valasek</p>
+                    <p>Privatperson</p>
+                  </footer>
+                </article>
+              </div>
+              <div class="carousel__controls">
+                <button class="carousel__btn carousel__btn--prev" type="button"
+                  aria-label="Vorheriges Testimonial anzeigen" data-js-carousel-prev>
+                  <svg class="carousel__icon" viewBox="0 0 16 16" role="img" focusable="false" aria-hidden="true">
+                    <path
+                      d="M10.53 3.47a.75.75 0 0 0-1.06 0L5.44 7.5a.75.75 0 0 0 0 1.06l4.03 4.03a.75.75 0 1 0 1.06-1.06L7.03 8l3.5-3.47a.75.75 0 0 0 0-1.06Z"
+                      fill="currentColor" />
+                  </svg>
+                </button>
+                <div class="carousel__dots" role="tablist" aria-label="Slides wählen">
+                  <button class="carousel__dot is-active" type="button" role="tab" aria-selected="true"
+                    aria-label="Slide 1" data-js-carousel-dot></button>
+                  <button class="carousel__dot" type="button" role="tab" aria-selected="false" aria-label="Slide 2"
+                    data-js-carousel-dot></button>
+                  <button class="carousel__dot" type="button" role="tab" aria-selected="false" aria-label="Slide 3"
+                    data-js-carousel-dot></button>
+                  <button class="carousel__dot" type="button" role="tab" aria-selected="false" aria-label="Slide 4"
+                    data-js-carousel-dot></button>
+                </div>
+                <button class="carousel__btn carousel__btn--next" type="button"
+                  aria-label="Nächstes Testimonial anzeigen" data-js-carousel-next>
+                  <svg class="carousel__icon" viewBox="0 0 16 16" role="img" focusable="false" aria-hidden="true">
+                    <path
+                      d="M5.47 12.53a.75.75 0 0 0 1.06 0L10.56 8.5a.75.75 0 0 0 0-1.06L6.53 3.41a.75.75 0 0 0-1.06 1.06L8.97 8l-3.5 3.47a.75.75 0 0 0 0 1.06Z"
+                      fill="currentColor" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-    <section id="ueber" class="section about" aria-labelledby="about-title">
+    <section id="ueber" class="section about sticky-layout" aria-labelledby="about-title">
       <div class="container about__layout">
-        <div class="about__media reveal" data-js-reveal>
-          <figure class="portrait">
-            <img src="Bilder/BIldRainer.jpg" alt="" loading="lazy" />
-            <figcaption>Rainer Bleich, Executive Coach &amp; Gründer</figcaption>
-          </figure>
+        <div class="about__media col-left">
+          <div class="sticky-box">
+            <figure class="portrait">
+              <img src="Bilder/BIldRainer.jpg" alt="Porträt von Rainer Hatz" loading="lazy" />
+              <figcaption>Dipl. Ing. Rainer Hatz, Autor, Dozent, Gründer von HATZ‑Human Management</figcaption>
+            </figure>
+          </div>
         </div>
-        <div class="about__copy reveal" data-js-reveal>
-          <h2 id="about-title">Über den Coach</h2>
-          <p>„Gewonnen wird im Kopf – und verloren auch.“ <br><br>
-            Erfolg beginnt im Bewusstsein.
-            „Gewonnen wird im Kopf“ bedeutet, die Fähigkeit zu entwickeln, eigene Emotionen bewusst
-            zu steuern, gezielt zu dosieren und konstruktiv zu kanalisieren. Dieses Ursache-
-            Wirkungsprinzip gilt gleichermaßen im Sport, im Business wie auch im privaten Leben.
-            „Verlieren“ verstehe ich dabei nicht als Scheitern, sondern als Erkenntnisprozess – als
-            Chance, zu lernen, zu wachsen und die eigene mentale Stärke weiterzuentwickeln.</p>
-          <ul class="about__values">
-            <li>Integrität vor Geschwindigkeit</li>
-            <li>Radikale Klarheit</li>
-            <li>Systemische Transformation</li>
-          </ul>
+        <div class="about__copy col-right">
+          <div>
+            <h2 id="about-title">Über mich<span class="hero__dot">.</span></h2>
+            <p class="about__subtitle">Von der Technik zum Coaching – ein Weg, der Menschen in Bewegung bringt.</p>
+          </div>
+
+          <div class="about__section">
+            <p>Mein beruflicher Weg vereint Technik, Lernen und Persönlichkeitsentwicklung. Die Verbindung von
+              rationaler
+              Präzision und menschlicher Dynamik prägt bis heute meine Arbeit als Coach und Trainer.</p>
+            <p>Meine berufliche Laufbahn begann bei Siemens im Bereich Automatisierungstechnik mit den Schwerpunkten
+              Inbetriebnahme und Schulung. Parallel dazu absolvierte ich Fortbildungen im Themenfeld Lernen und Lehren,
+              insbesondere in Angewandter Kinesiologie, Neuro-Linguistischem Programmieren (NLP), 3in1 Concepts sowie
+              weiteren praxisorientierten Ansätzen der Persönlichkeitsentwicklung.</p>
+            <p>Im Jahr 2000 gründete ich meine eigene Lernberatung „Leichter im Leben“, die den Grundstein für meine
+              heutige Tätigkeit legte. Seit 2001 bin ich als Life Coach tätig und erweiterte mein Angebot ab 2002 um
+              Business-Coachings und Seminare zu den Themen:</p>
+            <div class="disclosure" data-js-disclosure>
+              <button class="btn btn--ghost btn--disclosure" type="button" aria-expanded="false">Themen
+                anzeigen</button>
+              <div class="disclosure__panel" hidden>
+                <ul class="about__list">
+                  <li>Selbst- und Stressmanagement</li>
+                  <li>Zukunftsorientierte Unternehmenskultur</li>
+                  <li>Mentale Gesundheit</li>
+                  <li>Leadership-Softskills</li>
+                  <li>Veränderungsbereitschaft und Resilienz</li>
+                </ul>
+              </div>
+            </div>
+            <p>Seit 2003 konzipiere und begleite ich Mentaltrainings für Leistungssportler und Führungspersönlichkeiten.
+              Zu
+              meinen Klient:innen zählen unter anderem:</p>
+            <div class="disclosure" data-js-disclosure>
+              <button class="btn btn--ghost btn--disclosure" type="button" aria-expanded="false">Klientinnen
+                anzeigen</button>
+              <div class="disclosure__panel" hidden>
+                <ul class="about__list">
+                  <li>Mike Müller, Junioren-Vizeweltmeister im Radsport</li>
+                  <li>Christian Lusch, Silbermedaillengewinner bei den Olympischen Spielen 2004 (Sportschießen)</li>
+                  <li>Profifußballer aus der 1. Bundesliga (u. a. Bayern München, Arminia Bielefeld, Bayer Leverkusen)
+                  </li>
+                  <li>Rolf Schilli, Heim- und Bundestrainer im Skisprung (u. a. Martin Schmidt)</li>
+                  <li>Von 2011 bis 2016: Mentaltrainer der Deutschen Karate‑Nationalmannschaft (Europa‑ und
+                    Vizeweltmeistertitel)</li>
+                  <li>Mentaltraining in der Tennisakademie von Marc‑Kevin Göllner</li>
+                </ul>
+              </div>
+            </div>
+            <p>Heute begleite ich Menschen und Organisationen dabei, Klarheit zu gewinnen, Potenziale zu entfalten und
+              Veränderung mit Leichtigkeit zu gestalten. Mein Fokus liegt auf praxisnaher Umsetzung und echter
+              Wirksamkeit – individuell, wertschätzend und lösungsorientiert.</p>
+          </div>
+
+          <!-- Meine Haltung: rechts unter dem Werdegang-Text platziert -->
+          <div class="about__section">
+            <h3 class="about__section-title">Meine Haltung</h3>
+            <figure class="about__quote">
+              <blockquote>„Gewonnen wird im Kopf – und verloren auch.“</blockquote>
+            </figure>
+            <p>Erfolg beginnt im Bewusstsein. „Gewonnen wird im Kopf“ bedeutet, die Fähigkeit zu entwickeln, eigene
+              Emotionen bewusst zu steuern, gezielt zu dosieren und konstruktiv zu kanalisieren. Dieses
+              Ursache‑Wirkungs‑Prinzip gilt im Sport, im Business und im privaten Leben gleichermaßen.</p>
+            <p>„Verlieren“ bedeutet dabei kein Scheitern, sondern einen Erkenntnisprozess – eine Chance, zu lernen, zu
+              wachsen und mentale Stärke weiterzuentwickeln.</p>
+          </div>
+
+          <hr class="about__divider" />
         </div>
+      </div>
+    </section>
+    <section class="section about-quote" aria-labelledby="about-quote-title">
+      <div class="container reveal" data-js-reveal>
+        <h3 id="about-quote-title" class="about__section-title">Meine Haltung</h3>
+        <figure class="about__quote">
+          <blockquote>„Gewonnen wird im Kopf – und verloren auch.“</blockquote>
+        </figure>
+        <p>Erfolg beginnt im Bewusstsein. „Gewonnen wird im Kopf“ bedeutet, die Fähigkeit zu entwickeln, eigene Emotionen
+          bewusst zu steuern, gezielt zu dosieren und konstruktiv zu kanalisieren. Dieses Ursache‑Wirkungs‑Prinzip gilt
+          im Sport, im Business und im privaten Leben gleichermaßen.</p>
+        <p>„Verlieren“ bedeutet dabei kein Scheitern, sondern einen Erkenntnisprozess – eine Chance, zu lernen, zu wachsen
+          und mentale Stärke weiterzuentwickeln.</p>
       </div>
     </section>
     <section class="section cta" aria-labelledby="cta-title">
       <div class="container cta__inner reveal" data-js-reveal>
-        <h2 id="cta-title">Führung neu denken?</h2>
-        <p>In einem unverbindlichen Erstgespräch skizzieren wir den Weg zu Ihrer nächsten Leadership-Evolutionsstufe.
+        <h2 id="cta-title">Darf ich sie einladen?</h2>
+        <p>Lernen Sie mich und meine Arbeitsweise in einem unverbindlichen Erstgespräch kennen.
+          Gemeinsam klären wir, wo Sie stehen, welche Ziele Sie bewegen – und wie ich Sie dabei unterstützen kann.
         </p>
         <a class="btn btn--primary" href="#kontakt">Erstgespräch buchen</a>
       </div>
@@ -917,7 +1061,7 @@
           <dl class="contact__details">
             <div>
               <dt>E-Mail</dt>
-              <dd><a href="mailto:kontakt@rainer-leadership.de">kontakt@rainer-leadership.de</a></dd>
+              <dd><a href="mailto:info@hatz-hm.de">info@hatz-hm.de</a></dd>
             </div>
             <div>
               <dt>Telefon</dt>
@@ -971,12 +1115,9 @@
       </div>
       <div class="site-footer__meta">
         <ul class="site-footer__social">
-         <li><a href="https://www.linkedin.com/company/rainer-leadership/"
+          <li><a href="https://www.linkedin.com/in/rainer-hatz-a41a6711b/"
               aria-label="LinkedIn Profil von HATZ-Human Management">LinkedIn</a></li>
-         <li><a href="https://www.instagram.com/rainer.leadership/"
-              aria-label="Instagram Profil von HATZ-Human Management">Instagram</a></li>
-         <li><a href="mailto:kontakt@rainer-leadership.de"
-              aria-label="E-Mail an HATZ-Human Management senden">E-Mail</a></li>
+          <li><a href="mailto:info@hatz-hm.de" aria-label="E-Mail an HATZ-Human Management senden">E-Mail</a></li>
         </ul>
         <ul class="site-footer__legal">
           <li><a href="legal/impressum.html">Impressum</a></li>
@@ -990,8 +1131,8 @@
 </body>
 
 </html>
-        @media (max-width: 639px) {
-          .offer-card__title {
-            white-space: normal;
-          }
-        }
+@media (max-width: 639px) {
+.offer-card__title {
+white-space: normal;
+}
+}
