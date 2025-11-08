@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Referenzen | HATZ-Human Management</title>
+  <meta name="description" content="Business- und Sport-Referenzen: Erfolgsgeschichten von Klient:innen aus Unternehmen und Leistungssport." />
+  <link rel="stylesheet" href="../assets/fonts/WEB/css/plein.css" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <style>
+    :root { --refs-gap: clamp(2rem, 6vw, 3.2rem); }
+
+    .page-hero { padding: clamp(1.6rem, 4vw, 2.4rem) 0 clamp(1rem, 3vw, 1.8rem); }
+    .page-hero__grid { display: grid; gap: clamp(1rem, 3vw, 1.8rem); grid-template-columns: 1fr; }
+    .page-hero__title { margin: 0; font-size: clamp(2.6rem, 5.2vw, 3.6rem); line-height: 1.06; }
+    .page-hero__sub { margin: 0; color: color-mix(in srgb, var(--fg-current, var(--fg)) 72%, transparent); max-width: 72ch; }
+
+    /* 12er Grid Layout */
+    .refs { padding: clamp(1.2rem, 4vw, 2.4rem) 0 clamp(2rem, 6vw, 3.6rem); }
+    .refs__grid { display: grid; column-gap: var(--refs-gap); row-gap: clamp(1.2rem, 3vw, 2rem); grid-template-columns: repeat(12, minmax(0, 1fr)); align-items: start; }
+    .refs__col { display: grid; gap: clamp(1.2rem, 3vw, 2rem); align-content: start; }
+    /* Add a wider center gutter by leaving 2 of 12 columns empty */
+    .refs__col--business { grid-column: 1 / span 5; }
+    .refs__col--sport { grid-column: 8 / span 5; }
+    @media (max-width: 1023px) { .refs__col--business, .refs__col--sport { grid-column: 1 / -1; } }
+
+    .refs__section-head { display: grid; gap: 0.35rem; }
+    .refs__section-head h2 { margin: 0; font-size: clamp(1.6rem, 2.8vw, 2rem); }
+    .refs__section-head p { margin: 0; color: color-mix(in srgb, var(--fg-current, var(--fg)) 65%, transparent); }
+
+    /* Sport-Komponenten – an Angebot/Sportler angeglichen (nur Layout, Inhalt unverändert) */
+    .sport-voices__heading { margin: 0 0 clamp(1.2rem, 3vw, 1.6rem); font-size: clamp(1rem, 0.6vw + 0.95rem, 1.3rem); letter-spacing: 0.14em; text-transform: uppercase; color: rgba(10,35,66,0.6); }
+    .sport-voices__card { position: relative; background: #cfe2f3; border-radius: 20px; box-shadow: 0 32px 60px -40px rgba(12,52,94,0.55); width: 100%; max-width: clamp(420px, 44vw, 560px); overflow: visible; display: grid; align-items: stretch; }
+    .sport-voices__slide { position: relative; grid-area: 1 / 1; display: flex; flex-direction: column; gap: clamp(1.2rem, 2.4vw, 1.6rem); align-items: flex-start; min-height: 100%; pointer-events: none; opacity: 0; transform: translateX(4%); transition: opacity 600ms ease, transform 600ms ease; padding: clamp(1.8rem, 4vw, 2.6rem); border-radius: inherit; background: inherit; }
+    .sport-voices__slide.is-active { opacity: 1; transform: translateX(0); pointer-events: auto; }
+    .sport-voices__slide.is-exiting-left { opacity: 0; transform: translateX(-6%); }
+    .sport-voices__slide.is-exiting-right { opacity: 0; transform: translateX(6%); }
+    .sport-voices__slide.is-enter-from-right { opacity: 0; transform: translateX(6%); }
+    .sport-voices__slide.is-enter-from-left { opacity: 0; transform: translateX(-6%); }
+    .sport-voices__quote { margin: 0; font-size: clamp(1.18rem, 0.7vw + 1.1rem, 1.54rem); line-height: 1.6; color: rgba(10,35,66,0.92); font-weight: 500; }
+    .sport-voices__label { margin: 0; font-size: clamp(2rem, 1.6vw + 1.8rem, 2.8rem); line-height: 1.15; letter-spacing: -0.01em; color: #0a2342; font-weight: 800; }
+    .sport-voices__person { display: grid; grid-template-columns: auto 1fr; gap: clamp(0.6rem, 2vw, 1rem); align-items: center; }
+    .sport-voices__avatar { width: clamp(112px, 28vw, 136px); aspect-ratio: 1; border-radius: 18px; background: center/cover no-repeat; box-shadow: 0 18px 32px -22px rgba(12,52,94,0.55); }
+    .sport-voices__name { display: grid; gap: 0.18rem; }
+    .sport-voices__name .hero__name-main { font-size: clamp(1rem, 0.5vw + 0.95rem, 1.2rem); letter-spacing: 0.01em; }
+    .sport-voices__name .hero__name-line { text-transform: uppercase; letter-spacing: 0.12em; font-size: clamp(0.78rem, 0.3vw + 0.72rem, 0.9rem); color: rgba(10,35,66,0.72); }
+
+    .sport-voices__control { position: absolute; top: 50%; transform: translate(-50%, -50%); width: 44px; aspect-ratio: 1; border-radius: 50%; border: 1px solid rgba(10,35,66,0.12); background: rgba(255,255,255,0.82); color: rgba(10,35,66,0.6); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: background 220ms ease, color 220ms ease, border-color 220ms ease, transform 220ms ease; z-index: 5; }
+    .sport-voices__control--prev { left: -1.6rem; }
+    .sport-voices__control--next { right: -1.6rem; transform: translate(50%, -50%); }
+    @media (max-width: 640px) {
+      .sport-voices__control { width: 40px; top: 50%; transform: translate(-50%, -50%); }
+      .sport-voices__control--prev { left: 0.4rem; transform: translate(0, -50%); }
+      .sport-voices__control--next { right: 0.4rem; transform: translate(0, -50%); }
+      .sport-voices__slide { padding: clamp(1rem, 5vw, 1.4rem); }
+    }
+
+    /* Laufband/Banner in Babyblau passend zur Karte */
+    .sport-gallery__card { background: #cfe2f3; border: 1px solid rgba(10,35,66,0.12); border-radius: 18px; padding: clamp(0.8rem, 3.5vw, 1rem); overflow: hidden; box-shadow: var(--shadow-elev-1); }
+    .sport-gallery__viewport { width: 100%; overflow: hidden; }
+    .sport-gallery__track { display: inline-flex; gap: clamp(0.8rem, 2.8vw, 1.2rem); align-items: center; will-change: transform; }
+    .sport-gallery__figure { flex: 0 0 clamp(120px, 22vw, 180px); display: grid; gap: 0.35rem; }
+    .sport-gallery__image { display: block; width: 100%; height: clamp(120px, 20vw, 160px); object-fit: cover; border-radius: 12px; box-shadow: var(--shadow-elev-1); }
+    .sport-gallery__caption { margin: 0; font-size: clamp(0.72rem, 0.3vw + 0.68rem, 0.85rem); color: rgba(10,35,66,0.72); }
+  </style>
+</head>
+
+<body data-theme="light">
+  <a href="#main-content" class="skip-link">Zum Inhalt springen</a>
+  <header class="site-header" data-js-header role="banner">
+    <div class="site-header__inner-wrap">
+      <div class="site-header__inner">
+        <div class="site-header__brand">
+          <a class="site-logo" href="/index.html#hero" aria-label="Zur Startsektion">
+            <span class="site-logo__mark" aria-hidden="true"></span>
+            <img class="site-logo__text" src="../Bilder/Logolinks.png" alt="HATZ Human-Management" />
+          </a>
+        </div>
+        <nav class="site-nav" aria-label="Hauptnavigation" data-js-nav data-focus-trap>
+          <ul id="primary-navigation" class="site-nav__list">
+            <li class="site-nav__item has-submenu">
+              <a href="/index.html#angebot" class="site-nav__link" aria-haspopup="true" aria-expanded="false">Angebot</a>
+              <ul class="site-subnav" aria-label="Untermenü Angebot">
+                <li><a href="/angebot/unternehmen/">Für Unternehmen</a></li>
+                <li><a href="/angebot/sportler/">Für Sportler</a></li>
+                <li><a href="/angebot/privatpersonen/">Für Privatpersonen</a></li>
+              </ul>
+            </li>
+            <li><a href="/referenzen/" aria-current="page">Referenzen</a></li>
+            <li><a href="/index.html#methode">Methodik</a></li>
+            <li><a href="/index.html#ueber">Über</a></li>
+            <li><a href="/index.html#faq">FAQ</a></li>
+            <li><a href="/index.html#kontakt">Kontakt</a></li>
+            <li class="site-nav__cta"><a class="btn btn--primary" href="/index.html#kontakt">Erstgespräch</a></li>
+          </ul>
+        </nav>
+        <div class="site-header__controls">
+          <a class="btn btn--primary site-header__cta" href="/index.html#kontakt">Erstgespräch</a>
+          <button class="theme-toggle" type="button" aria-label="Darstellung umschalten" data-js-theme-toggle>
+            <span class="theme-icon theme-icon--sun" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img" focusable="false"><circle cx="12" cy="12" r="5" /><g><line x1="12" y1="1" x2="12" y2="4" /><line x1="12" y1="20" x2="12" y2="23" /><line x1="4.22" y1="4.22" x2="6.34" y2="6.34" /><line x1="17.66" y1="17.66" x2="19.78" y2="19.78" /><line x1="1" y1="12" x2="4" y2="12" /><line x1="20" y1="12" x2="23" y2="12" /><line x1="4.22" y1="19.78" x2="6.34" y2="17.66" /><line x1="17.66" y1="6.34" x2="19.78" y2="4.22" /></g></svg>
+            </span>
+            <span class="theme-icon theme-icon--moon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img" focusable="false"><path d="M21 14.5A9 9 0 0110.5 3 7 7 0 1021 14.5z" /></svg>
+            </span>
+          </button>
+          <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Navigation umschalten" data-js-nav-toggle>
+            <span class="sr-only">Menü öffnen</span>
+            <span class="nav-toggle__label" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="section page-hero" aria-labelledby="page-title">
+      <div class="container page-hero__grid">
+        <h1 class="page-hero__title" id="page-title">Referenzen<span class="hero__dot">.</span></h1>
+        <p class="page-hero__sub">Ausgewählte Erfolgsgeschichten aus Business und Leistungssport – komprimiert, nachvollziehbar, wirksam.</p>
+      </div>
+    </section>
+
+    <section class="section refs" aria-labelledby="refs-title">
+      <div class="container refs__grid">
+        <div class="refs__col refs__col--business">
+          <header class="refs__section-head">
+            <h2>Business‑Referenzen</h2>
+            <p>Aus Projekten, Workshops und Formaten mit Unternehmen</p>
+          </header>
+          <div class="cases__grid">
+            <article class="card">
+              <h3>Verbindlichkeit als Erfolgsfaktor – Workshop mit der BELLE AG</h3>
+              <div class="card__body" aria-hidden="true">
+                <p>Maßgeschneiderter Workshop zum Thema „Verbindlichkeit als Erfolgsfaktor“. Führungskräfte und Teams verankern Verbindlichkeit als Kernkompetenz im Arbeitsalltag.</p>
+              </div>
+              <div class="card__actions">
+                <button class="card__link card__toggle" type="button" aria-expanded="false" onclick="return window.toggleCaseCard && window.toggleCaseCard(this);">Mehr anzeigen</button>
+                <a class="card__link" href="mailto:info@hatz-hm.de?subject=Case%20Study%20Anfrage">Mehr erfahren</a>
+                <img class="card__logo" src="../Bilder/referenzen/image.png" alt="Projektlogo" loading="lazy" />
+              </div>
+            </article>
+            <article class="card">
+              <h3>Interaktiver Vortrag bei BOSCH</h3>
+              <div class="card__body" aria-hidden="true">
+                <p>„Digitalisierung – Wann unterstützt sie uns?“ – Ein Vortrag zur sinnvollen Nutzung digitaler Tools, um Prozesse zu erleichtern, Kommunikation zu stärken und Effizienz zu erhöhen.</p>
+              </div>
+              <div class="card__actions">
+                <button class="card__link card__toggle" type="button" aria-expanded="false" onclick="return window.toggleCaseCard && window.toggleCaseCard(this);">Mehr anzeigen</button>
+                <a class="card__link" href="mailto:info@hatz-hm.de?subject=Vortrag%20Anfrage">Mehr erfahren</a>
+                <img class="card__logo" src="../Bilder/referenzen/1024px-Bosch-logotype.svg.png" alt="BOSCH Logo" loading="lazy" />
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="refs__col refs__col--sport">
+          <header class="refs__section-head">
+            <h2>Sport‑Referenzen</h2>
+            <p>Erfolgsgeschichten aus Mentaltraining und Coaching im Leistungssport</p>
+          </header>
+
+          <h3 class="sport-voices__heading">Erfolgsgeschichten meiner Klient:innen</h3>
+          <div class="sport-voices__card" data-js-sport-voices>
+            <article class="sport-voices__slide is-active" data-js-sport-voice>
+              <p class="sport-voices__label">Silbermedaille bei den Olympischen Spielen in Athen</p>
+              <blockquote class="sport-voices__quote">„Erkenne dein Potenzial, trainiere mental – und dein Fokus trägt dich auf das Treppchen.“</blockquote>
+              <footer class="sport-voices__person">
+                <span class="sport-voices__avatar" aria-hidden="true" style="background-image: url('../assets/images/athletes/Lusch.jpg');"></span>
+                <span class="sport-voices__name"><span class="hero__name-main">Christian Lusch</span><span class="hero__name-line hero__name-line--accent">Deutscher Sportschütze</span></span>
+              </footer>
+            </article>
+            <article class="sport-voices__slide" data-js-sport-voice>
+              <p class="sport-voices__label">Team‑Vizeweltmeister 2014 danach Weltmeister 2018</p>
+              <blockquote class="sport-voices__quote">„.“</blockquote>
+              <footer class="sport-voices__person">
+                <span class="sport-voices__avatar" aria-hidden="true" style="background-image: url('../assets/images/athletes/Horne.jpg');"></span>
+                <span class="sport-voices__name"><span class="hero__name-main">Jonathan Horne</span><span class="hero__name-line hero__name-line--accent">Karate‑Weltmeister</span></span>
+              </footer>
+            </article>
+            <article class="sport-voices__slide" data-js-sport-voice>
+              <p class="sport-voices__label">Zurück in den Flow</p>
+              <blockquote class="sport-voices__quote">„Durch das Training mit Rainer habe ich gelernt, nach Rückschlägen sofort wieder in meinen Fokus zu finden.“</blockquote>
+              <footer class="sport-voices__person">
+                <span class="sport-voices__avatar" aria-hidden="true" style="background-image: url('../assets/images/athletes/John_Sperle.JPG');"></span>
+                <span class="sport-voices__name"><span class="hero__name-main">John Sperle</span><span class="hero__name-line hero__name-line--accent">Tennisprofi</span></span>
+              </footer>
+            </article>
+            <button type="button" class="sport-voices__control sport-voices__control--prev" data-js-sport-prev aria-label="Vorherige Referenz">
+              <svg class="sport-voices__control-icon" viewBox="0 0 24 24" role="img" focusable="false"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button type="button" class="sport-voices__control sport-voices__control--next" data-js-sport-next aria-label="Nächste Referenz">
+              <svg class="sport-voices__control-icon" viewBox="0 0 24 24" role="img" focusable="false"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+
+          <h3 class="sport-voices__heading">Diese Sportlerin durfte ich begleiten</h3>
+          <div class="sport-gallery__card">
+            <div class="sport-gallery__viewport">
+              <div class="sport-gallery__track" data-js-sport-gallery>
+                <figure class="sport-gallery__figure" tabindex="0">
+                  <img class="sport-gallery__image" src="../assets/images/athletes/Galerie/Achim Burkart Vize-Meister Straße.jpg" alt="Achim Burkart Vize-Meister Straße" loading="lazy" />
+                  <figcaption class="sport-gallery__caption">Achim Burkart Vize-Meister Straße</figcaption>
+                </figure>
+                <figure class="sport-gallery__figure" tabindex="0">
+                  <img class="sport-gallery__image" src="../assets/images/athletes/Galerie/Alicia Schmälze Deutsche Jugenmeisterin.jpg" alt="Alicia Schmälze Deutsche Jugenmeisterin" loading="lazy" />
+                  <figcaption class="sport-gallery__caption">Alicia Schmälze Deutsche Jugenmeisterin</figcaption>
+                </figure>
+                <figure class="sport-gallery__figure" tabindex="0">
+                  <img class="sport-gallery__image" src="../assets/images/athletes/Galerie/Beate Guss bei den Olympischen Spielen London .jpg" alt="Beate Guss bei den Olympischen Spielen London" loading="lazy" />
+                  <figcaption class="sport-gallery__caption">Beate Guss bei den Olympischen Spielen London</figcaption>
+                </figure>
+                <figure class="sport-gallery__figure" tabindex="0">
+                  <img class="sport-gallery__image" src="../assets/images/athletes/Galerie/Europameisterschaft 2012.jpg" alt="Europameisterschaft 2012" loading="lazy" />
+                  <figcaption class="sport-gallery__caption">Europameisterschaft 2012</figcaption>
+                </figure>
+                <figure class="sport-gallery__figure" tabindex="0">
+                  <img class="sport-gallery__image" src="../assets/images/athletes/Galerie/John Sperle Tennis Profi 2. Bundesliga.JPG" alt="John Sperle Tennis Profi 2. Bundesliga" loading="lazy" />
+                  <figcaption class="sport-gallery__caption">John Sperle Tennis Profi 2. Bundesliga</figcaption>
+                </figure>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <div class="site-footer__brand">
+        <a class="site-logo site-logo--footer" href="/index.html#hero" aria-label="Zur Startsektion">
+          <span class="site-logo__mark" aria-hidden="true"></span>
+          <span>HATZ-Human Management</span>
+        </a>
+        <p>Executive Coaching &amp; Mentoring für Führungskräfte, Teams und Leistungssport.</p>
+      </div>
+      <div class="site-footer__meta">
+        <ul class="site-footer__social">
+          <li><a href="https://www.linkedin.com/in/rainer-hatz-a41a6711b/" aria-label="LinkedIn Profil">LinkedIn</a></li>
+          <li><a href="mailto:info@hatz-hm.de" aria-label="E-Mail senden">E-Mail</a></li>
+        </ul>
+        <ul class="site-footer__legal">
+          <li><a href="../legal/impressum.html">Impressum</a></li>
+          <li><a href="../legal/datenschutz.html">Datenschutz</a></li>
+        </ul>
+        <p class="site-footer__copyright">© 2024 HATZ-Human Management. Alle Rechte vorbehalten.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js" defer></script>
+  <script>
+    // Sport-Voices Slider
+    document.addEventListener("DOMContentLoaded", () => {
+      const container = document.querySelector("[data-js-sport-voices]");
+      if (!container) return;
+      const slides = Array.from(container.querySelectorAll("[data-js-sport-voice]"));
+      const prevBtn = container.querySelector("[data-js-sport-prev]");
+      const nextBtn = container.querySelector("[data-js-sport-next]");
+      if (slides.length <= 1) { prevBtn?.setAttribute('hidden',''); nextBtn?.setAttribute('hidden',''); return; }
+      const transitionDuration = 600;
+      let activeIndex = Math.max(0, slides.findIndex(s => s.classList.contains('is-active')));
+      slides.forEach((s,i)=>{ s.style.zIndex = String(slides.length - i); if (i !== activeIndex) s.classList.remove('is-active'); });
+      const clean = (el) => el.classList.remove('is-exiting-left','is-exiting-right','is-enter-from-left','is-enter-from-right');
+      const show = (next, dir) => {
+        if (next === activeIndex || next < 0 || next >= slides.length) return;
+        const cur = slides[activeIndex]; const nxt = slides[next];
+        clean(cur); clean(nxt);
+        cur.classList.remove('is-active'); cur.classList.add(dir === 'next' ? 'is-exiting-left' : 'is-exiting-right');
+        nxt.classList.add(dir === 'next' ? 'is-enter-from-right' : 'is-enter-from-left'); nxt.getBoundingClientRect();
+        nxt.classList.add('is-active'); nxt.classList.remove(dir === 'next' ? 'is-enter-from-right' : 'is-enter-from-left');
+        window.setTimeout(()=>clean(cur), transitionDuration); activeIndex = next;
+      };
+      prevBtn?.addEventListener('click', ()=> show((activeIndex - 1 + slides.length)%slides.length, 'prev'));
+      nextBtn?.addEventListener('click', ()=> show((activeIndex + 1)%slides.length, 'next'));
+    });
+
+    // Moving sport gallery (marquee-like)
+    document.addEventListener("DOMContentLoaded", () => {
+      const galleryTrack = document.querySelector('[data-js-sport-gallery]');
+      if (!galleryTrack) return;
+      const SPEED = 70; let baseWidth = 0; let offset = 0; let last = null; let raf = null;
+      if (!galleryTrack.dataset.galleryCloned) {
+        const items = Array.from(galleryTrack.children);
+        items.map((el)=>{ const c = el.cloneNode(true); c.setAttribute('aria-hidden','true'); c.removeAttribute('tabindex'); galleryTrack.appendChild(c); });
+        galleryTrack.dataset.galleryCloned = 'true';
+      }
+      const compute = () => galleryTrack.scrollWidth / 2;
+      const step = (t) => { if (last!==null && baseWidth>0){ const d=(t-last)/1000; offset -= SPEED*d; while(offset<=-baseWidth) offset += baseWidth; galleryTrack.style.transform = `translateX(${offset}px)`; } last = t; raf = requestAnimationFrame(step); };
+      const update = () => { const w = compute(); if (!Number.isFinite(w) || w<=0) { baseWidth=0; offset=0; galleryTrack.style.transform='translateX(0)'; if (raf){cancelAnimationFrame(raf); raf=null;} last=null; return; } baseWidth=w; if (!raf) raf = requestAnimationFrame(step); };
+      const waitImgs = () => { const imgs = Array.from(galleryTrack.querySelectorAll('img')).filter(i=>!i.complete); if (!imgs.length) return Promise.resolve(); return Promise.all(imgs.map(img=> new Promise(r=>{ img.addEventListener('load',r,{once:true}); img.addEventListener('error',r,{once:true}); }))); };
+      waitImgs().finally(update); update(); window.addEventListener('resize', ()=> requestAnimationFrame(update));
+    });
+  </script>
+</body>
+
+</html>

@@ -103,14 +103,9 @@
     }
 
     .hero__portrait--compact .hero__accent--horizontal {
-      left: clamp(-6rem, -12vw, -4rem);
+      left: clamp(-3.5rem, -7vw, -2.2rem);
       right: clamp(-0.3rem, -0.6vw, -0.18rem);
       height: clamp(2px, 0.35vw, 4px);
-    }
-
-    .hero__portrait--compact .hero__accent--vertical {
-      height: clamp(5.4rem, 15vw, 8.4rem);
-      width: clamp(3px, 0.35vw, 5px);
     }
 
     @media (max-width: 1023px) {
@@ -131,6 +126,7 @@
 
     .sport-voices {
       padding: 0;
+      background: transparent; /* Abschnitt-Hintergrund wieder transparent */
     }
 
     .sport-voices__grid {
@@ -262,6 +258,41 @@
       gap: clamp(1rem, 2.4vw, 1.6rem);
     }
 
+    /* Mobile-Fixes: sauberes Einspalten-Layout, keine Überlappungen, Buttons im Viewport */
+    @media (max-width: 540px) {
+      /* Hero: einspaltig + Buttons vollbreit */
+      .page-hero__grid { grid-template-columns: minmax(0, 1fr); gap: clamp(1.2rem, 4vw, 1.6rem); }
+      .page-hero__actions .btn { width: 100%; min-width: 0; }
+      /* Deko-Linie im Hero nicht erzwingen (verhindert versehentliche Überlappungen) */
+      .hero__portrait--compact .hero__accent--horizontal { display: none; }
+      /* Erfolgsgeschichten: einspaltig, Karten füllen Breite, Texte umbrechen */
+      .sport-voices__grid { grid-template-columns: minmax(0, 1fr); }
+      .sport-voices__card { max-width: 100%; }
+      .sport-voices__slide { padding: clamp(1rem, 3.6vw, 1.4rem); }
+      .sport-voices__quote,
+      .sport-voices__label,
+      .sport-voices__name,
+      .sport-voices__text { overflow-wrap: anywhere; word-break: break-word; hyphens: auto; }
+      /* Galerie: sichere Breite */
+      .sport-gallery__card { width: 100%; }
+      /* Themenkarten: eine Spalte */
+      .sport-flow__cards-grid { grid-template-columns: minmax(0, 1fr); }
+    }
+
+    /* Mobile/Tablet: Layout reparieren, Texte umbrechen */
+    @media (max-width: 900px) {
+      .sport-voices__grid { grid-template-columns: minmax(0, 1fr); }
+      .sport-voices__right { padding-top: 0; }
+    }
+    @media (max-width: 540px) {
+      .sport-voices__card { max-width: 100%; }
+      .sport-voices__slide { padding: clamp(1.2rem, 4vw, 1.6rem); }
+      .sport-voices__quote,
+      .sport-voices__label,
+      .sport-voices__name,
+      .sport-voices__text { overflow-wrap: anywhere; word-break: break-word; hyphens: auto; }
+    }
+
     .sport-gallery {
       padding: clamp(0.4rem, 1.6vw, 0.8rem) 0 clamp(1.1rem, 2.4vw, 1.6rem);
       margin-top: clamp(0.4rem, 1.6vw, 0.8rem);
@@ -347,6 +378,57 @@
       margin: 0;
       line-height: 1.68;
       color: rgba(10, 35, 66, 0.85);
+    }
+
+    /* ==== Mobile-Fixes (Smartphone) ===================================== */
+    @media (max-width: 540px) {
+      /* Hero neu aufgebaut: Titel → Untertitel → Button → Info-Text */
+      .page-hero__grid { grid-template-columns: minmax(0, 1fr); gap: clamp(1.2rem, 4vw, 1.6rem); padding-inline: clamp(16px, 5vw, 24px); }
+      .page-hero__copy { margin: 0; text-align: left; }
+      .page-hero__actions { margin: 0; }
+      .page-hero__actions .btn { width: 100%; min-width: 0; white-space: normal; text-align: center; font-size: clamp(0.9rem, 0.6vw + 0.84rem, 1rem); }
+      .hero__headline--tight { overflow-wrap: anywhere; word-break: break-word; font-size: clamp(2.2rem, 7vw, 2.8rem); line-height: 1.05; }
+      .hero__sub--compact { overflow-wrap: anywhere; }
+      .page-hero__media { display: none; }
+      .hero__portrait--compact .hero__accent--horizontal { display: none; }
+
+      /* Erfolgsgeschichten: volle Breite und saubere Umbrüche */
+      .sport-voices__grid { grid-template-columns: minmax(0, 1fr); padding-inline: clamp(16px, 5vw, 24px); }
+      .sport-voices__card { max-width: 100%; }
+      .sport-voices__slide { padding: clamp(1rem, 3.6vw, 1.4rem); }
+      .sport-voices__quote,
+      .sport-voices__label,
+      .sport-voices__name,
+      .sport-voices__text { overflow-wrap: anywhere; word-break: break-word; hyphens: auto; }
+
+      /* Galerie und Themenkarten: einspaltig */
+      .sport-gallery__card { width: 100%; }
+      .sport-flow__cards-grid { grid-template-columns: minmax(0, 1fr); }
+    }
+
+    /* ==== Mobile-Fixes (Smartphone) ===================================== */
+    @media (max-width: 540px) {
+      /* Seite sicher einspaltig und mit Innenabstand */
+      .page-hero__grid { grid-template-columns: minmax(0, 1fr); gap: clamp(1.2rem, 4vw, 1.6rem); padding-inline: clamp(16px, 5vw, 24px); }
+      .page-hero__copy { margin: 0; }
+      .page-hero__actions { margin: 0; }
+      .page-hero__actions .btn { width: 100%; min-width: 0; white-space: normal; text-align: center; }
+      .hero__headline--tight { overflow-wrap: anywhere; word-break: break-word; }
+      .hero__sub--compact { overflow-wrap: anywhere; }
+      .hero__portrait--compact .hero__accent--horizontal { display: none; }
+
+      /* Erfolgsgeschichten: volle Breite und saubere Umbrüche */
+      .sport-voices__grid { grid-template-columns: minmax(0, 1fr); padding-inline: clamp(16px, 5vw, 24px); }
+      .sport-voices__card { max-width: 100%; }
+      .sport-voices__slide { padding: clamp(1rem, 3.6vw, 1.4rem); }
+      .sport-voices__quote,
+      .sport-voices__label,
+      .sport-voices__name,
+      .sport-voices__text { overflow-wrap: anywhere; word-break: break-word; hyphens: auto; }
+
+      /* Galerie und Themenkarten: einspaltig */
+      .sport-gallery__card { width: 100%; }
+      .sport-flow__cards-grid { grid-template-columns: minmax(0, 1fr); }
     }
 
     .sport-voices__control {
@@ -511,6 +593,8 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
       position: relative;
     }
+    @media (max-width: 900px) { .sport-flow__cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 540px) { .sport-flow__cards-grid { grid-template-columns: minmax(0, 1fr); } }
 
     .sport-flow .theme-card {
       position: relative;
@@ -650,9 +734,124 @@
       letter-spacing: 0.01em;
     }
 
+    .investment {
+      padding: clamp(1.5rem, 4vw, 2.5rem) 0;
+    }
+
+    .investment__grid {
+      display: grid;
+      gap: clamp(1.8rem, 4vw, 2.6rem);
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+      align-items: stretch;
+    }
+
+    .investment__intro {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      gap: clamp(1.6rem, 4vw, 2.4rem);
+      max-width: 60ch;
+      min-height: 100%;
+    }
+
+    .investment__copy {
+      width: 100%;
+      display: grid;
+      gap: clamp(1rem, 2.5vw, 1.6rem);
+      margin-top: clamp(1rem, 4vw, 1.8rem);
+      justify-items: center;
+      text-align: center;
+    }
+
+    .investment__media {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      margin: 0;
+    }
+
+    .investment__media img {
+      max-width: clamp(360px, 55vw, 400px);
+      height: auto;
+      display: block;
+    }
+
+    .investment-card {
+      border: 1px solid rgba(10, 35, 66, 0.16);
+      border-radius: 12px;
+      padding: clamp(1.6rem, 3vw, 2rem);
+      display: grid;
+      gap: clamp(1rem, 2.5vw, 1.4rem);
+      background: rgba(10, 35, 66, 0.05);
+      color: #0d2243;
+    }
+
+    .investment-card__section {
+      position: relative;
+      padding-bottom: clamp(0.8rem, 2vw, 1.1rem);
+      margin-bottom: clamp(0.8rem, 2vw, 1.1rem);
+    }
+
+    .investment-card__section::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 35%;
+      bottom: 0;
+      height: 1px;
+      background: rgba(192, 192, 192, 0.55);
+    }
+
+    .investment-card__section:last-of-type {
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .investment-card__section:last-of-type::after {
+      display: none;
+    }
+
+    .investment-card__section h3 {
+      margin: 0 0 0.35rem;
+      font-size: clamp(1rem, 0.4vw + 0.95rem, 1.2rem);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .investment-card__section p {
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .investment-card__section ul {
+      margin: 0;
+      padding-left: 1.1rem;
+      display: grid;
+      gap: 0.45rem;
+    }
+
     @media (max-width: 960px) {
       .sport-flow__grid {
         grid-template-columns: minmax(0, 1fr);
+      }
+
+      .investment__grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: clamp(1.6rem, 4vw, 2.4rem);
+      }
+
+      .investment__intro {
+        gap: clamp(1.4rem, 5vw, 2rem);
+      }
+
+      .investment__copy {
+        margin-top: clamp(0.6rem, 5vw, 1.4rem);
+      }
+
+      .investment__media img {
+        max-width: clamp(260px, 82vw, 380px);
       }
     }
 
@@ -696,19 +895,26 @@
     <div class="site-header__inner-wrap">
       <div class="site-header__inner">
         <div class="site-header__brand">
-          <a class="site-logo" href="/#hero" aria-label="Zur Startsektion">
+        <a class="site-logo" href="/index.html#hero" aria-label="Zur Startsektion">
             <span class="site-logo__mark" aria-hidden="true"></span>
-            <span>HATZ-Human Management</span>
+            <img class="site-logo__text" src="../../Bilder/Logolinks.png" alt="HATZ Human-Management" />
           </a>
         </div>
         <nav class="site-nav" aria-label="Hauptnavigation" data-js-nav data-focus-trap>
           <ul id="primary-navigation" class="site-nav__list">
-            <li><a href="/#angebot" aria-current="page">Angebot</a></li>
-            <li><a href="/#referenzen">Referenzen</a></li>
-            <li><a href="/#methode">Methodik</a></li>
-            <li><a href="/#ueber">Über</a></li>
-            <li><a href="/#faq">FAQ</a></li>
-            <li><a href="/#kontakt">Kontakt</a></li>
+            <li class="site-nav__item has-submenu">
+              <a href="/index.html#angebot" class="site-nav__link" aria-haspopup="true" aria-expanded="false">Angebot</a>
+              <ul class="site-subnav" aria-label="Untermenü Angebot">
+                <li><a href="/angebot/unternehmen/">Für Unternehmen</a></li>
+                <li><a href="/angebot/sportler/">Für Sportler</a></li>
+                <li><a href="/angebot/privatpersonen/">Für Privatpersonen</a></li>
+              </ul>
+            </li>
+            <li><a href="/referenzen/">Referenzen</a></li>
+            <li><a href="/index.html#methode">Methodik</a></li>
+            <li><a href="/index.html#ueber">Über</a></li>
+            <li><a href="/index.html#faq">FAQ</a></li>
+            <li><a href="/index.html#kontakt">Kontakt</a></li>
             <li class="site-nav__cta"><a class="btn btn--primary" href="/#kontakt">Erstgespräch</a></li>
           </ul>
         </nav>
@@ -751,7 +957,7 @@
       <div class="container page-hero__grid">
         <div class="page-hero__copy">
           <p class="breadcrumb" aria-label="Brotkrumenpfad">
-            <a href="/#angebot">Angebot</a>
+            <a href="/index.html#angebot">Angebot</a>
             <span aria-hidden="true"> › </span>
             <span>Sportler:innen</span>
           </p>
@@ -766,19 +972,18 @@
               <span class="hero__name-main">Mentale Stärke als Schlüssel</span>
               <span class="hero__name-line hero__name-line--accent">zu Spitzenleistung und nachhaltigem Erfolg</span>
             </h2>
-            <p class="hero__sub hero__sub--compact">Im Leistungssport entscheidet der Kopf über Sieg oder Niederlage.
-              Mentaltraining hilft Athlet:innen, den Fokus zu halten, Rückschläge als Lernmomente zu sehen und ihr
-              inneres Gleichgewicht zu bewahren – selbst in herausfordernden Wettkampfsituationen.</p>
           </div>
           <div class="page-hero__actions">
             <a class="btn btn--primary" href="/#kontakt">Kostenfreies Erstgespräch sichern</a>
           </div>
+          <p class="hero__sub hero__sub--compact">Im Leistungssport entscheidet der Kopf über Sieg oder Niederlage.
+            Mentaltraining hilft Athlet:innen, den Fokus zu halten, Rückschläge als Lernmomente zu sehen und ihr
+            inneres Gleichgewicht zu bewahren – selbst in herausfordernden Wettkampfsituationen.</p>
         </div>
         <div class="page-hero__media">
           <div class="hero__portrait hero__portrait--compact">
-            <img src="../../assets/images/PoertaitSakko-Photoroom.png" alt="Rainer Hatz" loading="lazy" />
+            <img src="../../assets/images/Icons/sprinter.png" alt="Sportler-Icon" loading="lazy" />
             <span class="hero__accent hero__accent--horizontal" aria-hidden="true"></span>
-            <span class="hero__accent hero__accent--vertical" aria-hidden="true"></span>
           </div>
         </div>
       </div>
@@ -1032,6 +1237,42 @@
       </div>
     </section>
 
+    <section class="section investment" aria-labelledby="sport-investment-title">
+      <div class="container investment__grid">
+        <aside class="investment-card">
+          <div class="investment-card__section">
+            <p>Alle Inhalte werden individuell auf Sportart, Zielsetzung und Saisonphase abgestimmt.</p>
+          </div>
+          <div class="investment-card__section">
+            <h3>Dauer</h3>
+            <p>60 bis 90 Minuten pro Session</p>
+          </div>
+          <div class="investment-card__section">
+            <h3>Investition</h3>
+            <p>150 € zzgl. MwSt. pro Stunde</p>
+          </div>
+          <div class="investment-card__section">
+            <h3>Formate</h3>
+            <ul>
+              <li>Online oder Präsenz</li>
+              <li>Optional Begleitung bei Wettkämpfen nach Absprache</li>
+            </ul>
+          </div>
+        </aside>
+        <div class="investment__intro">
+          <div class="investment__copy">
+            <h2 id="sport-investment-title">Dein Erstgespräch</h2>
+            <p>Du möchtest mehr über maßgeschneidertes Mentaltraining erfahren? Vereinbare jetzt dein unverbindliches
+              Erstgespräch und finde heraus, wie wir deine mentale Stärke gezielt ausbauen.</p>
+            <a class="btn btn--primary" href="/#kontakt">Kostenfreies Erstgespräch sichern</a>
+          </div>
+          <div class="investment__media">
+            <img src="../../Bilder/neuesLogo.png" alt="Logo von HATZ-Human Management" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="site-footer" role="contentinfo">
@@ -1264,6 +1505,3 @@
 </body>
 
 </html>
-      .sport-voices__slide {
-        min-height: clamp(260px, 80vw, 340px);
-      }

@@ -185,6 +185,21 @@
     if (navToggleHint) {
       navToggleHint.textContent = "Menü öffnen";
     }
+    // Reset mobile subnav state (e.g., Angebot accordion)
+    try {
+      const subItems = Array.from(doc.querySelectorAll('.site-nav__item.has-submenu'));
+      subItems.forEach((item) => {
+        item.classList.remove('is-open');
+        const btn = item.querySelector('.site-subnav__toggle');
+        const icon = btn?.querySelector('.site-subnav__icon') || null;
+        const sub = item.querySelector('.site-subnav');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+        if (icon) icon.textContent = '+';
+        if (sub && window.matchMedia('(max-width: 899.98px)').matches) {
+          sub.setAttribute('hidden', '');
+        }
+      });
+    } catch (_) {}
     removeFocusTrap();
     if (lastFocusedElement) {
       lastFocusedElement.focus();
@@ -610,48 +625,144 @@
     });
   };
 
-  // Sticky für About: CSS-Sticky mit mittiger Top-Position; JS berechnet nur Variablen (symmetrisch, ohne Sprünge)
-  const initStickyAbout = () => {
+  // Sticky-Fallback für About: aktiviert Fixierung nur im Sichtbereich des Abschnitts
+  const initStickyAboutFallback = () => {
     const section = doc.querySelector('#ueber.section.about.sticky-layout');
     if (!section) return;
     const sticky = section.querySelector('.col-left .sticky-box');
     const colLeft = section.querySelector('.about__media.col-left') || section.querySelector('.col-left');
-    if (!sticky || !colLeft) return;
+    const copy = section.querySelector('.about__copy') || section.querySelector('.col-right');
+    if (!sticky || !colLeft || !copy) return;
 
-    const headerEl = doc.querySelector('[data-js-header]');
-    const getHeaderHeight = () => (headerEl ? headerEl.getBoundingClientRect().height : 0);
-    const EXTRA = 30; // Puffer unterhalb Header für frühes Kleben
+    const mql = window.matchMedia('(min-width: 1024px)');
+    const OFFSET = 32; // 2rem Abstand zu Viewport
 
-    const measureAndSet = () => {
-      const isMobile = window.matchMedia('(max-width: 768px)').matches;
-      if (isMobile) {
-        sticky.style.removeProperty('--sticky-top');
-        sticky.style.removeProperty('--sticky-offset');
-        return;
-      }
-      const headerH = getHeaderHeight();
-      const offset = Math.round(headerH + EXTRA);
-      sticky.style.setProperty('--sticky-offset', offset + 'px');
+    let ticking = false;
+    let lastY = window.pageYOffset || document.documentElement.scrollTop;
+    let mode = 'flow'; // 'flow' | 'fixed-top' | 'fixed-bottom'
 
-      // Boxhöhe (Bild + Caption) messen und vertikal mittig (leicht höher) positionieren
-      const boxHeight = sticky.scrollHeight;
-      const centerTop = Math.max(offset, Math.round((window.innerHeight - boxHeight) / 2) - 8);
-      sticky.style.setProperty('--sticky-top', centerTop + 'px');
+    const clearStyles = () => {
+      sticky.classList.remove('is-fixed', 'is-fixed-bottom', 'is-bottom');
+      sticky.style.removeProperty('--sticky-left');
+      sticky.style.removeProperty('--sticky-width');
+      sticky.style.removeProperty('--sticky-offset');
+      sticky.style.removeProperty('top');
+      sticky.style.removeProperty('bottom');
+      mode = 'flow';
     };
 
-    const onResize = () => { measureAndSet(); };
+    const update = () => {
+      ticking = false;
+      if (!mql.matches) { clearStyles(); return; }
+
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+      const direction = scrollY > lastY ? 'down' : (scrollY < lastY ? 'up' : 'none');
+      const vh = window.innerHeight;
+      const sectionRect = section.getBoundingClientRect();
+      const copyRect = copy.getBoundingClientRect();
+      const stickyRect = sticky.getBoundingClientRect();
+      const stickyHeight = stickyRect.height;
+      const EPS = 6; // größere Hysterese gegen Flackern
+
+      const hitBottomBoundary = copyRect.bottom <= (OFFSET + stickyHeight + EPS);
+      const reachedSectionTop = sectionRect.top >= (OFFSET - EPS);
+      const nearTop = stickyRect.top <= (OFFSET + EPS);
+      const nearBottom = stickyRect.bottom >= ((vh - OFFSET) - EPS);
+      const sectionInView = sectionRect.bottom > EPS && sectionRect.top < (vh - EPS);
+
+      // 1) Außerhalb des Abschnitts (oberhalb oder unterhalb): niemals sticky
+      if (!sectionInView) { clearStyles(); lastY = scrollY; return; }
+      // 1b) Noch nicht am oberen Rand angekommen: (aus unteren Bereichen kommend)
+      if (reachedSectionTop) { clearStyles(); lastY = scrollY; return; }
+
+      // 2) Abschnittsende (nur beim Runterscrollen): Top-Position klemmen
+      if (hitBottomBoundary && direction !== 'up') {
+        const rect = colLeft.getBoundingClientRect();
+        if (mode !== 'fixed-top') {
+          sticky.classList.add('is-fixed');
+          sticky.classList.remove('is-fixed-bottom', 'is-bottom');
+          mode = 'fixed-top';
+        }
+        sticky.style.setProperty('--sticky-left', rect.left + 'px');
+        sticky.style.setProperty('--sticky-width', rect.width + 'px');
+        sticky.style.setProperty('--sticky-offset', OFFSET + 'px');
+        sticky.style.removeProperty('bottom');
+        const desiredTop = Math.min(OFFSET, copyRect.bottom - stickyHeight);
+        sticky.style.top = desiredTop + 'px';
+        lastY = scrollY;
+        return;
+      }
+
+      // 3) Im Abschnitt: symmetrische Enthüllung
+      const rect = colLeft.getBoundingClientRect();
+      if (direction === 'up') {
+        // Hochscrollen: von oben langsam ins Sichtfeld laufen lassen und oben fixieren,
+        // sobald die Oberkante die Top-Linie erreicht (nearTop).
+        if (nearTop || mode === 'fixed-top') {
+          if (mode !== 'fixed-top') {
+            sticky.classList.add('is-fixed');
+            sticky.classList.remove('is-fixed-bottom', 'is-bottom');
+            mode = 'fixed-top';
+          }
+          sticky.style.setProperty('--sticky-left', rect.left + 'px');
+          sticky.style.setProperty('--sticky-width', rect.width + 'px');
+          sticky.style.setProperty('--sticky-offset', OFFSET + 'px');
+          const desiredTop = Math.min(OFFSET, copyRect.bottom - stickyHeight);
+          sticky.style.removeProperty('bottom');
+          sticky.style.top = desiredTop + 'px';
+        } else if (mode === 'fixed-bottom') {
+          // Falls zuvor unten fixiert, sanft unten weiterführen bis Top-Linie erreicht ist
+          const desiredBottom = Math.min(OFFSET, Math.max(0, vh - (sectionRect.top + stickyHeight)));
+          sticky.style.removeProperty('top');
+          sticky.style.bottom = desiredBottom + 'px';
+        } else if (mode !== 'flow') {
+          clearStyles();
+        }
+      } else {
+        // Runterscrollen: oben fixieren oder bestehenden Fix-Zustand beibehalten
+        if (nearTop || mode === 'fixed-top') {
+          if (mode !== 'fixed-top') {
+            sticky.classList.add('is-fixed');
+            sticky.classList.remove('is-fixed-bottom', 'is-bottom');
+            mode = 'fixed-top';
+          }
+          sticky.style.setProperty('--sticky-left', rect.left + 'px');
+          sticky.style.setProperty('--sticky-width', rect.width + 'px');
+          sticky.style.setProperty('--sticky-offset', OFFSET + 'px');
+          const desiredTop = Math.min(OFFSET, copyRect.bottom - stickyHeight);
+          sticky.style.removeProperty('bottom');
+          sticky.style.top = desiredTop + 'px';
+        } else if (mode === 'fixed-bottom') {
+          // Beim kleinen Richtungswechsel unten verankert lassen und nachführen
+          const desiredBottom = Math.min(OFFSET, Math.max(0, vh - (sectionRect.top + stickyHeight)));
+          sticky.style.removeProperty('top');
+          sticky.style.bottom = desiredBottom + 'px';
+        } else if (mode !== 'flow') {
+          clearStyles();
+        }
+      }
+
+      lastY = scrollY;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    };
+
+    const onResize = () => {
+      clearStyles();
+      update();
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onResize);
     window.addEventListener('orientationchange', onResize);
-    const img = sticky.querySelector('img');
-    if (img) {
-      if (img.complete) {
-        measureAndSet();
-      } else {
-        img.addEventListener('load', measureAndSet, { once: true });
-      }
-    }
+
     // initial
-    measureAndSet();
+    update();
   };
 
   const updateCarouselPosition = () => {
@@ -742,8 +853,9 @@
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const panels = new Map();
     const placeholder = hub.querySelector("[data-offer-placeholder]");
+    const allowEmpty = hub.hasAttribute('data-initial-empty') || hub.hasAttribute('data-allow-empty');
     let activeTab = tabs.find((tab) => tab.classList.contains("is-active")) || null;
-    if (!activeTab && tabs.length) {
+    if (!activeTab && tabs.length && !allowEmpty) {
       activeTab = tabs[0];
       activeTab.classList.add("is-active");
     }
@@ -758,8 +870,8 @@
       const panel = target ? hub.querySelector(`[data-offer-panel="${target}"]`) : null;
       if (panel) {
         panels.set(tab, panel);
-        const isActive = Boolean(activeTab && tab === activeTab);
-        const isFocusable = activeTab ? isActive : index === 0;
+      const isActive = Boolean(activeTab && tab === activeTab);
+      const isFocusable = activeTab ? isActive : index === 0;
         tab.setAttribute("aria-selected", String(isActive));
         tab.setAttribute("tabindex", isFocusable ? "0" : "-1");
         if (isActive) {
@@ -920,6 +1032,24 @@
     });
 
     togglePlaceholder(!activePanel);
+
+    // Close button handler (top-right inside panel)
+    hub.addEventListener('click', (ev) => {
+      const closeBtn = (ev.target instanceof Element) ? ev.target.closest('.mentality__close') : null;
+      if (!closeBtn) return;
+      ev.preventDefault();
+      if (activePanel) {
+        hidePanel(activePanel);
+      }
+      if (activeTab) {
+        activeTab.classList.remove('is-active');
+        activeTab.setAttribute('aria-selected', 'false');
+        activeTab.setAttribute('tabindex', '0');
+      }
+      activeTab = null;
+      activePanel = null;
+      togglePlaceholder(true);
+    });
   };
 
   const initMarquee = () => {
@@ -936,7 +1066,7 @@
     let offset = 0;
     let rafId = null;
     let lastTime = 0;
-    const pixelsPerSecond = 40;
+    const pixelsPerSecond = 80;
     const speed = pixelsPerSecond / 1000;
     let halfWidth = 0;
 
@@ -973,7 +1103,7 @@
     };
 
     const start = () => {
-      if (rafId !== null || prefersReducedMotion.matches) return;
+      if (rafId !== null) return;
       lastTime = performance.now();
       rafId = window.requestAnimationFrame(step);
     };
@@ -1125,19 +1255,27 @@
   };
 
   const init = () => {
+    initHtmlIncludes();
     initNav();
     initThemeToggle();
     initSmoothScroll();
     initHeaderObserver();
+    initMobileSubnav();
     initHero();
     initReveal();
     initAccordion();
-    initOfferHub();
+    // initOfferHub(); // Tabs entfernt – statische Zwei-Spalten-Variante
     initCarousel();
     initDisclosure();
-    initStickyAbout();
+    initStickyAboutFallback();
     initCustomCursor();
     initThemeInfoOverlay();
+    initMobileStartScroll();
+    initMobileCtasInTrustbar();
+    initNoBounce();
+    initCtaEnvelopeScroll();
+    initCasesToggle();
+    initMentalityCards();
     marqueeController = initMarquee();
     prefersReducedMotion.addEventListener("change", (event) => {
       const prefersReduced = event.matches;
@@ -1160,6 +1298,391 @@
         closeNav();
       }
     });
+  };
+
+  // Lightweight HTML include loader for shared components (e.g., profile/about section)
+  function initHtmlIncludes() {
+    const includeNodes = Array.from(document.querySelectorAll('[data-include]'));
+    if (!includeNodes.length) return;
+    includeNodes.forEach(async (host) => {
+      const src = host.getAttribute('data-include');
+      if (!src) return;
+      try {
+        const res = await fetch(src, { credentials: 'same-origin' });
+        if (!res.ok) return;
+        const html = await res.text();
+        host.innerHTML = html;
+        // Optional: configure video source via data attributes on host
+        const videoSrc = host.getAttribute('data-video-src');
+        const video = host.querySelector('video[data-profile-video]');
+        if (video && videoSrc) {
+          const source = document.createElement('source');
+          source.src = videoSrc;
+          source.type = 'video/mp4';
+          video.appendChild(source);
+        } else if (video && !videoSrc) {
+          // Replace empty video with image fallback
+          const img = document.createElement('img');
+          const poster = video.getAttribute('poster') || '../Bilder/BIldRainer.jpg';
+          img.src = poster;
+          img.alt = '';
+          img.loading = 'lazy';
+          video.replaceWith(img);
+        }
+      } catch (_) {
+        /* no-op */
+      }
+    });
+  }
+
+  // Mobile-only: handle subnav toggle for "Angebot" via plus button
+  function initMobileSubnav() {
+    const isDesktop = () => window.matchMedia('(min-width: 900px)').matches;
+    const toggles = Array.from(doc.querySelectorAll('.site-subnav__toggle'));
+    const closeAll = () => {
+      const items = Array.from(doc.querySelectorAll('.site-nav__item.has-submenu'));
+      items.forEach((item) => {
+        item.classList.remove('is-open');
+        const btn = item.querySelector('.site-subnav__toggle');
+        const icon = btn?.querySelector('.site-subnav__icon') || null;
+        const sub = item.querySelector('.site-subnav');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+        if (icon) icon.textContent = '+';
+        if (sub) sub.setAttribute('hidden', '');
+      });
+    };
+    const applyMode = () => {
+      const sub = doc.getElementById('subnav-angebot');
+      if (!sub) return;
+      if (isDesktop()) {
+        // Desktop hover menu: keep subnav available for CSS dropdown
+        sub.removeAttribute('hidden');
+      } else {
+        // Mobile: keep closed until plus is tapped
+        sub.setAttribute('hidden', '');
+      }
+    };
+    toggles.forEach((btn) => {
+      btn.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        const item = btn.closest('.site-nav__item.has-submenu');
+        if (!item) return;
+        const sub = item.querySelector('.site-subnav');
+        const icon = btn.querySelector('.site-subnav__icon');
+        const willOpen = !item.classList.contains('is-open');
+        // One-open-at-a-time behavior
+        closeAll();
+        item.classList.toggle('is-open', willOpen);
+        btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+        if (sub) {
+          if (willOpen) sub.removeAttribute('hidden'); else sub.setAttribute('hidden', '');
+        }
+        if (icon) icon.textContent = willOpen ? '–' : '+';
+      });
+    });
+    window.addEventListener('resize', applyMode);
+    applyMode();
+  }
+
+  // Prevent iOS Safari top rubber-band (bounce) when pulling down at page top
+  const initNoBounce = () => {
+    const isiOS = /iP(ad|hone|od)/.test(navigator.platform) ||
+                  (/Mac/.test(navigator.platform) && navigator.maxTouchPoints > 1);
+    if (!isiOS) return;
+    let startY = 0;
+    const getScrollY = () => window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const onTouchStart = (e) => {
+      if (!e.touches || e.touches.length === 0) return;
+      startY = e.touches[0].clientY;
+    };
+    const onTouchMove = (e) => {
+      if (!e.touches || e.touches.length === 0) return;
+      const currentY = e.touches[0].clientY;
+      const deltaY = currentY - startY;
+      if (getScrollY() <= 0 && deltaY > 0) {
+        // Prevent overscroll bounce when pulling down at top
+        e.preventDefault();
+      }
+    };
+    document.addEventListener('touchstart', onTouchStart, { passive: true });
+    document.addEventListener('touchmove', onTouchMove, { passive: false });
+  };
+
+  // Mobile/tablet (no hover): Activate CTA envelope when its CENTER is near viewport center
+  const initCtaEnvelopeScroll = () => {
+    const mqCoarse = window.matchMedia('(pointer: coarse), (hover: none)');
+    const section = document.querySelector('.section.cta');
+    const media = section ? section.querySelector('.cta__media') : null;
+    if (!section || !media) return;
+
+    let rafId = null;
+    let isActive = false;
+
+    const evaluate = () => {
+      rafId = null;
+      if (!mqCoarse.matches) {
+        if (isActive) { section.classList.remove('is-activated'); isActive = false; }
+        return;
+      }
+      const rect = media.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight || 0;
+      const center = vh / 2;
+      const mediaCenter = rect.top + rect.height / 2;
+      const distance = Math.abs(mediaCenter - center);
+      // Hysterese: früher öffnen, später schließen, damit kein Flackern
+      const openThreshold = Math.max(90, Math.min(160, vh * 0.18));   // ca. 18% des Viewports
+      const closeThreshold = Math.max(120, Math.min(200, vh * 0.26)); // ca. 26% des Viewports
+      if (!isActive && distance <= openThreshold) {
+        section.classList.add('is-activated');
+        isActive = true;
+      } else if (isActive && distance >= closeThreshold) {
+        section.classList.remove('is-activated');
+        isActive = false;
+      }
+    };
+
+    const onScroll = () => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(evaluate);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    if (typeof mqCoarse.addEventListener === 'function') {
+      mqCoarse.addEventListener('change', onScroll);
+    } else if (typeof mqCoarse.addListener === 'function') {
+      mqCoarse.addListener(onScroll);
+    }
+    // Initial check
+    onScroll();
+  };
+
+  // Fallback handler for mentality-card toggle via inline onclick (desktop/mobile)
+  window.toggleMentalityCard = (btn) => {
+    try {
+      const card = btn.closest('.mentality-card');
+      if (!card) return false;
+      const body = card.querySelector('.mentality-card__body');
+      if (!body) return false;
+      const open = !card.classList.contains('is-open');
+      card.classList.toggle('is-open', open);
+      body.setAttribute('aria-hidden', open ? 'false' : 'true');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.textContent = open ? 'Weniger anzeigen' : 'Mehr anzeigen';
+      if (open) {
+        void body.offsetHeight;
+        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  };
+
+  // Toggle for mentality two-column cards
+  const initMentalityCards = () => {
+    const cards = Array.from(document.querySelectorAll('[data-mentality-card]'));
+    if (!cards.length) return;
+    cards.forEach((card) => {
+      const body = card.querySelector('.mentality-card__body');
+      const btn = card.querySelector('.mentality-card__toggle');
+      if (!body || !btn) return;
+      // initial collapsed
+      body.setAttribute('aria-hidden', 'true');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.textContent = 'Mehr anzeigen';
+      btn.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        const open = !card.classList.contains('is-open');
+        card.classList.toggle('is-open', open);
+        body.setAttribute('aria-hidden', open ? 'false' : 'true');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        btn.textContent = open ? 'Weniger anzeigen' : 'Mehr anzeigen';
+        if (open) {
+          // ensure transition
+          void body.offsetHeight;
+          card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      });
+    });
+  };
+
+  // Scroll the initial mobile viewport slightly down on first visit
+  const initMobileStartScroll = () => {
+    const run = () => {
+      if (window.location.hash) return; // respect deep links
+      const currentY = window.pageYOffset || document.documentElement.scrollTop || 0;
+      if (currentY > 2) return; // user already scrolled or browser restored position
+      const isMobile = window.matchMedia('(max-width: 540px)').matches;
+      if (!isMobile) return;
+      try {
+        if (window.sessionStorage.getItem('initial-mobile-scroll') === '1') return;
+      } catch (_) {}
+      const prefersReduced = prefersReducedMotion.matches;
+      const offset = Math.round(Math.min(120, Math.max(48, window.innerHeight * 0.08)));
+      window.scrollTo({ top: offset, behavior: prefersReduced ? 'auto' : 'smooth' });
+      try { window.sessionStorage.setItem('initial-mobile-scroll', '1'); } catch (_) {}
+    };
+    // Run after load so layout/hero activation is settled
+    window.addEventListener('load', () => {
+      // Small delay to avoid fighting with browser UI reveal on mobile
+      setTimeout(() => window.requestAnimationFrame(run), 350);
+    });
+  };
+
+  // Collapse/expand case cards' body text via 'Mehr anzeigen' toggle
+  const initCasesToggle = () => {
+    const grid = doc.querySelector('.cases__grid');
+    if (!grid) return;
+    const mqMobile = window.matchMedia('(max-width: 540px)');
+    // Target only the two left cards in the grid (direct children)
+    const directCards = Array.from(grid.children).filter((el) => el.classList && el.classList.contains('card'));
+    const cards = directCards.slice(0, 2);
+
+    const setupCard = (card) => {
+      const actions = card.querySelector('.card__actions');
+      if (!actions) return;
+      let toggle = actions.querySelector('.card__toggle');
+      let body = card.querySelector('.card__body');
+      const mailtoLink = actions.querySelector('.card__link[href^="mailto:"]');
+
+      // Wrap content into body if needed (all elements except H3 + actions up to actions)
+      if (!body) {
+        const children = Array.from(card.children);
+        const contentEls = [];
+        for (const el of children) {
+          if (el === actions) break;
+          if (el.tagName === 'H3') continue;
+          contentEls.push(el);
+        }
+        if (contentEls.length) {
+          body = doc.createElement('div');
+          body.className = 'card__body';
+          body.setAttribute('aria-hidden', 'true');
+          contentEls.forEach((el) => body.appendChild(el));
+          card.insertBefore(body, actions);
+        }
+      }
+
+      if (!toggle) {
+        toggle = doc.createElement('button');
+        toggle.type = 'button';
+        toggle.className = 'card__link card__toggle';
+        actions.insertBefore(toggle, actions.firstChild);
+      }
+      if (!toggle || !body) return;
+
+      const applyViewportState = () => {
+        // Einheitlich für alle Viewports: geschlossen starten
+        card.classList.remove('is-open');
+        body.setAttribute('aria-hidden', 'true');
+        setToggle(false);
+        if (mailtoLink) mailtoLink.style.display = 'none';
+        toggle.style.display = '';
+      };
+
+      applyViewportState();
+
+      // Viewport-Wechsel: weiterhin geschlossen halten
+      if (typeof mqMobile.addEventListener === 'function') {
+        mqMobile.addEventListener('change', applyViewportState);
+      } else if (typeof mqMobile.addListener === 'function') {
+        mqMobile.addListener(applyViewportState);
+      }
+
+      function setToggle(open) {
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        toggle.textContent = open ? 'Weniger anzeigen' : 'Mehr anzeigen';
+      }
+    };
+
+    cards.forEach(setupCard);
+
+    // Event delegation: ensure clicks on dynamically inserted toggles work reliably
+    const handleGridClick = (ev) => {
+      const btn = (ev.target instanceof Element) ? ev.target.closest('.card__toggle') : null;
+      if (!btn) return;
+      const card = btn.closest('.card');
+      if (!card) return;
+      ev.preventDefault();
+      // Ensure body exists for this card
+      let actions = card.querySelector('.card__actions');
+      let body = card.querySelector('.card__body');
+      if (!actions) return;
+      if (!body) {
+        const children = Array.from(card.children);
+        const contentEls = [];
+        for (const el of children) {
+          if (el === actions) break;
+          if (el.tagName === 'H3') continue;
+          contentEls.push(el);
+        }
+        if (contentEls.length) {
+          body = doc.createElement('div');
+          body.className = 'card__body';
+          body.setAttribute('aria-hidden', 'true');
+          contentEls.forEach((el) => body.appendChild(el));
+          card.insertBefore(body, actions);
+        }
+      }
+      const mailto = actions.querySelector('.card__link[href^="mailto:"]');
+      const open = !card.classList.contains('is-open');
+      card.classList.toggle('is-open', open);
+      if (body) body.setAttribute('aria-hidden', open ? 'false' : 'true');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.textContent = open ? 'Weniger anzeigen' : 'Mehr anzeigen';
+      if (mailto) mailto.style.display = open ? '' : 'none';
+      // trigger transition reliably
+      if (body) void body.offsetHeight;
+      if (open) {
+        card.scrollIntoView({ behavior: prefersReducedMotion.matches ? 'auto' : 'smooth', block: 'nearest' });
+      }
+    };
+
+    grid.addEventListener('click', handleGridClick);
+  };
+
+  // Fallback: inline handler for buttons in markup
+  window.toggleCaseCard = (btn) => {
+    try {
+      const card = btn.closest('.card');
+      if (!card) return false;
+      const actions = card.querySelector('.card__actions');
+      let body = card.querySelector('.card__body');
+      if (!actions) return false;
+      // Ensure body exists
+      if (!body) {
+        const children = Array.from(card.children);
+        const contentEls = [];
+        for (const el of children) {
+          if (el === actions) break;
+          if (el.tagName === 'H3') continue;
+          contentEls.push(el);
+        }
+        if (contentEls.length) {
+          body = document.createElement('div');
+          body.className = 'card__body';
+          body.setAttribute('aria-hidden', 'true');
+          contentEls.forEach((el) => body.appendChild(el));
+          card.insertBefore(body, actions);
+        }
+      }
+      const mailto = actions.querySelector('.card__link[href^="mailto:"]');
+      const nowOpen = !card.classList.contains('is-open');
+      card.classList.toggle('is-open', nowOpen);
+      if (body) body.setAttribute('aria-hidden', nowOpen ? 'false' : 'true');
+      btn.setAttribute('aria-expanded', nowOpen ? 'true' : 'false');
+      btn.textContent = nowOpen ? 'Weniger anzeigen' : 'Mehr anzeigen';
+      if (mailto) mailto.style.display = nowOpen ? '' : 'none';
+      if (nowOpen) {
+        // kick transition and scroll into view
+        if (body) void body.offsetHeight;
+        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
   };
 
   doc.addEventListener("DOMContentLoaded", init);

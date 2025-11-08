@@ -58,14 +58,18 @@
         <nav class="site-nav" aria-label="Hauptnavigation" data-js-nav data-focus-trap>
           <ul id="primary-navigation" class="site-nav__list">
             <li class="site-nav__item has-submenu">
-              <a href="/angebot/" class="site-nav__link" aria-haspopup="true" aria-expanded="false">Angebot</a>
-              <ul class="site-subnav" aria-label="Untermenü Angebot">
+              <a href="#angebot" class="site-nav__link" aria-haspopup="true" aria-expanded="false">Angebot</a>
+              <button class="site-subnav__toggle" type="button" aria-expanded="false" aria-controls="subnav-angebot">
+                <span class="sr-only">Untermenü „Angebot“ öffnen</span>
+                <span aria-hidden="true" class="site-subnav__icon">+</span>
+              </button>
+              <ul class="site-subnav" id="subnav-angebot" aria-label="Untermenü Angebot" hidden>
                 <li><a href="/angebot/unternehmen/">Für Unternehmen</a></li>
                 <li><a href="/angebot/sportler/">Für Sportler</a></li>
                 <li><a href="/angebot/privatpersonen/">Für Privatpersonen</a></li>
               </ul>
             </li>
-            <li><a href="/#referenzen">Referenzen</a></li>
+            <li><a href="/referenzen/">Referenzen</a></li>
             <li><a href="/#methode">Methodik</a></li>
             <li><a href="/#ueber">Über</a></li>
             <li><a href="/#faq">FAQ</a></li>
@@ -116,6 +120,12 @@
               <span class="hero__headline-line">Denken<span class="hero__dot">.</span></span>
               <span class="hero__headline-line hero__headline-line--wide">Neue Wege<span
                   class="hero__dot">.</span></span>
+              <!-- Duplikat für Mobile-Marquee, nur mobil sichtbar -->
+              <span class="hero__headline-dup" aria-hidden="true">
+                <span class="hero__headline-line">Neues</span>
+                <span class="hero__headline-line">Denken<span class="hero__dot">.</span></span>
+                <span class="hero__headline-line hero__headline-line--wide">Neue Wege<span class="hero__dot">.</span></span>
+              </span>
             </span>
           </h1>
           <div class="hero__profile">
@@ -124,8 +134,6 @@
               <span class="hero__name-line hero__name-line--accent">Mental Coaching</span>
               <span class="hero__name-line hero__name-line--accent">Individuell für Unternehmen und Teams</span>
             </h2>
-            <p class="hero__sub hero-animate" data-hero-stage="sub">Ich begleite Sie, Ihr Potenzial zu entfalten –
-              individuell, strategisch und in Ihrer zukunftsorientierten Unternehmenskultur.</p>
           </div>
           <div class="hero__actions">
             <a class="btn btn--primary hero-animate" data-hero-stage="cta-primary" href="#kontakt">Erstgespräch
@@ -137,7 +145,6 @@
         <div class="hero__media hero-animate" data-hero-stage="portrait">
           <div class="hero__portrait">
             <img src="assets/images/PoertaitSakko-Photoroom.png" alt="Rainer Hatz" loading="lazy" />
-            <span class="hero__accent hero__accent--horizontal" aria-hidden="true"></span>
           </div>
         </div>
       </div>
@@ -176,21 +183,13 @@
         </div>
       </div>
       <div class="container trustbar__copy">
-        <div class="trustbar__heading">
-          <div class="trustbar__headline">
-            <h2 id="referenzen-title">Referenzen</h2>
-            <p>In den vergangenen Jahren durfte ich zahlreiche Unternehmen, Leistungssportler und Privatpersonen
-              begleiten
-              und in ihrer Entwicklung unterstützen.</p>
-            <a class="btn btn--ghost trustbar__cta" href="#referenzen">Alle anzeigen</a>
-          </div>
-        </div>
+        <a class="btn btn--ghost trustbar__cta" href="/referenzen/">Alle Referenzen anzeigen</a>
       </div>
     </section>
     <section id="angebot" class="offer section" aria-labelledby="offer-title">
       <div class="container">
         <header class="offer__header">
-          <h2 id="offer-title">Angebot</h2>
+          <h2 id="offer-title">Angebot<span class="hero__dot">.</span></h2>
         </header>
 
         <div class="offer__grid" data-offer-grid>
@@ -199,6 +198,9 @@
             aria-label="Für Unternehmen – Weitere Details anzeigen">
             <span class="offer-card__media" aria-hidden="true">
               <img class="offer-card__img" src="assets/images/Icons/tisch.png" alt="Team um Konferenztisch von oben"
+                loading="lazy" width="512" height="512"
+                sizes="(min-width: 1024px) 18vw, (min-width: 640px) 30vw, 70vw" />
+              <img class="offer-card__img offer-card__img--alt" src="assets/images/Icons/tisch1.png" alt=""
                 loading="lazy" width="512" height="512"
                 sizes="(min-width: 1024px) 18vw, (min-width: 640px) 30vw, 70vw" />
             </span>
@@ -231,9 +233,7 @@
             aria-expanded="false" aria-controls="offer-card-details-privatpersonen"
             aria-label="Für Privatpersonen – Weitere Details anzeigen">
             <span class="offer-card__media" aria-hidden="true">
-              <img class="offer-card__img offer-card__img--bg" src="assets/images/Icons/baum.png" alt=""
-                aria-hidden="true" loading="lazy" width="1280" height="854" />
-              <img class="offer-card__img" src="assets/images/Icons/steine.png" alt="Gestapelte Steine auf Fels"
+              <img class="offer-card__img" src="assets/images/Icons/balance1.png" alt="Gestapelte Steine auf Fels"
                 loading="lazy" width="512" height="512"
                 sizes="(min-width: 1024px) 18vw, (min-width: 640px) 30vw, 70vw" />
             </span>
@@ -247,14 +247,7 @@
           </a>
         </div>
 
-        <div class="offer__details" data-offer-details>
-          <p>„Gewonnen wird im Kopf – und verloren auch.“ Erfolg beginnt im Bewusstsein. „Gewonnen wird im Kopf“
-            bedeutet,
-            Emotionen bewusst zu steuern, gezielt zu dosieren und konstruktiv zu lenken – im Sport, im Business und im
-            privaten Leben.
-            „Verlieren“ verstehe ich als Erkenntnisprozess: die Chance zu lernen, zu wachsen und mentale Stärke
-            weiterzuentwickeln.</p>
-        </div>
+        
       </div>
 
       <style>
@@ -271,21 +264,21 @@
           display: grid;
           gap: clamp(1.5rem, 3vw, 2.5rem);
           grid-template-columns: 1fr;
-          grid-auto-rows: auto;
-          align-items: start;
+          grid-auto-rows: 1fr;
+          align-items: stretch;
         }
 
         @media (min-width: 640px) {
           .offer__grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
-            grid-auto-rows: auto;
+            grid-auto-rows: 1fr;
           }
         }
 
         @media (min-width: 1024px) {
           .offer__grid {
             grid-template-columns: repeat(3, minmax(0, 1fr));
-            grid-auto-rows: auto;
+            grid-auto-rows: 1fr;
           }
         }
 
@@ -309,7 +302,8 @@
           position: relative;
           overflow: visible;
           isolation: isolate;
-          align-self: start;
+          align-self: stretch;
+          height: 100%;
         }
 
         .offer-card:link,
@@ -330,6 +324,7 @@
 
         .offer-card__media {
           display: block;
+          position: relative; /* enable cross-fade layering */
           width: clamp(12rem, 22vw, 18rem);
           pointer-events: none;
           margin: -1.5rem -1.25rem -1.05rem 0;
@@ -337,6 +332,23 @@
           position: relative;
           z-index: 1;
         }
+        /* Cross-fade image on hover/open for Unternehmen */
+        .offer-card__img { transition: opacity 280ms ease; display: block; }
+        .offer-card__img--alt {
+          position: absolute;
+          inset: 0;
+          z-index: 2;
+          opacity: 0;
+          transition: opacity 280ms ease;
+          pointer-events: none;
+        }
+        .offer-card--unternehmen:is(:hover, :focus-visible) .offer-card__img--alt,
+        .offer-card--unternehmen.is-open .offer-card__img--alt { opacity: 1; }
+        .offer-card--unternehmen:is(:hover, :focus-visible) .offer-card__img:not(.offer-card__img--alt),
+        .offer-card--unternehmen.is-open .offer-card__img:not(.offer-card__img--alt) { opacity: 0; }
+        /* Default: nur tisch.png sichtbar, tisch1.png versteckt */
+        .offer-card--unternehmen .offer-card__img--alt { opacity: 0; }
+        .offer-card--unternehmen .offer-card__img:not(.offer-card__img--alt) { opacity: 1; }
 
         .offer-card--sportler .offer-card__media,
         .offer-card--privatpersonen .offer-card__media {
@@ -368,18 +380,7 @@
           z-index: 2;
         }
 
-        .offer-card--privatpersonen .offer-card__img--bg {
-          position: absolute;
-          bottom: 0;
-          left: -18%;
-          width: 125%;
-          max-width: none;
-          opacity: 0.85;
-          pointer-events: none;
-          z-index: 1;
-          transform: translateY(4%) scale(0.92);
-          transition: transform 320ms ease;
-        }
+        /* Hintergrundbild entfernt */
 
         .offer-card__head {
           display: flex;
@@ -665,59 +666,90 @@
       </script>
     </section>
 
-    <section id="methode" class="section method" aria-labelledby="methode-title">
-      <div class="container">
-        <div class="method__wrapper">
-          <div class="method__header reveal" data-js-reveal>
-            <h2 id="methode-title">Mein Ansatz<span class="hero__dot">.</span></h2>
-            <p class="method__subtitle">Mentales Coaching mit Klarheit, Empathie und Struktur</p>
-          </div>
+    <section id="methode" class="section mentality" aria-labelledby="mentality-title">
+      <div class="container mentality__wrap">
+        <header class="mentality__head">
+          <h2 id="mentality-title">Eine Sache der Mentalität<span class="hero__dot">.</span></h2>
+          <p class="mentality__sub">Wie mentale Haltung Erfolg bestimmt – im Sport und im Business</p>
+        </header>
 
-          <article class="method__block method__block--quote reveal" data-js-reveal style="transition-delay: 0.28s;">
-            <span class="method__eyebrow">Haltung</span>
-            <blockquote>
-              <p>„Jede Herausforderung ist ein Impuls für Entwicklung.“</p>
-            </blockquote>
-            <p>Wenn Menschen mit einer Herausforderung zu mir kommen, betrachte ich diese nicht als Problem, sondern als
-              Einladung zur Weiterentwicklung. Ich frage mich: Welche Botschaft möchte dieses Thema dem Menschen, dem
-              Team oder dem Unternehmen vermitteln? So entsteht ein individueller Coaching-Prozess, der auf die
-              spezifische Situation und Persönlichkeit abgestimmt ist.</p>
+        <div class="mentality__cards">
+          <!-- Sport -->
+          <article class="mentality-card" data-mentality-card>
+            <div class="mentality-card__grid">
+              <div class="mentality-card__copy">
+                <h3 class="mentality__panel-title">Mentalität im Sport</h3>
+                <p class="mentality-card__teaser">Es gibt nur drei Richtungen, aus denen Motivation entsteht.</p>
+                <div class="mentality-card__body" aria-hidden="true">
+                  <ol class="mentality__list">
+                    <li>1.</li>
+                    <li>2.</li>
+                    <li>3.</li>
+                  </ol>
+                  <p>Im Leistungssport wächst echte Gewinnermentalität ausschließlich aus dem inneren Drang, etwas zu erreichen. Wer weiß, wohin er will, öffnet die Tür zur Meisterschaft.</p>
+                  <p>Ab diesem Moment beginnt der entscheidende Prozess – der Weg, auf dem Erfolge und Misserfolge gleichermaßen Teil des Fortschritts sind.</p>
+                  <p>Erfolge gilt es zu festigen und auszubauen. Misserfolge dagegen sind keine Rückschläge, sondern Botschaften – sie zeigen, wo Erkenntnis entstehen darf.</p>
+                  <p>Die hohe Kunst im mentalen Coaching besteht darin, die in der Situation „versteckte“ Erkenntnis genau zu treffen und mit mentalen Techniken in erfolgreiches Handeln umzusetzen.</p>
+                  <p>Nur wer bereit ist, aus einem Fehler zu lernen, kann sich wirklich weiterentwickeln.</p>
+                  <figure class="mentality__quote">
+                    <blockquote>„Welche Erkenntnis will mir dieser Misserfolg schenken?“</blockquote>
+                  </figure>
+                  <p>In meinen Coachings arbeite ich mit Sportler:innen genau an diesem Punkt: Erfolge werden verankert. Fehler werden zu Lehrmeistern, Rückschläge zu Treibstoff – und Erkenntnis zu mentaler Stärke.</p>
+                </div>
+                <div class="mentality-card__actions">
+                  <button class="card__link mentality-card__toggle" type="button" aria-expanded="false" onclick="return window.toggleMentalityCard && window.toggleMentalityCard(this);">Mehr anzeigen</button>
+                </div>
+              </div>
+              <div class="mentality-card__visual" aria-hidden="true">
+                <img class="mentality__image" src="assets/images/ball.jpg" alt="" loading="lazy" />
+              </div>
+            </div>
           </article>
 
-          <article class="method__block reveal" data-js-reveal>
-            <span class="method__eyebrow">Erfahrung &amp; Methode</span>
-            <p>Mit über 25 Jahren Erfahrung in Coaching, Weiterbildung und Lehre verbinde ich fundierte Methodik mit
-              Empathie und Klarheit. Mein Ansatz bringt Kopf und Bauch in Einklang – also kognitive Strukturen und
-              emotionale Intuition. Dadurch entsteht innere Balance, authentische Handlungsfähigkeit und nachhaltige
-              Veränderung.</p>
-          </article>
-
-          <article class="method__block reveal" data-js-reveal>
-            <span class="method__eyebrow">Wirkung beim Menschen</span>
-            <p>Ich begleite Menschen dabei, sich selbst besser zu verstehen, bewusste Entscheidungen zu treffen und
-              ihren Weg mit Klarheit, Vertrauen und innerer Stärke zu gehen.</p>
-          </article>
-
-          <article class="method__block reveal" data-js-reveal>
-            <span class="method__eyebrow">Teams &amp; Unternehmen</span>
-            <p>Auch Teams und Unternehmen sind lebendige Energiekörper, die in eine stimmige Form gebracht werden
-              wollen. Wie bei einer Wolke geht es darum, ihre Struktur zu erkennen, mit der gewünschten Richtung
-              abzugleichen und daraus klare Dynamik zu entwickeln. So entsteht Orientierung, Energie und die Kraft, den
-              gemeinsamen Flug bewusst zu gestalten.</p>
-          </article>
-
-          <article class="method__block reveal" data-js-reveal>
-            <span class="method__eyebrow">Einladung</span>
-            <p>Ob individuell oder im Team – ich lade Sie ein, gemeinsam den Weg für einen klaren, zukunftsorientierten
-              und authentischen Flug zu gestalten.</p>
+          <!-- Business -->
+          <article class="mentality-card" data-mentality-card>
+            <div class="mentality-card__grid">
+              <div class="mentality-card__copy">
+                <h3 class="mentality__panel-title">Mentalität im Business</h3>
+                <p class="mentality-card__teaser">Die Grundstruktur eines Menschen, eines Teams und eines Unternehmens ist die gleiche wie im Sport.</p>
+                <div class="mentality-card__body" aria-hidden="true">
+                  <ol class="mentality__list">
+                    <li>1.</li>
+                    <li>2.</li>
+                    <li>3.</li>
+                  </ol>
+                  <p>In der Unternehmensrealität entsteht eine leistungsorientierte Kultur ausschließlich aus dem Streben, etwas zu erreichen.</p>
+                  <p>Erst wenn Ziele klar definiert sind, beginnt der eigentliche Prozess der Exzellenz – der Weg, auf dem Erfolge und Rückschläge gleichwertige Bestandteile des Fortschritts werden.</p>
+                  <p>Erfolge stärken Kompetenzen und schaffen Sicherheit, lassen uns aber auch ausruhen.</p>
+                  <figure class="mentality__quote">
+                    <blockquote>„Was würde ich jetzt tun, wenn es schlecht laufen würde?“</blockquote>
+                  </figure>
+                  <p>Misserfolge sind nicht das Ende, sondern der Beginn von Entwicklung. Sie sind Hinweise auf Lernfelder, Auslöser für Innovation und Katalysatoren für Wachstum.</p>
+                  <p>Wer seine Prozesse in den Qualitäten Erreichen, Vermeiden, Erhalten in Erkenntnis überführt, entwickelt Fortschritt.</p>
+                  <p>Stillstand entsteht nicht durch Fehler – sondern durch fehlende Reflexion.</p>
+                  <p class="mentality__core">Diese Denkweise ist der Kern moderner Business-Performance: Rückschläge werden zu Lernmomenten, Erkenntnisse zu strategischem Kapital – und Entwicklung zu einer bewussten, wiederholbaren Kompetenz.</p>
+                  <p>Zu dieser hier aufgeführten „Eine Sache der Mentalität“ kommen u. a. die Intension und Führungsqualität hinzu. Jetzt wird es schon komplex. Noch ein Grund, mit Coaching und Fortbildung dem Ganzen eine zukunftsorientierte Form zu geben …</p>
+                </div>
+                <div class="mentality-card__actions">
+                  <button class="card__link mentality-card__toggle" type="button" aria-expanded="false" onclick="return window.toggleMentalityCard && window.toggleMentalityCard(this);">Mehr anzeigen</button>
+                </div>
+              </div>
+              <div class="mentality-card__visual" aria-hidden="true">
+                <img class="mentality__image" src="assets/images/business.jpg" alt="" loading="lazy" />
+              </div>
+            </div>
           </article>
         </div>
+
+        <footer class="mentality__footer">
+            
+        </footer>
       </div>
     </section>
     <section id="cases" class="section cases" aria-labelledby="cases-title">
       <div class="container">
         <div class="section__head">
-          <h2 id="cases-title">Aktuelles & Beispiele aus der Praxis</h2>
+          <h2 id="cases-title">Beispiele aus der Praxis<span class="hero__dot">.</span></h2>
           <p>Einblicke in aktuelle Projekte, Workshops und Formate, die in Zusammenarbeit mit Unternehmen entstanden
             sind. Themen, die in der Praxis bewegen – individuell entwickelt und umgesetzt.</p>
         </div>
@@ -725,12 +757,15 @@
           <div class="cases__grid">
             <article class="card reveal" data-js-reveal>
               <h3>Verbindlichkeit als Erfolgsfaktor – Workshop mit der BELLE AG</h3>
-              <p>Auf Wunsch der BELLE AG wurde ein maßgeschneiderter Workshop zum Thema „Verbindlichkeit als
-                Erfolgsfaktor“ entwickelt und durchgeführt.
-                In enger Abstimmung mit dem Unternehmen entstand ein praxisnahes Format, das Führungskräfte und Teams
-                dabei unterstützt, Verbindlichkeit als Kernkompetenz im Arbeitsalltag zu verankern.
-              </p>
+              <div class="card__body" aria-hidden="true">
+                <p>Auf Wunsch der BELLE AG wurde ein maßgeschneiderter Workshop zum Thema „Verbindlichkeit als
+                  Erfolgsfaktor“ entwickelt und durchgeführt.
+                  In enger Abstimmung mit dem Unternehmen entstand ein praxisnahes Format, das Führungskräfte und Teams
+                  dabei unterstützt, Verbindlichkeit als Kernkompetenz im Arbeitsalltag zu verankern.
+                </p>
+              </div>
               <div class="card__actions">
+                <button class="card__link card__toggle" type="button" aria-expanded="false" onclick="return window.toggleCaseCard && window.toggleCaseCard(this);">Mehr anzeigen</button>
                 <a class="card__link" href="mailto:info@hatz-hm.de?subject=Case%20Study%20Anfrage">Mehr
                   erfahren</a>
                 <img class="card__logo" src="Bilder/referenzen/image.png" alt="Projektlogo" loading="lazy" />
@@ -738,12 +773,15 @@
             </article>
             <article class="card reveal" data-js-reveal>
               <h3>Individueller Vortrag auf Anfrage von BOSCH</h3>
-              <p>Gemeinsam mit BOSCH wurde ein interaktiver Vortrag zum Thema „Digitalisierung – Wann unterstützt sie
-                uns?“ entwickelt.
-                Der Vortrag beleuchtete, wie Digitalisierung im Arbeitsalltag sinnvoll eingesetzt werden kann, um
-                Prozesse zu erleichtern, Kommunikation zu fördern und Arbeitsabläufe effizient zu gestalten – ohne den
-                Menschen aus dem Mittelpunkt zu rücken.</p>
+              <div class="card__body" aria-hidden="true">
+                <p>Gemeinsam mit BOSCH wurde ein interaktiver Vortrag zum Thema „Digitalisierung – Wann unterstützt sie
+                  uns?“ entwickelt.
+                  Der Vortrag beleuchtete, wie Digitalisierung im Arbeitsalltag sinnvoll eingesetzt werden kann, um
+                  Prozesse zu erleichtern, Kommunikation zu fördern und Arbeitsabläufe effizient zu gestalten – ohne den
+                  Menschen aus dem Mittelpunkt zu rücken.</p>
+              </div>
               <div class="card__actions">
+                <button class="card__link card__toggle" type="button" aria-expanded="false" onclick="return window.toggleCaseCard && window.toggleCaseCard(this);">Mehr anzeigen</button>
                 <a class="card__link" href="mailto:info@hatz-hm.de?subject=Summit%20Ventures">Mehr erfahren</a>
                 <img class="card__logo" src="Bilder/referenzen/1024px-Bosch-logotype.svg.png" alt="BOSCH Logo"
                   loading="lazy" />
@@ -849,9 +887,6 @@
           </div>
 
           <div class="about__section">
-            <p>Mein beruflicher Weg vereint Technik, Lernen und Persönlichkeitsentwicklung. Die Verbindung von
-              rationaler
-              Präzision und menschlicher Dynamik prägt bis heute meine Arbeit als Coach und Trainer.</p>
             <p>Meine berufliche Laufbahn begann bei Siemens im Bereich Automatisierungstechnik mit den Schwerpunkten
               Inbetriebnahme und Schulung. Parallel dazu absolvierte ich Fortbildungen im Themenfeld Lernen und Lehren,
               insbesondere in Angewandter Kinesiologie, Neuro-Linguistischem Programmieren (NLP), 3in1 Concepts sowie
@@ -913,26 +948,18 @@
         </div>
       </div>
     </section>
-    <section class="section about-quote" aria-labelledby="about-quote-title">
-      <div class="container reveal" data-js-reveal>
-        <h3 id="about-quote-title" class="about__section-title">Meine Haltung</h3>
-        <figure class="about__quote">
-          <blockquote>„Gewonnen wird im Kopf – und verloren auch.“</blockquote>
-        </figure>
-        <p>Erfolg beginnt im Bewusstsein. „Gewonnen wird im Kopf“ bedeutet, die Fähigkeit zu entwickeln, eigene Emotionen
-          bewusst zu steuern, gezielt zu dosieren und konstruktiv zu kanalisieren. Dieses Ursache‑Wirkungs‑Prinzip gilt
-          im Sport, im Business und im privaten Leben gleichermaßen.</p>
-        <p>„Verlieren“ bedeutet dabei kein Scheitern, sondern einen Erkenntnisprozess – eine Chance, zu lernen, zu wachsen
-          und mentale Stärke weiterzuentwickeln.</p>
-      </div>
-    </section>
+    
+    <div class="container"><h2 id="cta-title">Darf ich Sie einladen?<span class="hero__dot">.</span></h2></div>
     <section class="section cta" aria-labelledby="cta-title">
+      <div class="cta__media" aria-hidden="true">
+        <img class="cta__img" src="assets/images/briefzu.png" alt="" loading="lazy" />
+        <img class="cta__img cta__img--alt" src="assets/images/briefoffen.png" alt="" loading="lazy" />
+      </div>
       <div class="container cta__inner reveal" data-js-reveal>
-        <h2 id="cta-title">Darf ich sie einladen?</h2>
         <p>Lernen Sie mich und meine Arbeitsweise in einem unverbindlichen Erstgespräch kennen.
           Gemeinsam klären wir, wo Sie stehen, welche Ziele Sie bewegen – und wie ich Sie dabei unterstützen kann.
         </p>
-        <a class="btn btn--primary" href="#kontakt">Erstgespräch buchen</a>
+        <a class="btn btn--primary" href="#kontakt">Kostenfreies Erstgespräch vereinbaren</a>
       </div>
     </section>
     <section id="faq" class="section faq" aria-labelledby="faq-title">
@@ -951,8 +978,22 @@
               </button>
             </h3>
             <div id="faq-panel-1" class="accordion__panel" role="region" aria-labelledby="faq-trigger-1">
-              <p>Wir klären Ziele, Ausgangslage und Zeitlinie. Anschließend erhalten Sie ein kurzes Konzept mit
-                möglichem Vorgehen und Investitionsrahmen.</p>
+              <p>Ein Coaching‑Erstgespräch (auch Kennenlern‑ oder Orientierungsgespräch genannt) dient dazu, gemeinsam
+                herauszufinden, ob Coach und Coachee zueinander passen, ob Coaching das richtige Format für das Anliegen ist
+                und ob ich als Coach mich für Ihr Thema kompetent fühle. Es bildet die Grundlage für Vertrauen und Klarheit.
+                Weiter …</p>
+              <ul>
+                <li>Klärung organisatorischer Punkte (Dauer, Vertraulichkeit, Datenschutz, ggf. Kosten)</li>
+                <li>„Was möchten Sie mit dem Coaching erreichen?“</li>
+                <li>Ich erläutere meine Herangehensweise, Methoden und möglichen Phasen des Coachings</li>
+                <li>Ggf. eine kurze Mini‑Übung oder Reflexionsfrage, um den Stil erlebbar zu machen</li>
+              </ul>
+              <p>Gegen Ende des Erstgespräches bzw. danach reflektieren beide Seiten:</p>
+              <ul>
+                <li>„Fühlt sich die Zusammenarbeit stimmig an?“</li>
+                <li>„Habe ich Vertrauen und ein gutes Gefühl?“</li>
+              </ul>
+              <p>Entscheidung, ob und wie das Coaching gestartet wird. Ggf. Vereinbarung eines ersten offiziellen Termins.</p>
             </div>
           </div>
           <div class="accordion__item">
@@ -964,79 +1005,125 @@
               </button>
             </h3>
             <div id="faq-panel-2" class="accordion__panel" role="region" aria-labelledby="faq-trigger-2">
-              <p>Sie kontaktieren mich und vereinbaren ein kostenfreies (telefonisches) Erstgespräch. Dabei stellen Sie
-                fest ob die Chemie stimmt.
-                Sie entscheiden über die Zusammenarbeit und auch ob in Präsenz oder Online. Ich bevorzuge und empfehle
-                Ihnen „in Präsenz“.
-                Falls zur Klärung mehrere Termine notwendig sein sollten, melden Sie sich von Termin zu Termin, so wie
-                es Ihnen passt!
-              </p>
+              <ol>
+                <li>
+                  <p><strong>Erstgespräch / Kennenlernen</strong><br>
+                  Ziel: Vertrauen aufbauen, Anliegen verstehen, prüfen, ob Coaching das richtige Format ist.<br>
+                  Ergebnis: Passt oder passt nicht! Ev. Vereinbarung über Beginn und Zielrichtung des Coachings.</p>
+                </li>
+                <li>
+                  <p><strong>Zieldefinition (Sitzung 1)</strong><br>
+                  Ziel: Das Coachingziel konkret formulieren.<br>
+                  Ergebnis: Ein klares, überprüfbares Zielbild („Weg‑von“ → „Hin‑zu“).</p>
+                </li>
+                <li>
+                  <p><strong>Analyse &amp; Standortbestimmung (Sitzung 1)</strong><br>
+                  Ziel: Verstehen, wo die Klientin oder der Klient gerade steht.<br>
+                  Ergebnis: Klarheit über Ausgangssituation und Entwicklungsfelder.</p>
+                </li>
+                <li>
+                  <p><strong>Herangehensweise / Methode (Sitzung 1)</strong><br>
+                  Ziel: Neue Perspektiven, Lösungen und konkrete Schritte entwickeln.<br>
+                  Ergebnis: Verstehen was dahinter steckt. Die Botschaft ist sichtbar und verständlich.</p>
+                </li>
+                <li>
+                  <p><strong>Umsetzung &amp; Begleitung (Sitzung 1, ev. mehrere Sitzungen)</strong><br>
+                  Ziel: Veränderungen in den Alltag integrieren und Erfahrungen reflektieren.</p>
+                  <p><em>Coach‑Rolle:</em> Begleitend, ermutigend, reflektierend – kein Berater, sondern Prozessbegleiter.<br>
+                  Ergebnis: Nachhaltige Entwicklung durch Übung, Reflexion und Eigenverantwortung.</p>
+                </li>
+                <li>
+                  <p><strong>Abschluss &amp; Ausblick</strong><br>
+                  Ziel: Fortschritte sichern, Lernerkenntnisse bewusst machen.<br>
+                  Ergebnis: Gestärktes Selbstvertrauen, klare Zukunftsperspektive, Abschluss des Coachings.</p>
+                </li>
+              </ol>
             </div>
           </div>
           <div class="accordion__item">
             <h3>
               <button class="accordion__trigger" type="button" aria-expanded="false" aria-controls="faq-panel-3"
                 id="faq-trigger-3">
-                <span>Wie lange dauern die Programme?</span>
+                <span>Ist das Coaching ganzheitlich?</span>
                 <span class="accordion__icon" aria-hidden="true"></span>
               </button>
             </h3>
             <div id="faq-panel-3" class="accordion__panel" role="region" aria-labelledby="faq-trigger-3">
-              <p>Einzelcoaching ist auf 3 bis 12 Monate ausgelegt. Teamformate reichen von eintägigen Labs bis zu
-                mehrmonatigen Transformation Journeys.</p>
+              <p>Kund:innen (und Sportler:innen) suchen keine isolierten Fachmodule, sondern ganzheitliche Begleitung,
+                die Leistung UND Lebensqualität integriert. So würden dies wohl die meisten Coaches beschreiben.</p>
+              <p>Ich gehe weiter … Ich beziehe in meinen Coachings Körper, Geist und Seele mit ein.</p>
+              <ul>
+                <li>Geist: Mentales Training</li>
+                <li>Den Körper betrachte ich aus psychosomatischer Sichtweise als Indikator für die Mentalität</li>
+                <li>Seelische Betrachtung braucht Seelenwissen. Damit kann ich dienen.</li>
+              </ul>
             </div>
           </div>
           <div class="accordion__item">
             <h3>
               <button class="accordion__trigger" type="button" aria-expanded="false" aria-controls="faq-panel-4"
                 id="faq-trigger-4">
-                <span>Welche Sprachen bieten Sie an?</span>
+                <span>Wie lässt sich Business Coaching, Workshops, Life Coaching und Mentaltraining im Leistungssport in Einklang bringen? Wie geht das?</span>
                 <span class="accordion__icon" aria-hidden="true"></span>
               </button>
             </h3>
             <div id="faq-panel-4" class="accordion__panel" role="region" aria-labelledby="faq-trigger-4">
-              <p>Alle Programme sind auf Deutsch und Englisch verfügbar, inklusive Hybrid- oder Remote-Formaten.</p>
+              <p>Business Coaching, Life Coaching, Workshops und Mentaltraining sind keine getrennten Welten – sondern
+                Facetten desselben Entwicklungsraums.</p>
+              <h4>Gemeinsamer Kern: Persönliche Entwicklung und Leistungsfähigkeit</h4>
+              <p>Alle vier Bereiche – egal ob Business, Life oder Sport – haben denselben Kern: Menschen dabei
+                unterstützen, ihr Potenzial unter realen Bedingungen besser zu nutzen. Sie unterscheiden sich nicht in der
+                Grundmechanik, sondern im Kontext und Zielsystem.</p>
+              <ul>
+                <li><strong>Business Coaching</strong>
+                  <ul>
+                    <li>Fokus: Berufliche Leistung, Führung, Kommunikation</li>
+                    <li>Typische Ziele: Effektiver führen, Konflikte lösen, Entscheidungen treffen</li>
+                  </ul>
+                </li>
+                <li><strong>Workshops</strong>
+                  <ul>
+                    <li>Fokus: Gruppenlernen, Wissenstransfer</li>
+                    <li>Typische Ziele: Verständnis &amp; Anwendung neuer Konzepte</li>
+                  </ul>
+                </li>
+                <li><strong>Life Coaching</strong>
+                  <ul>
+                    <li>Fokus: Persönliche Entwicklung, Werte, Balance</li>
+                    <li>Typische Ziele: Selbstwirksamkeit, Sinn, Lebensqualität</li>
+                  </ul>
+                </li>
+                <li><strong>Mentaltraining im Sport</strong>
+                  <ul>
+                    <li>Fokus: Leistung unter Druck, mentale Stärke</li>
+                    <li>Typische Ziele: Fokus, Motivation, Regeneration</li>
+                  </ul>
+                </li>
+              </ul>
+              <p><strong>Verbindendes Element:</strong> Selbstreflexion, mentale Klarheit, Zielorientierung,
+                Ressourcenaktivierung, Umgang mit Druck.</p>
+              <p>Das heißt: Ich arbeite in allen Bereichen mit denselben psychologischen/mentalen Grundprinzipien – nur
+                mit unterschiedlicher Sprache und Zielrichtung.</p>
+              <h4>Authentizität &amp; Erfahrung</h4>
+              <p>Da ich in allen Bereichen aus Erfahrung spreche (z. B. mit Business‑, Coaching‑ oder Sporthintergrund),
+                kann ich die Kontexte verbinden.</p>
             </div>
           </div>
           <div class="accordion__item">
             <h3>
               <button class="accordion__trigger" type="button" aria-expanded="false" aria-controls="faq-panel-5"
                 id="faq-trigger-5">
-                <span>Arbeiten Sie auch international?</span>
+                <span>Aus welchen Bereichen kann ich Anfragen für Vorträge bzw. Workshops stellen?</span>
                 <span class="accordion__icon" aria-hidden="true"></span>
               </button>
             </h3>
             <div id="faq-panel-5" class="accordion__panel" role="region" aria-labelledby="faq-trigger-5">
-              <p>Ja, wir begleiten Führungs- und Projektteams weltweit – remote oder vor Ort, in enger Abstimmung mit
-                lokalen Stakeholdern.</p>
+              <p>Immer wenn der Mensch bzw. Menschen im Mittelpunkt stehen. Sei es Menschenkenntnis, Motivation,
+                Stressmanagement, Werte, Veränderung – all das, was uns Menschen betrifft. Und ich transferiere dieses Wissen
+                auf Ihren Kontext.</p>
             </div>
           </div>
-          <div class="accordion__item">
-            <h3>
-              <button class="accordion__trigger" type="button" aria-expanded="false" aria-controls="faq-panel-6"
-                id="faq-trigger-6">
-                <span>Wie messen Sie den Erfolg?</span>
-                <span class="accordion__icon" aria-hidden="true"></span>
-              </button>
-            </h3>
-            <div id="faq-panel-6" class="accordion__panel" role="region" aria-labelledby="faq-trigger-6">
-              <p>Wir definieren zu Beginn konkrete Impact-Metriken, ergänzen diese durch Feedback-Loops und
-                dokumentieren Fortschritte transparent.</p>
-            </div>
-          </div>
-          <div class="accordion__item">
-            <h3>
-              <button class="accordion__trigger" type="button" aria-expanded="false" aria-controls="faq-panel-7"
-                id="faq-trigger-7">
-                <span>Gibt es Vertraulichkeitsvereinbarungen?</span>
-                <span class="accordion__icon" aria-hidden="true"></span>
-              </button>
-            </h3>
-            <div id="faq-panel-7" class="accordion__panel" role="region" aria-labelledby="faq-trigger-7">
-              <p>Diskretion ist für uns essenziell. Wir arbeiten grundsätzlich mit individuellen NDAs und sichern
-                Datenhaltung nach EU-Standards.</p>
-            </div>
-          </div>
+          
           <div class="accordion__item">
             <h3>
               <button class="accordion__trigger" type="button" aria-expanded="false" aria-controls="faq-panel-8"
@@ -1046,7 +1133,7 @@
               </button>
             </h3>
             <div id="faq-panel-8" class="accordion__panel" role="region" aria-labelledby="faq-trigger-8">
-              <p>Investitionen variieren je nach Umfang. Einzelne Sessions starten bei 850 €; Programme werden modular
+              <p>Investitionen variieren je nach Umfang. Einzelne Sessions starten bei 120 Euro zzgl. MwSt; Programme werden modular
                 kalkuliert.</p>
             </div>
           </div>
@@ -1057,7 +1144,7 @@
       <div class="container contact__layout">
         <div class="contact__copy">
           <h2 id="contact-title">Kontakt aufnehmen</h2>
-          <p>Lassen Sie uns Ihre Herausforderung kennenlernen. Wir melden uns innerhalb von 24 Stunden zurück.</p>
+          <p>Lassen Sie uns Ihre Herausforderung kennenlernen. Ich melde mich bei ihnen umgehend zurück.</p>
           <dl class="contact__details">
             <div>
               <dt>E-Mail</dt>
@@ -1106,7 +1193,7 @@
         <h2 class="sr-only">Fußzeilen-Navigation</h2>
         <ul>
           <li><a href="/#angebot">Angebot</a></li>
-          <li><a href="/#referenzen">Referenzen</a></li>
+          <li><a href="/referenzen/">Referenzen</a></li>
           <li><a href="/#methode">Methode</a></li>
           <li><a href="/#ueber">Über</a></li>
           <li><a href="/#faq">FAQ</a></li>

@@ -54,6 +54,9 @@
   font-size: 16px;
 }
 
+/* Disable overscroll bounce where supported (helps on modern iOS Safari) */
+html, body { overscroll-behavior-y: none; }
+
 /* Einheitliches Box-Modell, beugt Überläufen vor */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -319,7 +322,8 @@ svg {
   border-radius: var(--radius-sm);
   transform: translateY(-150%);
   transition: transform var(--speed-fast) ease;
-  z-index: 999;
+  /* Keep skip link above sticky header */
+  z-index: 3000;
 }
 
 .skip-link:focus-visible {
@@ -357,6 +361,19 @@ svg {
   margin-block-start: var(--section-gap);
 }
 
+/* Direktes Anschließen: Kein äußerer Abstand zwischen Trustbar und Angebot */
+.trustbar + #angebot {
+  margin-block-start: 0;
+  /* noch tiefer: mehr Luft unter der Trustbar */
+  padding-block-start: clamp(5rem, 11vw, 9rem);
+}
+
+/* Angebot: größere Überschrift */
+#angebot .offer__header h2 {
+  font-size: clamp(2.6rem, 6vw, 4rem);
+  line-height: 1.05;
+}
+
 .section__head {
   display: grid;
   gap: var(--space-xs);
@@ -367,6 +384,19 @@ svg {
   max-width: 48ch;
   color: var(--muted-current, var(--muted));
 }
+
+/* CTA-Überschrift oberhalb des grünen Abschnitts: mittig und größer */
+#cta-title {
+  text-align: center;
+  font-size: clamp(2.6rem, 6vw, 3.6rem);
+  line-height: 1.06;
+  /* mehr Luft nach oben und moderater Abstand nach unten */
+  margin: clamp(var(--space-xl), 6vw, var(--space-2xl)) 0 clamp(var(--space-md), 3vw, var(--space-lg));
+  position: relative;
+  z-index: 20; /* Überschrift stets vor dem Umschlag */
+}
+
+/* roter Punkt am Ende wie bei anderen Überschriften: via .hero__dot im Markup */
 
 .btn {
   display: inline-flex;
@@ -408,7 +438,8 @@ svg {
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.42), 0 16px 32px -18px rgba(225, 67, 63, 0.58);
   transition: transform 200ms var(--hero-ease), opacity 180ms var(--hero-ease), box-shadow 220ms var(--hero-ease),
     background-color 220ms var(--hero-ease);
-  z-index: 999;
+  /* Ensure the red cursor dot sits above header and mobile menu */
+  z-index: 4000;
   will-change: transform, opacity;
 }
 
@@ -492,6 +523,35 @@ body.has-custom-cursor .site-logo {
   gap: var(--space-2xs);
   font-weight: 600;
 }
+.card__toggle {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: var(--space-2xs) var(--space-sm);
+  color: inherit;
+  font: inherit;
+  border: 1px solid currentColor;
+  border-radius: var(--radius-md);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Match ghost button interaction */
+.card__toggle:hover,
+.card__toggle:focus-visible { color: var(--primary); border-color: var(--primary); }
+
+/* Mentalität: Toggle-Buttons optisch wie Buttons */
+.mentality-card__toggle {
+  appearance: none;
+  background: none;
+  border: 1px solid currentColor;
+  border-radius: var(--radius-md);
+  padding: var(--space-2xs) var(--space-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.mentality-card__toggle:hover,
+.mentality-card__toggle:focus-visible { color: var(--primary); border-color: var(--primary); }
 
 /* Card actions row with logo to the right of the button */
 .card__actions {
@@ -520,6 +580,14 @@ body.has-custom-cursor .site-logo {
 
   .cases__grid > .card:first-child .card__logo {
     height: 52px;
+  }
+  /* Headline sofort sichtbar (keine Fade/Slide-In-Animation auf Mobile) */
+  .hero-animate[data-hero-stage="slogan"] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .hero[data-hero-active="true"] .hero-animate[data-hero-stage="slogan"] {
+    animation: none !important;
   }
 }
 
@@ -563,7 +631,8 @@ body.has-custom-cursor .site-logo {
   position: sticky;
   top: 0;
   inset-inline: 0;
-  z-index: 900;
+  /* Raise above all content so the dropdown inside isn't hidden */
+  z-index: 2500;
   width: 100%;
   background-color: var(--surface-current, var(--surface));
   transition: background-color var(--speed-slow) ease, box-shadow var(--speed-slow) ease,
@@ -708,7 +777,8 @@ body.has-custom-cursor .site-logo {
   cursor: pointer;
   box-shadow: none;
   position: relative;
-  z-index: 20;
+  /* Keep the toggle above the dropdown menu */
+  z-index: 2700;
   margin: 0;
 }
 
@@ -744,15 +814,18 @@ body.has-custom-cursor .site-logo {
   justify-self: center;
   align-self: center;
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  inset: 0; /* full-viewport overlay */
+  transform: none;
   background: var(--surface-current, var(--surface));
   backdrop-filter: none;
-  z-index: 10;
+  z-index: 2600; /* under the toggle, above page */
   display: none;
   padding: calc(var(--header-height) + var(--space-lg)) var(--space-md) var(--space-xl);
   box-shadow: 0 18px 28px -20px rgba(12, 24, 36, 0.35);
+  border-radius: 0;
+  width: auto;
+  max-height: none;
+  overflow-y: auto;
 }
 
 /* Force fully opaque background for the mobile menu */
@@ -777,6 +850,32 @@ body[data-theme="dark"] .site-nav {
   align-content: start;
 }
 
+/* Mobile: Subnav unter "Angebot" als Dropdown mit Plus-Toggle */
+@media (max-width: 899.98px) {
+  .site-nav__item.has-submenu { position: relative; width: 100%; }
+  .site-nav__item.has-submenu > .site-nav__link { display: block; text-align: center; width: 100%; }
+  .site-subnav__toggle {
+    position: absolute;
+    right: var(--space-sm);
+    top: 50%;
+    transform: translateY(-50%);
+    appearance: none;
+    border: 1px solid rgba(127, 140, 169, 0.25);
+    background: rgba(127, 140, 169, 0.06);
+    color: inherit;
+    border-radius: var(--radius-sm);
+    width: 34px;
+    height: 34px;
+    display: inline-grid;
+    place-items: center;
+    cursor: pointer;
+  }
+  .site-subnav__icon { font-size: 1.1rem; line-height: 1; }
+  .site-subnav { list-style: none; margin: var(--space-xs) 0 0 0; padding: 0; display: none; gap: var(--space-2xs); justify-items: center; }
+  .site-nav__item.has-submenu.is-open > .site-subnav { display: grid; }
+  .site-subnav > li > a { text-transform: none; letter-spacing: 0.02em; font-size: clamp(0.92rem, 0.5vw + 0.86rem, 1rem); padding: 0.2rem 0.4rem; display: inline-block; }
+}
+
 .site-nav__cta {
   margin-top: clamp(var(--space-sm), 6vw, var(--space-lg));
   width: min(20rem, 80vw);
@@ -791,6 +890,11 @@ body[data-theme="dark"] .site-nav {
 
 .site-nav.is-open {
   display: block;
+}
+
+/* Prevent background scroll when the nav is open */
+body.is-nav-open {
+  overflow: hidden;
 }
 
 .site-header__cta {
@@ -870,6 +974,14 @@ body[data-theme="dark"] .site-nav {
   --hero-band-dynamic-offset: 0px;
   --hero-band-overlap: 4px;
   --hero-band-horizontal-margin: var(--layout-gutter);
+}
+
+/* Startseite: Weniger Abstand unter dem Portrait-Bereich, damit die Trustbar näher rückt */
+#hero {
+  /* Hero auf Inhalts-Höhe, damit Trustbar oben genau am Portrait startet */
+  min-height: auto;
+  /* Unterkante bündig mit Trustbar-Beginn (keine Lücke) */
+  padding-block-end: 0;
 }
 
 .hero__inner {
@@ -1009,6 +1121,7 @@ body[data-theme="dark"] .site-nav {
   margin-right: auto;
   z-index: 1;
   pointer-events: none;
+  will-change: transform, opacity;
 }
 
 .hero__portrait {
@@ -1031,11 +1144,7 @@ body[data-theme="dark"] .site-nav {
 }
 
 .hero__accent--horizontal {
-  bottom: clamp(-0.25rem, -0.6vw, -0.15rem);
-  right: clamp(-0.35rem, -0.8vw, -0.18rem);
-  left: clamp(-6rem, -14vw, -3.2rem); /* gekürzt: weniger weit nach links */
-  height: clamp(2px, 0.55vw, 5px);
-  transform-origin: right center;
+  display: none;
 }
 
 
@@ -1043,6 +1152,8 @@ body[data-theme="dark"] .site-nav {
   .hero__media {
     margin-left: clamp(-12rem, -28vw, -7.8rem);
     margin-right: auto;
+    /* Portrait nicht anheben; bündig nach unten ausrichten */
+    margin-top: 0;
   }
 }
 
@@ -1060,6 +1171,7 @@ body[data-theme="dark"] .site-nav {
   display: block;
   width: 100%;
   height: auto;
+  transform: translateZ(0);
 }
 
 .hero-animate {
@@ -1161,7 +1273,10 @@ body[data-theme="dark"] .site-nav {
   html,
   body {
     overflow-x: hidden;
+    /* Deaktiviert Bounce/Over-Scroll in beide Richtungen */
+    overscroll-behavior: none;
     overscroll-behavior-x: none;
+    overscroll-behavior-y: none;
     max-width: 100vw;
   }
 
@@ -1290,13 +1405,15 @@ body[data-theme="dark"] .site-nav {
   .hero__copy {
     max-width: 100%;
     padding-right: 0;
-    gap: clamp(1.4rem, 5vw, 2rem);
+    gap: clamp(0.9rem, 3.5vw, 1.4rem);
     justify-items: flex-start;
     text-align: left;
   }
 
   .hero__profile {
     max-width: 100%;
+    /* Mehr Abstand zum Button-Block darunter (Mobile) */
+    margin-bottom: clamp(1.2rem, 6vw, 2rem);
   }
 
   .hero__headline,
@@ -1312,7 +1429,7 @@ body[data-theme="dark"] .site-nav {
   .hero__headline {
     font-size: clamp(2.4rem, 9.5vw, 3.6rem);
     line-height: 1.05;
-    margin-bottom: clamp(1.8rem, 6vw, 2rem);
+    margin-bottom: clamp(1rem, 5vw, 1.4rem);
   }
 
   .hero__headline-inner {
@@ -1321,8 +1438,8 @@ body[data-theme="dark"] .site-nav {
 
   .hero__name {
     font-size: clamp(1.2rem, 4.8vw, 1.8rem);
-    gap: clamp(0.2rem, 2vw, 0.5rem);
-    margin-bottom: clamp(1.4rem, 5vw, 1.6rem);
+    gap: clamp(0.15rem, 1.8vw, 0.35rem);
+    margin-bottom: clamp(0.6rem, 2.8vw, 0.9rem);
   }
 
   .hero__name-main {
@@ -1343,18 +1460,20 @@ body[data-theme="dark"] .site-nav {
 
   .hero__media {
     justify-self: center;
-    align-self: center;
+    align-self: end; /* Bild an Unterkante ausrichten */
     width: var(--hero-portrait-width);
     margin-left: 0;
+    margin-bottom: 0; /* bündig zur Trustbar */
   }
 
   .hero__actions {
     width: 100%;
-    max-width: min(340px, 82vw);
+    max-width: 100%;
     flex-direction: column;
     align-items: stretch;
-    gap: clamp(0.75rem, 4vw, 1rem);
-    margin-top: clamp(1rem, 4vw, 1.25rem);
+    gap: clamp(0.6rem, 3.5vw, 0.9rem);
+    margin-top: clamp(0.6rem, 3vw, 0.9rem);
+    justify-self: start; /* linksbündig */
   }
 
   .hero__inner {
@@ -1395,13 +1514,14 @@ body[data-theme="dark"] .site-nav {
 
   .hero__media {
     grid-area: hero-media;
-    margin: clamp(0.5rem, 4vw, 1.2rem) auto clamp(0.4rem, 3.5vw, 0.9rem);
+    margin: clamp(0.5rem, 4vw, 1.2rem) auto 0; /* kein Spalt am unteren Rand */
+    align-self: end;
   }
 
   .hero__actions {
     grid-area: hero-actions;
-    justify-self: center;
-    width: min(340px, 90vw);
+    justify-self: start; /* linksbündig */
+    width: 100%;
   }
 
   .hero__actions .btn {
@@ -1464,18 +1584,32 @@ body[data-theme="dark"] .site-nav {
 
 @media (max-width: 540px) {
   .hero {
-    --hero-portrait-width: clamp(240px, 78vw, 320px);
+    --hero-portrait-width: clamp(300px, 92vw, 420px);
     --hero-band-base-offset: 0px;
     --hero-band-thickness: clamp(2px, 1vw, 5px);
     --hero-band-horizontal-margin: clamp(var(--space-md), 14vw, var(--space-2xl));
     --hero-band-overlap: 3px;
+    padding-block-start: calc(var(--header-height) + 0.25rem);
+    padding-block-end: 0; /* bündig zur Trustbar ohne Spalt */
+    min-height: auto;
   }
 
   .hero__copy {
     max-width: 100%;
-    gap: clamp(1.2rem, 6vw, 1.8rem);
+    gap: clamp(0.8rem, 4vw, 1.2rem);
     justify-items: flex-start;
     text-align: left;
+  }
+
+  /* Mobile: Reihenfolge anpassen: Titel -> Buttons -> Name -> Portrait */
+  .hero__inner {
+    grid-template-columns: 1fr;
+    gap: clamp(0.2rem, 1.8vw, 0.5rem); /* noch enger zwischen Text und Portrait */
+    grid-template-areas:
+      "hero-headline"
+      "hero-profile"
+      "hero-actions"
+      "hero-media";
   }
 
   .hero__headline,
@@ -1487,28 +1621,52 @@ body[data-theme="dark"] .site-nav {
 
   .hero__profile {
     max-width: 100%;
+    /* dichter an das Portrait heran – fast Überlappung */
+    margin-top: clamp(0.7rem, 3vw, 1.1rem);
+    margin-bottom: clamp(-0.8rem, -3vw, -0.2rem);
   }
 
   .hero__headline {
     font-size: clamp(2.3rem, 4.6vw + 1.3rem, 3.4rem);
-    line-height: 1.05;
-    margin-bottom: clamp(1.8rem, 6vw, 2rem);
+    line-height: 1.12; /* mehr Zeilenhöhe für Unterlängen (g, j, p, q, y) */
+    margin-bottom: clamp(0.4rem, 2.2vw, 0.8rem);
+    overflow: hidden; /* für Marquee-Effekt auf einer Zeile */
+    padding-bottom: clamp(2px, 0.8vw, 8px); /* verhindert Abschneiden der Unterkanten */
   }
 
   .hero__headline-inner {
-    gap: clamp(0.35rem, 3vw, 0.6rem);
+    flex-direction: row;
+    flex-wrap: nowrap; /* alles in eine Zeile */
+    gap: clamp(0.6rem, 4vw, 1rem);
+    white-space: nowrap;
+    width: max-content;
+    animation: heroMarquee 8s linear infinite;
+    will-change: transform;
   }
+  .hero__headline-inner .hero__headline-line { display: inline; white-space: nowrap; }
+  .hero__headline-inner .hero__headline-line:nth-child(3) { flex-basis: auto; }
 
-  /* Startseite: Portrait auf Handy leicht weiter nach rechts rücken */
+  /* Startseite: Portrait auf Handy weiter nach rechts rücken */
   #hero .hero__media {
     position: relative;
-    left: 8px;
+    left: 0;
+    top: 0; /* keine Überlappung; Strich bleibt sichtbar */
+  }
+
+  /* Mobile: Portrait-Animation neu – von unten nach oben, ohne Abdunkeln */
+  .hero-animate[data-hero-stage="portrait"] {
+    transform: translateY(32px) scale(1);
+    filter: none;
+    opacity: 0;
+  }
+  .hero[data-hero-active="true"] .hero-animate[data-hero-stage="portrait"] {
+    animation: heroPortraitUp 1000ms cubic-bezier(0.16, 1, 0.3, 1) 80ms forwards !important;
   }
 
   .hero__name {
     font-size: clamp(1.2rem, 4.2vw + 0.4rem, 1.6rem);
-    gap: clamp(0.2rem, 3vw, 0.45rem);
-    margin-bottom: clamp(1.3rem, 5vw, 1.5rem);
+    gap: clamp(0.15rem, 2vw, 0.35rem);
+    margin-bottom: clamp(0.2rem, 1.5vw, 0.4rem);
   }
 
   .hero__name-main {
@@ -1528,19 +1686,50 @@ body[data-theme="dark"] .site-nav {
     text-align: left;
   }
 
+  /* Mobile: Sub-Text im Hero ausblenden, damit alles weiter nach oben rutscht */
+  #hero .hero__sub {
+    display: none;
+    margin: 0;
+  }
+
   .hero__media {
     grid-area: hero-media;
     width: var(--hero-portrait-width);
-    opacity: 0.95;
-    margin: clamp(0.4rem, 3.5vw, 1rem) auto clamp(0.4rem, 3.5vw, 1rem);
+    /* Voll sichtbar, damit keine verdunkelten PNG-Ränder entstehen */
+    opacity: 1;
+    /* stärker nach oben ziehen (gültige clamp-Reihenfolge: min < max) */
+    margin: clamp(-1.8rem, -4vw, -0.9rem) auto 0;
+    align-self: end;
+  }
+
+  /* Akzentlinie auf Mobile immer sichtbar innerhalb des Bildcontainers */
+  .hero__accent--horizontal { display: none; }
+
+  /* PNG-Rand auf Mobile unsichtbar halten: Schatten/Glow hinter dem Bild entfernen */
+  .hero__portrait::after {
+    content: none;
+  }
+
+  /* Zusätzlich: Drop-Shadow auf Mobile entfernen, um Halos am Rand zu vermeiden */
+  .hero__portrait {
+    filter: none;
+  }
+
+  /* Verschwommenes Hintergrund-Haar: tiefer (~20%) und etwas kleiner */
+  body::after {
+    /* Noch tiefer auf Mobile setzen */
+    top: 8vh;
+    width: clamp(680px, 90vw, 1200px);
+    height: clamp(680px, 90vw, 1200px);
   }
 
   .hero__actions {
     grid-area: hero-actions;
-    width: min(320px, 92vw);
+    width: 100%;
     max-width: 100%;
-    gap: clamp(0.75rem, 4vw, 1rem);
-    justify-self: center;
+    gap: clamp(0.35rem, 2vw, 0.6rem);
+    justify-self: start; /* linksbündig */
+    margin-top: clamp(0.5rem, 3vw, 0.9rem); /* dichter */
   }
 
   .hero__actions .btn {
@@ -1561,6 +1750,28 @@ body[data-theme="dark"] .site-nav {
     width: clamp(3rem, 12vw, 3.4rem);
     height: clamp(3rem, 12vw, 3.4rem);
   }
+  /* Duplikat nur mobil einblenden, sonst verstecken */
+  .hero__headline-dup { display: inline !important; }
+  /* Desktop-Breath-Animation auf Mobile überschreiben: nur Marquee laufen lassen */
+  .hero-animate[data-hero-stage="slogan"] { opacity: 1 !important; transform: none !important; }
+  .hero[data-hero-active="true"] .hero-animate[data-hero-stage="slogan"] { animation: none !important; }
+  .hero[data-hero-active="true"] .hero__headline-inner { animation: heroMarquee 8s linear infinite !important; }
+}
+
+/* Standard: Duplikat ausblenden (nur mobil nutzen) */
+.hero__headline-dup { display: none; }
+
+/* Marquee-Animation nur für Mobile benutzt */
+@keyframes heroMarquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Mobile: neue Portrait-Animation von unten nach oben */
+@keyframes heroPortraitUp {
+  0% { opacity: 0; transform: translateY(32px) scale(1); filter: none; }
+  60% { opacity: 1; transform: translateY(8px) scale(1); filter: none; }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: none; }
 }
 
 @keyframes heroSloganIn {
@@ -1675,8 +1886,50 @@ body[data-theme="dark"] .site-nav {
 .trustbar {
   position: relative;
   display: grid;
+  grid-template-rows: auto 1fr auto; /* Logos oben, Platz in der Mitte, Button unten */
   gap: clamp(var(--space-3xs), 1vw, var(--space-sm));
-  padding-block: clamp(var(--space-3xs), 1.2vw, var(--space-2xs));
+  /* Inhalt noch etwas tiefer starten */
+  padding-block-start: clamp(var(--space-xs), 2vw, var(--space-md));
+  /* Button ganz unten mit leichtem Randabstand: unten nur wenig Padding */
+  padding-block-end: clamp(0.25rem, 1vw, 0.6rem);
+  /* Flacher: Blau nicht so tief */
+  min-height: clamp(180px, 18vw, 320px);
+  /* Standard (Light): Baby-Blauton wie im Abschnitt "Aktuelles & Beispiele aus der Praxis" */
+  background: #cfe2f3;
+}
+
+/* Trustbar Theme-Overrides analog zum Footer */
+body[data-theme="light"] .trustbar {
+  background: #cfe2f3;
+}
+
+body[data-theme="dark"] .trustbar {
+  /* Dunkle Blau-Nuance wie im Footer-Dark */
+  background: #0a2342;
+}
+
+/* Trustbar direkt unter dem Hero deutlich näher heranrücken */
+#hero + .trustbar {
+  /* direkt unter den Hero (Portrait-Unterkante) */
+  margin-block-start: 0;
+}
+
+/* Weicher Übergang von Trustbar (hellblau) zu Angebot: Fade im oberen Bereich von #angebot */
+#angebot {
+  position: relative;
+  /* Light: Babyblau (Trustbar) nach transparent ausblenden */
+  background: linear-gradient(
+    to bottom,
+    #cfe2f3 0%,
+    rgba(207, 226, 243, 0) clamp(64px, 10vw, 200px)
+  );
+}
+body[data-theme="dark"] #angebot {
+  background: linear-gradient(
+    to bottom,
+    #0a2342 0%,
+    rgba(10, 35, 66, 0) clamp(64px, 10vw, 200px)
+  );
 }
 
 .trustbar__marquee {
@@ -1687,44 +1940,43 @@ body[data-theme="dark"] .site-nav {
 
 .trustbar__copy {
   display: grid;
-  justify-items: center;
-  text-align: center;
-  gap: clamp(var(--space-md), 5vw, var(--space-2xl));
-  margin-top: clamp(var(--space-lg), 6vw, var(--space-2xl));
+  justify-items: end; /* rechtsbündig */
+  text-align: right;
+  gap: 0;
+  /* Button an das untere Ende der Trustbar setzen */
+  grid-row: 3;
+  align-self: end;
+  margin-top: 0;
 }
 
-.trustbar__heading {
-  display: grid;
-  gap: clamp(var(--space-2xs), 1.8vw, var(--space-md));
-  justify-items: center;
-}
-
-.trustbar__headline {
-  display: grid;
-  gap: clamp(var(--space-2xs), 1.2vw, var(--space-sm));
-  justify-items: center;
-  text-align: center;
-}
-
-.trustbar__headline h2 {
-  margin: 0;
-}
-
-.trustbar__headline p {
-  margin: 0;
-  max-width: min(52ch, 90vw);
-}
+/* Überschrift und Text entfernt – nur Button bleibt */
 
 .trustbar__cta {
-  min-width: clamp(9rem, 18vw, 11rem);
-  justify-self: center;
+  min-width: clamp(9rem, 16vw, 11rem);
+  justify-self: end;
+  /* dezenter Ghost-Button auf Blau: heller Rahmen/Text */
+  color: #ffffff;
+  border-color: rgba(255,255,255,0.9);
+  /* etwas kleiner */
+  font-size: clamp(0.86rem, 0.3vw + 0.8rem, 0.95rem);
+  padding: var(--space-2xs) var(--space-sm);
+  /* etwas höher vom unteren Rand positionieren */
+  margin-bottom: clamp(1rem, 2.4vw, 1.6rem);
+}
+
+.trustbar__cta:hover,
+.trustbar__cta:focus-visible {
+  color: #ffffff;
+  border-color: #ffffff;
+  transform: translateY(-1px);
 }
 
 .logo-marquee {
   overflow: hidden;
   position: relative;
   width: 100%;
-  margin-top: clamp(var(--space-2xs), 1.6vw, var(--space-sm));
+  /* nur etwas tiefer als zuvor */
+  margin-top: clamp(var(--space-xs), 2vw, var(--space-md));
 }
 
 .logo-marquee__mask {
@@ -1738,6 +1990,8 @@ body[data-theme="dark"] .site-nav {
   align-items: center;
   gap: clamp(var(--space-md), 4vw, var(--space-xl));
   will-change: transform;
+  /* Fallback/CSS-Marquee: sorgt für Bewegung auch wenn JS stoppt */
+  animation: quote-marquee-scroll 16s linear infinite;
 }
 
 .logo-marquee__item {
@@ -1763,6 +2017,41 @@ body[data-theme="dark"] .site-nav {
   width: auto;
   object-fit: contain;
   display: block;
+}
+
+/* Mobile: Logos in der Trustbar etwas größer darstellen */
+@media (max-width: 540px) {
+  /* Mobile: Hide original mailto action, show toggle when injected */
+  .cases__grid > .card .card__actions .card__link[href^="mailto:"] { display: none; }
+  .cases__grid > .card .card__toggle { display: inline-flex; }
+  /* When open: show mailto as "Mehr erfahren" */
+  .cases__grid > .card.is-open .card__actions .card__link[href^="mailto:"] { display: inline-flex; }
+  /* Hide direct paragraphs initially until JS wraps them */
+  .cases__grid > .card > p { display: none; }
+  /* Actions row: left button, right logo aligned */
+  .cases__grid > .card .card__actions {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: clamp(0.5rem, 3vw, 0.8rem);
+    flex-wrap: nowrap;
+  }
+  .cases__grid > .card .card__logo {
+    position: static;
+    margin-left: auto;
+    height: clamp(36px, 8vw, 44px);
+  }
+  .trustbar { padding-block-start: clamp(0rem, 1.5vw, 0.5rem); }
+  .logo-marquee__item {
+    min-width: clamp(180px, 60vw, 240px);
+    padding: clamp(var(--space-2xs), 2.2vw, var(--space-sm));
+  }
+
+  .logo-marquee__item img {
+    height: clamp(58px, 14vw, 96px);
+    max-width: clamp(180px, 52vw, 260px);
+  }
 }
 
 .logo-marquee__fallback .badge {
@@ -2112,6 +2401,37 @@ body[data-theme="dark"] .method__block--quote blockquote {
   gap: var(--space-md);
 }
 
+/* Actions der ersten zwei Cards kompakt nebeneinander (alle Viewports) */
+.cases__grid > .card:nth-child(-n+2) .card__actions {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.35rem, 1.2vw, 0.6rem);
+  flex-wrap: nowrap;
+}
+.cases__grid > .card:nth-child(-n+2) .card__actions .card__link,
+.cases__grid > .card:nth-child(-n+2) .card__actions .card__toggle {
+  font-size: clamp(0.82rem, 0.3vw + 0.78rem, 0.95rem);
+  padding: var(--space-3xs) var(--space-xs);
+  border: 1px solid currentColor;
+  border-radius: var(--radius-md);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.cases__grid > .card:nth-child(-n+2) .card__actions .card__link:hover,
+.cases__grid > .card:nth-child(-n+2) .card__actions .card__link:focus-visible,
+.cases__grid > .card:nth-child(-n+2) .card__actions .card__toggle:hover,
+.cases__grid > .card:nth-child(-n+2) .card__actions .card__toggle:focus-visible {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+/* Größere Überschrift für "Beispiele aus der Praxis" */
+#cases #cases-title {
+  font-size: clamp(2.2rem, 5.5vw, 3.4rem);
+  line-height: 1.08;
+}
+
 /* Linke Cards: Überschrift/Copy-Abstände stark verringern */
 .cases__grid > .card {
   gap: var(--space-3xs);
@@ -2144,6 +2464,35 @@ body[data-theme="dark"] .method__block--quote blockquote {
   font-size: clamp(0.9rem, 0.4vw + 0.84rem, 1rem);
   line-height: 1.45;
 }
+
+/* Cases cards: collapsible body via toggle */
+.cases__grid > .card .card__body {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: max-height 320ms ease, opacity 240ms ease, transform 240ms ease;
+}
+
+.cases__grid > .card.is-open .card__body {
+  max-height: 1000px; /* groß genug, damit kompletter Text sichtbar wird */
+  opacity: 1;
+  transform: translateY(0);
+  overflow: visible;
+}
+
+.cases__grid > .card .card__toggle[aria-expanded="true"] {
+  font-weight: 600;
+}
+
+/* Abschnitt-Hintergrund bei "Aktuelles & Beispiele aus der Praxis" entfernen */
+.cases { background: transparent; }
+/* Auch alle Hüllen im Bereich transparent halten (Karten behalten ihren eigenen Hintergrund) */
+.cases .container,
+.cases__layout,
+.cases__right,
+.cases__right .section__head { background: transparent; }
+
 
 .carousel {
   position: relative;
@@ -2272,9 +2621,7 @@ body[data-theme="dark"] .method__block--quote blockquote {
 
 .sticky-layout .col-left { position: relative; }
 .sticky-layout .col-left .sticky-box {
-  /* Reines CSS-Sticky; JS berechnet nur die mittige Top-Position */
-  position: sticky;
-  top: var(--sticky-top, var(--sticky-offset, 96px));
+  position: static;
 }
 
 /* Robust Sticky direkt am Porträt-Container */
@@ -2282,21 +2629,24 @@ body[data-theme="dark"] .method__block--quote blockquote {
   margin: 0;
 }
 
-@media (min-width: 769px) {
+@media (min-width: 1024px) {
+  /* JS steuert das Fixieren vollständig – keinen CSS-Sticky nutzen */
+  .sticky-layout .col-left .sticky-box { position: static; }
   .sticky-layout .col-left .portrait img {
     max-width: 100%;
     height: auto;
-    /* Bild immer vollständig sichtbar: Viewport minus aktuelle Top-Position */
-    max-height: calc(100vh - var(--sticky-top, var(--sticky-offset, 96px)));
+    /* Luft oben (top: 2rem) + Platz für Caption (~4.5rem) unten */
+    max-height: calc(100vh - 2rem - 4.5rem);
     object-fit: cover;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
   .about__layout {
     grid-template-columns: minmax(0, 1fr);
   }
   .sticky-layout .col-left { position: static; }
+  .sticky-layout .about__media { position: static; }
   .sticky-layout .col-left .sticky-box { position: static; }
   .sticky-layout .col-left .portrait {
     position: static;
@@ -2311,7 +2661,13 @@ body[data-theme="dark"] .method__block--quote blockquote {
   top: var(--sticky-offset, 96px);
   left: var(--sticky-left, 0px);
   width: var(--sticky-width, auto);
-  height: calc(100vh - var(--sticky-offset, 96px));
+}
+
+.sticky-layout .col-left .sticky-box.is-fixed-bottom {
+  position: fixed;
+  bottom: var(--sticky-offset, 96px);
+  left: var(--sticky-left, 0px);
+  width: var(--sticky-width, auto);
 }
 
 .sticky-layout .col-left .sticky-box.is-bottom {
@@ -2320,7 +2676,6 @@ body[data-theme="dark"] .method__block--quote blockquote {
   right: 0;
   bottom: 0;
   width: 100%;
-  height: calc(100vh - var(--sticky-offset, 96px));
 }
 
 .portrait {
@@ -2334,10 +2689,20 @@ body[data-theme="dark"] .method__block--quote blockquote {
   height: auto;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-elev-2);
-  background: rgba(127, 140, 169, 0.15);
+  /* Hintergrund in Weiß für saubere Kartenoptik, keine Farbe */
+  background: #fff;
+}
+
+/* Bildunterschrift unter dem Porträt */
+.portrait figcaption {
+  font-size: 0.85rem;
+  color: #444;
+  text-align: center;
+  line-height: 1.4;
 }
 
 /* About: zentrierter, begrenzter Abschnitt */
+.about { overflow: visible; }
 .about .container {
   max-width: 1200px;
   margin-inline: auto;
@@ -2346,6 +2711,15 @@ body[data-theme="dark"] .method__block--quote blockquote {
 /* Lesbarkeit in der rechten Spalte steigern */
 .about__copy {
   max-width: 68ch;
+}
+
+/* About: nur die rechte Textspalte hellblau hinterlegen */
+/* Entferne hellblauen Hintergrund in der rechten Textspalte (Über mich) */
+body[data-theme="light"] .about__copy,
+body[data-theme="dark"] .about__copy {
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
 }
 
 /* Mehr Luft zwischen Porträt/Caption und "Mentale Haltung" in der linken Spalte */
@@ -2412,7 +2786,10 @@ body[data-theme="dark"] .method__block--quote blockquote {
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 0.55rem 0.9rem;
+  /* gleiche kompakte Höhe/Optik wie der CTA "Erstgespräch sichern" */
+  padding: var(--space-3xs) var(--space-xs);
+  border: 1px solid currentColor;
+  border-radius: var(--radius-md);
 }
 
 .disclosure {
@@ -2437,35 +2814,131 @@ body[data-theme="dark"] .method__block--quote blockquote {
 
 .cta {
   position: relative;
-  color: #ffffff;
+  color: var(--fg-current, var(--fg));
   text-align: center;
-  padding-block: clamp(var(--space-xl), 8vw, var(--space-2xl));
-  overflow: hidden;
+  /* wieder größer, aber nicht ganz so hoch wie anfangs */
+  padding-block-start: clamp(var(--space-xl), 8vw, var(--space-2xl));
+  padding-block-end: clamp(4rem, 12vw, 14rem);
+  overflow: visible; /* Bild darf herausragen */
+  /* Hintergrundbild wird via ::before gelegt, damit es unten transparent ausfaden kann */
+  background: none;
 }
 
-/* Verschwommenes Hintergrundbild (Wald) + dezente Overlay-Tönung */
+/* Hintergrundbild mit echter Transparenz nach unten (nur Bild wird ausgeblendet, Inhalt bleibt deckend) */
 .cta::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: url("../images/wald.jpg") center / cover no-repeat;
-  filter: blur(8px);
-  transform: scale(1.06); /* Blur-Ränder vermeiden */
-  z-index: -2;
+  background: url("../images/natur.jpg") center / cover no-repeat;
+  z-index: 0;
+  pointer-events: none;
+  /* Längerer, weicherer Fade nach unten: beginnt früher und läuft bis 100% */
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgba(0,0,0,0) 100%);
+          mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgba(0,0,0,0) 100%);
+}
+/* Dark Mode: Hintergrundbild stärker abdunkeln */
+body[data-theme="dark"] .cta::before {
+  filter: brightness(0.5) contrast(1.05) saturate(0.9);
 }
 
-.cta::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(31, 60, 136, 0.55), rgba(212, 175, 55, 0.35));
-  z-index: -1;
-}
+/* Kein Overlay-Gradient unten: Transparenz entsteht durch Mask des Hintergrundbilds */
+.cta::after { display: none; content: none; }
+/* Dark-Mode nutzt automatisch var(--bg-current) */
 
 .cta__inner {
   display: grid;
   gap: var(--space-sm);
   justify-items: center;
+  position: relative; /* Heading above images */
+  z-index: 3;
+}
+/* CTA: Fließtext in dunklem Grau statt Schwarz */
+.cta__inner p { color: #444; }
+
+/* Mobile: CTA höher und Umschlag mittig über dem Text platzieren */
+@media (max-width: 540px) {
+  .cta {
+    /* grünen Bereich deutlich vergrößern (ca. doppelt) */
+    padding-block-start: clamp(var(--space-3xl), 28vw, var(--space-4xl));
+    padding-block-end: clamp(8rem, 36vw, 16rem);
+  }
+  .cta__media {
+    position: relative; /* im Fluss, damit Text darunter liegt */
+    top: 0;
+    right: auto;
+    left: auto;
+    margin: 0 auto;
+    width: clamp(180px, 65vw, 360px);
+    height: clamp(180px, 65vw, 360px);
+    transform-origin: top center;
+    transform: none;
+    z-index: 1; /* unter #cta-title, Text folgt darunter */
+    margin-bottom: clamp(6rem, 24vw, 12rem); /* viel tiefer: großer Abstand zum Text */
+  }
+  /* Text unter dem Umschlag, mehr Abstand */
+  .cta__inner { z-index: 2; gap: clamp(var(--space-md), 5vw, var(--space-xl)); margin-top: 0; }
+  .cta__inner p { margin-top: clamp(1.2rem, 6vw, 2rem); }
+  .cta__inner .btn { margin-top: clamp(1.8rem, 8vw, 3rem); }
+  /* Bildausrichtung beim Crossfade mittig halten (kein Rechtsversatz) */
+  .cta__media img { object-fit: contain; object-position: center top; }
+  /* Aktivierung behält Zentrierung + Skaliert beim Öffnen */
+  .cta:is(:hover, :focus-within) .cta__media,
+  .cta.is-activated .cta__media {
+    transform: scale(1.12);
+  }
+  /* Wenn geöffnet, zusätzlichen Abstand geben, damit nichts überlappt */
+  .cta.is-activated .cta__media { margin-bottom: clamp(8rem, 30vw, 16rem); }
+}
+
+/* CTA: Textbereich schmaler (ca. halbe Breite auf Desktop) */
+@media (min-width: 900px) {
+  .cta__inner p {
+    max-width: 50%;
+  }
+}
+
+/* CTA – Briefbild oben rechts mit Cross‑Fade und Scale auf Hover */
+.cta__media {
+  position: absolute;
+  top: -4rem; /* noch höher positionieren */
+  right: clamp(var(--space-md), 6vw, var(--space-2xl));
+  width: clamp(180px, 26vw, 340px);
+  height: clamp(180px, 26vw, 340px); /* größere Box für prominenteres Bild */
+  z-index: 2;
+  transform-origin: bottom right;
+}
+/* beide Bilder exakt deckungsgleich platzieren */
+.cta__media img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: right bottom; transition: opacity 280ms ease, transform 320ms ease; }
+.cta__img { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.cta__img--alt { position: absolute; inset: 0; z-index: 2; opacity: 0; pointer-events: none; }
+
+/* CTA title size */
+.cta__inner h2 { font-size: clamp(2.2rem, 4.8vw, 3rem); line-height: 1.08; }
+
+/* Hover/focus effect and programmatic activation (.is-activated) */
+.cta:is(:hover, :focus-within),
+.cta.is-activated {}
+.cta:is(:hover, :focus-within) .cta__media,
+.cta.is-activated .cta__media { transform: scale(1.12); }
+.cta:is(:hover, :focus-within) .cta__img--alt,
+.cta.is-activated .cta__img--alt { opacity: 1; }
+.cta:is(:hover, :focus-within) .cta__media .cta__img:not(.cta__img--alt),
+.cta.is-activated .cta__media .cta__img:not(.cta__img--alt) { opacity: 0; }
+
+/* Mobile (strong override placed AFTER base CTA rules):
+   - Keep envelope in normal flow at top
+   - Push text + button far below
+   - Ensure crossfade stays centered (no right shift)
+*/
+@media (max-width: 540px) {
+  .cta { padding-block-start: clamp(var(--space-2xl), 22vw, var(--space-3xl)); padding-block-end: clamp(7rem, 30vw, 14rem); }
+  .cta__media { position: relative !important; top: 0 !important; left: auto !important; right: auto !important; margin: 0 auto; width: clamp(180px, 65vw, 360px); height: clamp(180px, 65vw, 360px); transform-origin: top center; transform: none !important; z-index: 1; margin-bottom: clamp(4.5rem, 18vw, 9rem); }
+  .cta__media img { object-fit: contain !important; object-position: center top !important; }
+  .cta__inner { z-index: 2; gap: clamp(var(--space-md), 5vw, var(--space-xl)); }
+  .cta__inner p { margin-top: clamp(0.9rem, 5vw, 1.6rem); }
+  .cta__inner .btn { margin-top: clamp(1.4rem, 7vw, 2.4rem); }
+  .cta:is(:hover, :focus-within) .cta__media, .cta.is-activated .cta__media { transform: scale(1.12) !important; }
+  .cta.is-activated .cta__media { margin-bottom: clamp(6rem, 24vw, 12rem); }
 }
 
 .faq .accordion {
@@ -2829,6 +3302,11 @@ body[data-theme="dark"] .site-footer__copyright {
     padding: 0;
     justify-self: center;
     width: auto;
+    transform: none;
+    box-shadow: none;
+    border-radius: 0;
+    max-height: none;
+    overflow: visible;
   }
 
   .site-nav__list {
@@ -2933,6 +3411,8 @@ body[data-theme="dark"] .site-footer__copyright {
   .nav-toggle {
     display: none;
   }
+  /* Hide mobile-only subnav toggle on desktop */
+  .site-subnav__toggle { display: none; }
 
   .hero__inner {
     grid-template-columns: minmax(0, 1.12fr) minmax(320px, 0.88fr);
@@ -2959,8 +3439,262 @@ body[data-theme="dark"] .site-footer__copyright {
     padding-inline: clamp(var(--space-md), 5vw, var(--space-2xl));
   }
 }
+
+/* Sicherstellen: In der Sticky-About-Section bleiben Grid-Items am oberen Rand ausgerichtet */
+@media (min-width: 1024px) {
+  .sticky-layout .about__layout { align-items: start; }
+}
 .about__copy #about-title {
   font-size: clamp(2.4rem, 4.2vw + 1.2rem, 3.6rem); /* deutlich größer mit rotem Punkt */
   line-height: 1.05;
   margin: 0;
+}
+/* Mentality (Method) section */
+.mentality__wrap { display: grid; gap: clamp(1.6rem, 4vw, 2.6rem); }
+.mentality__head { display: grid; gap: clamp(0.4rem, 1.6vw, 0.9rem); }
+.mentality__head h2 {
+  margin: 0;
+  /* ein Tick kleiner als zuvor */
+  font-size: clamp(3.1rem, 5.2vw, 5.2rem);
+  font-weight: 800;
+  line-height: 0.97;
+  letter-spacing: -0.015em;
+}
+/* Panels: nur der geöffnete Inhalt bekommt Hintergrund */
+.mentality { background: transparent; }
+body[data-theme="dark"] .mentality { background: transparent; }
+
+/* Active panel content on baby blue */
+.mentality__panel.is-active .mentality__grid {
+  background: #cfe2f3;
+  border-radius: var(--radius-md);
+  padding: clamp(var(--space-sm), 3vw, var(--space-lg));
+  position: relative;
+}
+body[data-theme="dark"] .mentality__panel.is-active .mentality__grid {
+  background: #0a2342;
+}
+
+/* Reduce line spacing inside the opened panel so text is more compact */
+.mentality__panel.is-active .mentality__copy {
+  gap: clamp(0.35rem, 1.4vw, 0.6rem);
+}
+.mentality__panel.is-active .mentality__copy p,
+.mentality__panel.is-active .mentality__copy li {
+  line-height: 1.45;
+  margin-bottom: clamp(0.25rem, 1vw, 0.5rem);
+}
+
+/* New two-column cards layout for Mentality */
+.mentality__cards {
+  display: grid;
+  gap: clamp(1.2rem, 3vw, 2rem);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  position: relative;
+  z-index: 0; /* create stacking context for full-bleed background */
+  /* oben moderat, unten mehr Platz, damit Fade großzügig auslaufen kann */
+  padding-block-start: clamp(var(--space-md), 4vw, var(--space-xl));
+  /* deutlich mehr Tiefe nach unten für einen längeren Fade-Bereich */
+  padding-block-end: clamp(10rem, 18vw, 32rem);
+  background: none; /* background handled by ::before full-bleed */
+}
+@media (max-width: 768px) {
+  .mentality__cards { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Full-bleed background: solid baby blue at top, fades to transparent downwards */
+.mentality__cards::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw; /* extend beyond container to screen edges */
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  /* Babyblau beginnt erst weiter unten auszufaden und hat mehr Raum nach unten */
+  background: linear-gradient(to bottom, #cfe2f3 0%, #cfe2f3 85%, rgba(207,226,243,0) 100%);
+}
+
+/* Dark Mode: same concept with dark tone */
+body[data-theme="dark"] .mentality__cards::before {
+  background: linear-gradient(to bottom, #0a2342 0%, #0a2342 85%, rgba(10,35,66,0) 100%);
+}
+
+/* Desktop: früher mit Transparenz beginnen für längeren, weicheren Fade */
+@media (min-width: 769px) {
+  .mentality__cards::before {
+    background: linear-gradient(to bottom, #cfe2f3 0%, #cfe2f3 65%, rgba(207,226,243,0) 100%);
+  }
+  body[data-theme="dark"] .mentality__cards::before {
+    background: linear-gradient(to bottom, #0a2342 0%, #0a2342 65%, rgba(10,35,66,0) 100%);
+  }
+}
+
+.mentality-card__grid {
+  display: grid;
+  gap: clamp(0.9rem, 2.5vw, 1.4rem);
+  grid-template-columns: minmax(0, 1.1fr) minmax(220px, 0.9fr);
+  align-items: center;
+}
+@media (max-width: 768px) {
+  .mentality-card__grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+.mentality-card__body {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: max-height 320ms ease, opacity 240ms ease, transform 240ms ease;
+}
+.mentality-card.is-open .mentality-card__body {
+  max-height: 2000px;
+  opacity: 1;
+  transform: translateY(0);
+}
+.mentality-card__visual {
+  /* Show the visual thumbnail by default next to the teaser */
+  max-height: none;
+  opacity: 1;
+  overflow: visible;
+}
+.mentality-card.is-open .mentality-card__visual {
+  /* Keep same state when opened to avoid layout jump */
+  max-height: none;
+  opacity: 1;
+}
+.mentality-card__actions { margin-top: clamp(0.4rem, 1.6vw, 0.9rem); }
+
+/* Close button inside panel (top-right) */
+.mentality__close {
+  position: absolute;
+  top: clamp(0.4rem, 1.2vw, 0.8rem);
+  right: clamp(0.4rem, 1.2vw, 0.8rem);
+  appearance: none;
+  border: 1px solid rgba(10,35,66,0.2);
+  background: rgba(255,255,255,0.8);
+  color: #0a2342;
+  border-radius: var(--radius-sm);
+  padding: 0.2rem 0.5rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+body[data-theme="dark"] .mentality__close {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  border-color: rgba(255,255,255,0.25);
+}
+
+/* Placeholder under tabs when nothing open */
+.mentality__placeholder {
+  display: none;
+  text-align: center;
+  color: var(--muted-current, var(--muted));
+  margin: clamp(0.6rem, 2vw, 1rem) 0;
+}
+.mentality__placeholder.is-visible { display: block; }
+.mentality__sub {
+  margin: 0 0 clamp(0.6rem, 1.6vw, 1rem);
+  color: color-mix(in srgb, var(--fg-current, var(--fg)) 70%, transparent);
+  font-size: clamp(0.98rem, 0.35vw + 0.92rem, 1.05rem); /* wie Hero-Sub */
+  line-height: 1.5;
+  max-width: clamp(320px, 75%, 36rem);
+}
+
+.mentality__tabs { display: inline-flex; gap: clamp(0.35rem, 1.2vw, 0.75rem); flex-wrap: wrap; }
+.mentality__tab {
+  /* Button-Design an Plattform-Buttons angelehnt */
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  padding: var(--space-2xs) var(--space-md);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: var(--surface-current, var(--surface));
+  color: inherit;
+  transition: background-color var(--speed-med) ease, color var(--speed-med) ease,
+    box-shadow var(--speed-med) ease, border-color var(--speed-med) ease, transform var(--speed-fast) ease;
+}
+.mentality__tab[data-offer-target="sport"] { background: #cfe2f3; color: #0a2342; border-color: rgba(10,35,66,0.18); }
+.mentality__tab[data-offer-target="business"] { background: var(--primary); color: var(--bg); border-color: var(--primary); }
+.mentality__tab[data-offer-target="sport"].is-active { background: #cfe2f3; color: #0a2342; }
+.mentality__tab[data-offer-target="business"].is-active { background: var(--primary); color: var(--bg); }
+.mentality__tab[data-offer-target="business"]:hover, .mentality__tab[data-offer-target="business"]:focus-visible { filter: brightness(1.05); }
+.mentality__tab[data-offer-target="sport"]:hover, .mentality__tab[data-offer-target="sport"]:focus-visible { filter: brightness(0.98); }
+.mentality__tab:hover, .mentality__tab:focus-visible { border-color: rgba(10,35,66,0.28); box-shadow: var(--shadow-elev-1); }
+.mentality__tab.is-active { border-color: rgba(10,35,66,0.28); box-shadow: var(--shadow-elev-1); }
+
+.mentality__panels { position: relative; }
+/* Robuster Panelswitch: nur Opacity animieren; hidden erzwingen */
+.mentality__panel { display: none; opacity: 0; transition: opacity 220ms ease; pointer-events: none; }
+.mentality__panel.is-active { display: block; opacity: 1; pointer-events: auto; }
+.mentality__panel.is-exiting { display: block; opacity: 0; pointer-events: none; }
+.mentality__panel[hidden] { display: none !important; }
+
+.mentality__grid { display: grid; gap: clamp(1.2rem, 3vw, 2rem); align-items: center; grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr); }
+@media (max-width: 768px) { .mentality__grid { grid-template-columns: minmax(0,1fr); } }
+
+.mentality__copy { display: grid; gap: clamp(0.6rem, 2vw, 1rem); }
+.mentality__panel-title { margin: 0; font-size: clamp(1.2rem, 0.8vw + 1rem, 1.6rem); }
+.mentality__list { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.3rem; }
+.mentality__quote { margin: 0.4rem 0; }
+.mentality__quote blockquote { margin: 0; font-weight: 700; color: #0a2342; }
+.mentality__core { font-weight: 600; }
+
+.mentality__visual { min-height: clamp(220px, 36vw, 420px); display: grid; place-items: center; }
+.mentality-illustration { width: min(100%, 520px); height: clamp(220px, 36vw, 420px); border-radius: 18px; box-shadow: var(--shadow-elev-2); position: relative; overflow: hidden; }
+.mentality-illustration--sport { background: linear-gradient(180deg, #dfeeff 0%, #cfe2f3 100%); }
+.mentality-illustration--sport::after { content:""; position:absolute; inset:10% 6%; border-radius: 24px; border: 2px solid rgba(31,60,136,0.25); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4); transform: rotate(-3deg); }
+.mentality-illustration--business { background: linear-gradient(180deg, #eef3fb 0%, #dfe7f7 100%); }
+.mentality-illustration--business::after { content:""; position:absolute; inset:12% 8%; border-radius: 50%; border: 2px dashed rgba(31,60,136,0.25); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.35); }
+/* Visual image placeholder for Sport panel */
+.mentality__visual .mentality__image {
+  display: block;
+  width: min(100%, 520px);
+  height: clamp(220px, 36vw, 420px);
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow: var(--shadow-elev-2);
+}
+/* Ensure card visuals are small thumbnails, visible beside the teaser */
+.mentality-card__visual { justify-self: end; }
+.mentality-card__visual .mentality__image {
+  display: block;
+  width: 100%;
+  max-width: 260px; /* small thumbnail */
+  height: auto;
+  border-radius: 12px;
+  box-shadow: var(--shadow-elev-2);
+}
+
+.mentality__footer { display:grid; justify-items:center; gap: clamp(0.8rem, 2.4vw, 1.2rem); margin-top: clamp(1.6rem, 4vw, 2.4rem); }
+.mentality__closing { margin:0; color:#0a2342; font-size: clamp(1.1rem, 0.8vw + 1rem, 1.35rem); text-align:center; }
+@media (min-width: 541px) {
+  /* Desktop/Tablet: Toggle nicht anzeigen */
+  .cases__grid > .card .card__toggle { display: none !important; }
+}
+/* Desktop/Tablet: Toggle für die ersten zwei Cards sichtbar halten */
+@media (min-width: 541px) {
+  .cases__grid > .card:nth-child(-n+2) .card__toggle { display: inline-flex; }
+}
+/* Desktop & Mobile: Für die ersten zwei Cards (links) initial Text/Link verstecken */
+.cases__grid > .card:nth-child(-n+2) > p { display: none; }
+.cases__grid > .card:nth-child(-n+2) .card__actions .card__link[href^="mailto:"] { display: none; }
+.cases__grid > .card:nth-child(-n+2).is-open .card__actions .card__link[href^="mailto:"] { display: inline-flex; }
+/* Toggle für die ersten zwei Cards immer anzeigen */
+.cases__grid > .card:nth-child(-n+2) .card__toggle { display: inline-flex; }
+/* Ensure desktop shows the 'Mehr anzeigen' toggle on the first two case cards */
+.cases__grid > .card:nth-child(-n+2) .card__toggle {
+  display: inline-flex !important;
+}
+
+/* Make the mentality toggle look like other 'Mehr anzeigen' links and clickable */
+.mentality-card__toggle.card__link {
+  cursor: pointer;
+  align-items: center;
 }

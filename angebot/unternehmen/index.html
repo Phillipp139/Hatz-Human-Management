@@ -56,6 +56,21 @@
       color: #fff;
     }
 
+    .company-link--talks:hover,
+    .company-link--talks:focus-visible {
+      background: #e9812d;
+      border-color: rgba(233, 129, 45, 0.65);
+      color: #0a2342;
+      box-shadow: 0 22px 36px -24px rgba(233, 129, 45, 0.55);
+    }
+
+    .company-link--talks:hover .company-link__title,
+    .company-link--talks:focus-visible .company-link__title,
+    .company-link--talks:hover .company-link__text,
+    .company-link--talks:focus-visible .company-link__text {
+      color: #0a2342;
+    }
+
     .company-link__title {
       font-size: clamp(1.05rem, 0.6vw + 1rem, 1.3rem);
       font-weight: 600;
@@ -100,19 +115,26 @@
     <div class="site-header__inner-wrap">
       <div class="site-header__inner">
         <div class="site-header__brand">
-          <a class="site-logo" href="/#hero" aria-label="Zur Startsektion">
-            <span class="site-logo__mark" aria-hidden="true"></span>
-            <span>HATZ-Human Management</span>
-          </a>
+        <a class="site-logo" href="/index.html#hero" aria-label="Zur Startsektion">
+          <span class="site-logo__mark" aria-hidden="true"></span>
+          <img class="site-logo__text" src="../../Bilder/Logolinks.png" alt="HATZ Human-Management" />
+        </a>
         </div>
         <nav class="site-nav" aria-label="Hauptnavigation" data-js-nav data-focus-trap>
           <ul id="primary-navigation" class="site-nav__list">
-            <li><a href="/#angebot" aria-current="page">Angebot</a></li>
-            <li><a href="/#referenzen">Referenzen</a></li>
-            <li><a href="/#methode">Methodik</a></li>
-            <li><a href="/#ueber">Über</a></li>
-            <li><a href="/#faq">FAQ</a></li>
-            <li><a href="/#kontakt">Kontakt</a></li>
+            <li class="site-nav__item has-submenu">
+              <a href="/index.html#angebot" class="site-nav__link" aria-haspopup="true" aria-expanded="false">Angebot</a>
+              <ul class="site-subnav" aria-label="Untermenü Angebot">
+                <li><a href="/angebot/unternehmen/">Für Unternehmen</a></li>
+                <li><a href="/angebot/sportler/">Für Sportler</a></li>
+                <li><a href="/angebot/privatpersonen/">Für Privatpersonen</a></li>
+              </ul>
+            </li>
+            <li><a href="/referenzen/">Referenzen</a></li>
+            <li><a href="/index.html#methode">Methodik</a></li>
+            <li><a href="/index.html#ueber">Über</a></li>
+            <li><a href="/index.html#faq">FAQ</a></li>
+            <li><a href="/index.html#kontakt">Kontakt</a></li>
             <li class="site-nav__cta"><a class="btn btn--primary" href="/#kontakt">Erstgespräch</a></li>
           </ul>
         </nav>
@@ -154,7 +176,7 @@
     <section class="section company-offer" aria-labelledby="page-title">
       <div class="container">
         <p class="breadcrumb" aria-label="Brotkrumenpfad">
-          <a href="/#angebot">Angebot</a>
+          <a href="/index.html#angebot">Angebot</a>
           <span aria-hidden="true"> › </span>
           <span>Unternehmen</span>
         </p>
@@ -177,7 +199,7 @@
             <span class="company-link__title">Coaching</span>
             <p class="company-link__text">Individuelles Sparring für C-Level, Projektleitungen und Rollen mit besonderer Verantwortung.</p>
           </a>
-          <a class="company-link" href="./interaktive-vortraege.html">
+          <a class="company-link company-link--talks" href="./interaktive-vortraege.html">
             <span class="company-link__title">interaktive Vorträge</span>
             <p class="company-link__text">Keynotes, die Haltung und Momentum erzeugen – live oder digital.</p>
           </a>

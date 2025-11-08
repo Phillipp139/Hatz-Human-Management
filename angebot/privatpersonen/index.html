@@ -5,7 +5,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Angebot Privatpersonen – Platzhalter | HATZ-Human Management</title>
-  <meta name="description" content="Platzhalterbeschreibung für das Angebot Privatpersonen von HATZ-Human Management." />
+  <meta name="description"
+    content="Platzhalterbeschreibung für das Angebot Privatpersonen von HATZ-Human Management." />
   <meta property="og:title" content="Angebot Privatpersonen – HATZ-Human Management" />
   <meta property="og:description" content="Platzhalterinhalt für die Angebotsseite Privatpersonen." />
   <meta property="og:type" content="website" />
@@ -13,6 +14,145 @@
   <meta property="og:image" content="https://www.rainer-leadership.de/assets/img/og-image.jpg" />
   <link rel="stylesheet" href="../../assets/fonts/WEB/css/plein.css" />
   <link rel="stylesheet" href="../../assets/css/style.css" />
+  <style>
+    :root {
+      --private-card-green: #22b07d;
+      --private-card-mustard: #c89a3c;
+      --private-hero-gap: clamp(1.6rem, 4vw, 2.6rem);
+    }
+
+    .private-hero {
+      padding: clamp(2.2rem, 6vw, 3.4rem) 0 clamp(3rem, 7vw, 4.6rem);
+    }
+
+    .private-hero__container {
+      display: grid;
+      gap: var(--private-hero-gap);
+      justify-items: center;
+    }
+
+    .private-hero__heading {
+      display: grid;
+      gap: clamp(1rem, 3vw, 1.6rem);
+      text-align: center;
+      max-width: 68ch;
+    }
+
+    .private-hero__heading h1 {
+      margin: 0;
+      font-size: clamp(2.6rem, 2.8vw + 2rem, 3.6rem);
+    }
+
+    .private-hero__heading p {
+      margin: 0;
+      line-height: 1.65;
+      color: rgba(10, 35, 66, 0.85);
+    }
+
+    .private-hero__visual {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: min(100%, 600px);
+      aspect-ratio: 4 / 5;
+    }
+
+    .private-hero__portrait {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+    }
+
+    .private-hero__portrait img {
+      width: clamp(260px, 45vw, 560px);
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 28px 48px rgba(12, 52, 94, 0.32));
+      transform: translateY(-12%);
+    }
+
+    .private-hero__card {
+      position: absolute;
+      display: inline-grid;
+      justify-items: center;
+      align-content: center;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 600;
+      font-size: clamp(1.38rem, 0.68vw + 1.28rem, 1.68rem);
+      border-radius: 28px;
+      padding: clamp(1.96rem, 5vw, 2.68rem) clamp(2.35rem, 6.6vw, 3.64rem);
+      color: #0a2342;
+      z-index: 1;
+      box-shadow: 0 28px 56px -26px rgba(10, 35, 66, 0.5);
+      opacity: 0.96;
+    }
+
+    .private-hero__card span {
+      display: block;
+      line-height: 1.1;
+      text-align: center;
+    }
+
+    .private-hero__card span+span {
+      margin-top: 0.2em;
+    }
+
+    .private-hero__card--live {
+      right: clamp(-16%, -6vw, -10%);
+      top: clamp(36%, 21vw, 42%);
+      background: var(--private-card-green);
+      color: #fff;
+    }
+
+    .private-hero__card--business {
+      left: clamp(-14%, -5vw, -8%);
+      top: clamp(36%, 21vw, 42%);
+      background: #1f3c88;
+      color: #fff;
+    }
+
+    .private-hero__card::after {
+      content: "";
+      position: absolute;
+      inset: -10%;
+      border-radius: inherit;
+      background: inherit;
+      opacity: 0.15;
+      filter: blur(28px);
+      z-index: -1;
+    }
+
+    .private-hero__meta {
+      display: grid;
+      gap: clamp(0.6rem, 2vw, 1rem);
+      text-align: center;
+      max-width: 60ch;
+      color: rgba(10, 35, 66, 0.78);
+    }
+
+    .private-hero__meta p {
+      margin: 0;
+      line-height: 1.62;
+    }
+
+    @media (max-width: 640px) {
+      .private-hero__visual {
+        width: min(100%, 460px);
+      }
+
+      .private-hero__card {
+        font-size: clamp(1.18rem, 1.2vw + 1rem, 1.4rem);
+        padding: clamp(1.68rem, 6vw, 2.24rem) clamp(2.05rem, 7vw, 2.8rem);
+      }
+
+      .private-hero__card--business,
+      .private-hero__card--live {
+        top: clamp(40%, 30vw, 48%);
+      }
+    }
+  </style>
 </head>
 
 <body data-theme="light">
@@ -29,7 +169,7 @@
         <nav class="site-nav" aria-label="Hauptnavigation" data-js-nav data-focus-trap>
           <ul id="primary-navigation" class="site-nav__list">
             <li><a href="/#angebot" aria-current="page">Angebot</a></li>
-            <li><a href="/#referenzen">Referenzen</a></li>
+            <li><a href="/referenzen/">Referenzen</a></li>
             <li><a href="/#methode">Methodik</a></li>
             <li><a href="/#ueber">Über</a></li>
             <li><a href="/#faq">FAQ</a></li>
@@ -72,15 +212,44 @@
   </header>
 
   <main id="main-content">
-    <section class="section" aria-labelledby="page-title">
-      <div class="container">
-        <p class="breadcrumb" aria-label="Brotkrumenpfad">
-          <a href="/#angebot">Angebot</a>
-          <span aria-hidden="true"> › </span>
-          <span>Privatpersonen</span>
-        </p>
-        <h1 id="page-title">Angebot für Privatpersonen</h1>
-        <p>Platzhalterinhalt: Hier folgen bald Details zu Coachingangeboten für Privatpersonen.</p>
+    <section class="section private-hero" aria-labelledby="page-title">
+      <div class="container private-hero__container">
+        <div class="private-hero__heading">
+          <p class="breadcrumb" aria-label="Brotkrumenpfad">
+            <a href="/#angebot">Angebot</a>
+            <span aria-hidden="true"> › </span>
+            <span>Privatpersonen</span>
+          </p>
+          <h1 id="page-title">Coaching für Privatpersonen</h1>.
+          <p>Sie möchten Ihr eigenes Potenzial gezielter nutzen, Fähigkeiten und Techniken weiterentwickeln,
+            professioneller im Umgang mit anderen werden.
+            Egal, ob Krisenmanagement oder Persönlichkeitsentwicklung - Coaching ist die effektivste Form des Lernens.
+            Durch die persönliche, ganz individuelle Betreuung lernen Sie, eigene Denk- und Handlungsmuster deutlich zu
+            erkennen. Sie werden sensibilisiert im Erkennen von immateriellen Zusammenhängen. Darauf aufbauend
+            entwickeln Sie mit Unterstützung des Coachs alternative Muster, so dass Sie Ihre angestrebten Ziele
+            verwirklichen können.</p>
+        </div>
+        <div class="private-hero__visual" aria-hidden="true">
+          <span class="private-hero__card private-hero__card--business">
+            <span>Business</span>
+            <span>Coaching</span>
+          </span>
+          <div class="private-hero__portrait">
+            <img src="../../assets/images/PoertaitSakko-Photoroom.png" alt="Rainer Hatz" />
+          </div>
+          <span class="private-hero__card private-hero__card--live">
+            <span>Life</span>
+            <span>Coaching</span>
+          </span>
+        </div>
+        <div class="private-hero__meta">
+          <p>Coaching ist ein individueller Unterstützungsprozess. Es wird für ein breites Spektrum an Themen und
+            Lebensbereichen eingesetzt, von Karriereentwicklung und Stressbewältigung bis hin zu persönlichen
+            Beziehungen und Lebensübergängen. Im Coaching geht es um Klarheit für das neue Denken bzw. neue Verhalten.
+            Es geht darum aus einem Problem oder Schmerz, wohl am besten bevor starker Schmerz entsteht, in die
+            Erkenntnis zu kommen. Diese Erkenntnis umzusetzen und über die daraus entstandene neue Erfahrung sich
+            weiterzuentwickeln.</p>
+        </div>
       </div>
     </section>
   </main>
@@ -98,8 +267,7 @@
         <ul class="site-footer__social">
           <li><a href="https://www.linkedin.com/in/rainer-hatz-a41a6711b/"
               aria-label="LinkedIn Profil von HATZ-Human Management">LinkedIn</a></li>
-          <li><a href="mailto:info@hatz-hm.de"
-              aria-label="E-Mail an HATZ-Human Management senden">E-Mail</a></li>
+          <li><a href="mailto:info@hatz-hm.de" aria-label="E-Mail an HATZ-Human Management senden">E-Mail</a></li>
         </ul>
         <ul class="site-footer__legal">
           <li><a href="../../legal/impressum.html">Impressum</a></li>

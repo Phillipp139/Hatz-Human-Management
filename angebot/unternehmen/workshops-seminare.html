@@ -99,14 +99,9 @@
     }
 
     .hero__portrait--compact .hero__accent--horizontal {
-      left: clamp(-6rem, -12vw, -4rem);
+      left: clamp(-3.5rem, -7vw, -2.2rem);
       right: clamp(-0.3rem, -0.6vw, -0.18rem);
       height: clamp(2px, 0.35vw, 4px);
-    }
-
-    .hero__portrait--compact .hero__accent--vertical {
-      height: clamp(5.4rem, 15vw, 8.4rem);
-      width: clamp(3px, 0.35vw, 5px);
     }
 
     .workshop-grid {
@@ -382,19 +377,26 @@
     <div class="site-header__inner-wrap">
       <div class="site-header__inner">
         <div class="site-header__brand">
-          <a class="site-logo" href="/#hero" aria-label="Zur Startsektion">
+        <a class="site-logo" href="/index.html#hero" aria-label="Zur Startsektion">
             <span class="site-logo__mark" aria-hidden="true"></span>
-            <span>HATZ-Human Management</span>
+            <img class="site-logo__text" src="../../Bilder/Logolinks.png" alt="HATZ Human-Management" />
           </a>
         </div>
         <nav class="site-nav" aria-label="Hauptnavigation" data-js-nav data-focus-trap>
           <ul id="primary-navigation" class="site-nav__list">
-            <li><a href="/#angebot" aria-current="page">Angebot</a></li>
-            <li><a href="/#referenzen">Referenzen</a></li>
-            <li><a href="/#methode">Methodik</a></li>
-            <li><a href="/#ueber">Über</a></li>
-            <li><a href="/#faq">FAQ</a></li>
-            <li><a href="/#kontakt">Kontakt</a></li>
+            <li class="site-nav__item has-submenu">
+              <a href="/index.html#angebot" class="site-nav__link" aria-haspopup="true" aria-expanded="false">Angebot</a>
+              <ul class="site-subnav" aria-label="Untermenü Angebot">
+                <li><a href="/angebot/unternehmen/">Für Unternehmen</a></li>
+                <li><a href="/angebot/sportler/">Für Sportler</a></li>
+                <li><a href="/angebot/privatpersonen/">Für Privatpersonen</a></li>
+              </ul>
+            </li>
+            <li><a href="/referenzen/">Referenzen</a></li>
+            <li><a href="/index.html#methode">Methodik</a></li>
+            <li><a href="/index.html#ueber">Über</a></li>
+            <li><a href="/index.html#faq">FAQ</a></li>
+            <li><a href="/index.html#kontakt">Kontakt</a></li>
             <li class="site-nav__cta"><a class="btn btn--primary" href="/#kontakt">Erstgespräch</a></li>
           </ul>
         </nav>
@@ -437,7 +439,7 @@
       <div class="container page-hero__grid">
         <div class="page-hero__copy">
           <p class="breadcrumb" aria-label="Brotkrumenpfad">
-            <a href="/#angebot">Angebot</a>
+            <a href="/index.html#angebot">Angebot</a>
             <span aria-hidden="true"> › </span>
             <a href="./index.html">Unternehmen</a>
             <span aria-hidden="true"> › </span>
@@ -463,7 +465,6 @@
           <div class="hero__portrait hero__portrait--compact">
             <img src="../../assets/images/PoertaitSakko-Photoroom.png" alt="Rainer Hatz" loading="lazy" />
             <span class="hero__accent hero__accent--horizontal" aria-hidden="true"></span>
-            <span class="hero__accent hero__accent--vertical" aria-hidden="true"></span>
           </div>
         </div>
       </div>
