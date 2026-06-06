@@ -1,0 +1,38 @@
+/* BusinessReference component styles */
+.br { padding: clamp(1.6rem, 4vw, 2.4rem) 0; }
+.br__inner { display: grid; gap: clamp(1rem, 3vw, 1.6rem); }
+.br__head h2 { margin: 0; font-size: clamp(1.3rem, 2.2vw, 1.6rem); }
+
+.br__content { display: grid; gap: clamp(0.9rem, 2.2vw, 1.2rem); align-content: start; }
+.br__preview { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+.br__preview li { padding: 0.35rem 0; border-bottom: 1px dashed color-mix(in srgb, var(--fg-current, var(--fg)) 18%, transparent); }
+.br__preview li:last-child { border-bottom: 0; }
+.br__open { justify-self: start; }
+
+/* Modal */
+.br-modal[aria-hidden="true"] { display: none; }
+.br-modal { position: fixed; inset: 0; z-index: 5000; }
+.br-modal__backdrop { position: absolute; inset: 0; background: color-mix(in srgb, var(--bg-current, var(--bg)) 60%, black 40%); backdrop-filter: blur(2px); }
+.br-modal__dialog { position: relative; z-index: 1; width: min(920px, 92vw); max-height: 80vh; margin: 6vh auto; background: var(--surface-current, var(--surface)); color: var(--fg-current, var(--fg)); border-radius: 16px; box-shadow: var(--shadow-elev-2); display: grid; grid-template-rows: auto 1fr; overflow: hidden; }
+.br-modal__head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: clamp(0.9rem, 2vw, 1.2rem) clamp(1rem, 3vw, 1.6rem); border-bottom: 1px solid color-mix(in srgb, var(--fg-current, var(--fg)) 10%, transparent); }
+.br-modal__head h3 { margin: 0; font-size: clamp(1.15rem, 1.8vw, 1.35rem); }
+.br-modal__close { appearance: none; border: 0; background: transparent; color: inherit; font-size: 1.6rem; line-height: 1; width: 2.2rem; height: 2.2rem; border-radius: 8px; cursor: pointer; }
+.br-modal__close:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.br-modal__body { overflow: auto; padding: clamp(1rem, 3vw, 1.6rem); }
+
+.br-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
+.br-list li { padding: 0.25rem 0; border-bottom: 1px solid color-mix(in srgb, var(--fg-current, var(--fg)) 10%, transparent); }
+.br-list li:last-child { border-bottom: 0; }
+
+/* Featured/Lehre Abschnitt */
+.br-section { display: grid; gap: 0.5rem; margin-top: clamp(1rem, 3vw, 1.6rem); }
+.br-section__title { margin: 0; font-size: clamp(1rem, 1.6vw, 1.15rem); letter-spacing: 0.08em; text-transform: uppercase; color: color-mix(in srgb, var(--fg-current, var(--fg)) 70%, transparent); }
+.br-featured { background: color-mix(in srgb, var(--accent, #d4af37) 14%, transparent); border-left: 3px solid var(--accent, #d4af37); padding: 0.5rem 0.75rem; border-radius: 8px; }
+
+@media (max-width: 640px) {
+  .br-modal__dialog { margin: 4vh auto; width: min(720px, 96vw); max-height: 84vh; }
+}
+
+/* Prevent page scrolling when modal open (extra safety) */
+html.is-br-modal-open, body.is-br-modal-open { overflow: hidden; }
+html.is-br-modal-open { overscroll-behavior: contain; }

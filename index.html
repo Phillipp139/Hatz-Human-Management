@@ -21,6 +21,9 @@
   <meta name="twitter:image" content="https://www.rainer-leadership.de/assets/img/og-image.jpg" />
   <link rel="stylesheet" href="assets/fonts/WEB/css/plein.css" />
   <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/components/offer.css" />
+  <link rel="stylesheet" href="components/header/header.css" />
+  <link rel="stylesheet" href="components/footer/footer.css" />
   <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -250,420 +253,7 @@
         
       </div>
 
-      <style>
-        .offer {
-          padding-block: clamp(3.5rem, 7vw, 6rem);
-        }
-
-        .offer__header {
-          text-align: left;
-          margin-bottom: clamp(2rem, 4vw, 3rem);
-        }
-
-        .offer__grid {
-          display: grid;
-          gap: clamp(1.5rem, 3vw, 2.5rem);
-          grid-template-columns: 1fr;
-          grid-auto-rows: 1fr;
-          align-items: stretch;
-        }
-
-        @media (min-width: 640px) {
-          .offer__grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            grid-auto-rows: 1fr;
-          }
-        }
-
-        @media (min-width: 1024px) {
-          .offer__grid {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            grid-auto-rows: 1fr;
-          }
-        }
-
-        .offer-card {
-          --offer-card-pad: clamp(1.9rem, 5.5vw, 3rem);
-          border: 0;
-          background-color: #1f3c88;
-          color: #fff;
-          border-radius: 26px;
-          min-height: clamp(20rem, 36vw, 23rem);
-          padding: var(--offer-card-pad);
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          justify-content: flex-start;
-          gap: clamp(1rem, 2.6vw, 1.55rem);
-          cursor: pointer;
-          text-align: left;
-          box-shadow: 0 18px 48px -24px rgba(31, 60, 136, 0.55);
-          transition: transform 320ms ease, box-shadow 320ms ease;
-          position: relative;
-          overflow: visible;
-          isolation: isolate;
-          align-self: stretch;
-          height: 100%;
-        }
-
-        .offer-card:link,
-        .offer-card:visited {
-          color: #fff;
-          text-decoration: none;
-        }
-
-        .offer-card--sportler {
-          background-color: #7aa2ff;
-          box-shadow: 0 18px 48px -24px rgba(122, 162, 255, 0.45);
-        }
-
-        .offer-card--privatpersonen {
-          background-color: #22b07d;
-          box-shadow: 0 18px 48px -24px rgba(34, 176, 125, 0.5);
-        }
-
-        .offer-card__media {
-          display: block;
-          position: relative; /* enable cross-fade layering */
-          width: clamp(12rem, 22vw, 18rem);
-          pointer-events: none;
-          margin: -1.5rem -1.25rem -1.05rem 0;
-          align-self: flex-end;
-          position: relative;
-          z-index: 1;
-        }
-        /* Cross-fade image on hover/open for Unternehmen */
-        .offer-card__img { transition: opacity 280ms ease; display: block; }
-        .offer-card__img--alt {
-          position: absolute;
-          inset: 0;
-          z-index: 2;
-          opacity: 0;
-          transition: opacity 280ms ease;
-          pointer-events: none;
-        }
-        .offer-card--unternehmen:is(:hover, :focus-visible) .offer-card__img--alt,
-        .offer-card--unternehmen.is-open .offer-card__img--alt { opacity: 1; }
-        .offer-card--unternehmen:is(:hover, :focus-visible) .offer-card__img:not(.offer-card__img--alt),
-        .offer-card--unternehmen.is-open .offer-card__img:not(.offer-card__img--alt) { opacity: 0; }
-        /* Default: nur tisch.png sichtbar, tisch1.png versteckt */
-        .offer-card--unternehmen .offer-card__img--alt { opacity: 0; }
-        .offer-card--unternehmen .offer-card__img:not(.offer-card__img--alt) { opacity: 1; }
-
-        .offer-card--sportler .offer-card__media,
-        .offer-card--privatpersonen .offer-card__media {
-          margin-right: -2.45rem;
-        }
-
-        .offer-card--sportler .offer-card__media {
-          margin-right: -3.25rem;
-          width: clamp(12.6rem, 23.2vw, 19.2rem);
-          margin-bottom: -1.95rem;
-        }
-
-        .offer-card--privatpersonen .offer-card__media {
-          position: relative;
-        }
-
-        .offer-card__img {
-          width: 100%;
-          height: auto;
-          display: block;
-          transform: translateY(5%) scale(0.9);
-          transform-origin: center;
-          opacity: 1;
-          transition: transform 320ms ease;
-        }
-
-        .offer-card--privatpersonen .offer-card__img {
-          position: relative;
-          z-index: 2;
-        }
-
-        /* Hintergrundbild entfernt */
-
-        .offer-card__head {
-          display: flex;
-          align-items: flex-end;
-          min-height: clamp(3.6rem, 5vw, 4.4rem);
-        }
-
-        .offer-card__title {
-          display: block;
-          font-size: clamp(1.25rem, 2.4vw, 1.5rem);
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          font-weight: 600;
-          white-space: nowrap;
-          overflow: hidden;
-        }
-
-        .offer-card__details {
-          display: block;
-          max-height: 0;
-          overflow: hidden;
-          opacity: 0;
-          visibility: hidden;
-          transform: translateY(-10px);
-          transition: max-height 320ms ease, opacity 320ms ease, transform 320ms ease, visibility 0s linear 320ms;
-          margin-top: clamp(0.5rem, 1.8vw, 1.1rem);
-        }
-
-        .offer-card__details-inner {
-          display: block;
-          font-size: 0.95rem;
-          line-height: 1.45;
-          opacity: 0.9;
-        }
-
-        .offer-card:focus-visible {
-          outline: 3px solid #fff;
-          outline-offset: 4px;
-        }
-
-        .offer-card:is(:hover, :focus-visible),
-        .offer-card.is-open {
-          transform: translateY(-6px) scale(1.02);
-          box-shadow: 0 28px 52px -22px rgba(31, 60, 136, 0.6);
-        }
-
-        .offer-card:is(:hover, :focus-visible) .offer-card__img,
-        .offer-card.is-open .offer-card__img {
-          transform: translateY(-14%) scale(1.34);
-        }
-
-        .offer-card:is(:hover, :focus-visible) .offer-card__details,
-        .offer-card.is-open .offer-card__details {
-          max-height: 14rem;
-          opacity: 1;
-          visibility: visible;
-          transform: translateY(0);
-          transition-delay: 0s;
-        }
-
-        .offer-card--sportler:is(:hover, :focus-visible) .offer-card__img,
-        .offer-card--sportler.is-open .offer-card__img,
-        .offer-card--privatpersonen:is(:hover, :focus-visible) .offer-card__img,
-        .offer-card--privatpersonen.is-open .offer-card__img {
-          transform: translateY(-24%) scale(1.52);
-        }
-
-        .offer-card--sportler:is(:hover, :focus-visible) .offer-card__img,
-        .offer-card--sportler.is-open .offer-card__img {
-          transform: translateY(-28%) scale(1.68);
-        }
-
-        .offer-card--privatpersonen .offer-card__img {
-          transform: translateY(10%) scale(0.92);
-        }
-
-        .offer-card--privatpersonen:is(:hover, :focus-visible) .offer-card__img,
-        .offer-card--privatpersonen.is-open .offer-card__img {
-          transform: translateY(-14%) scale(1.36);
-        }
-
-        .offer-card--privatpersonen .offer-card__img--bg {
-          transform: translateY(8%) scale(0.84);
-        }
-
-        .offer-card--privatpersonen:is(:hover, :focus-visible) .offer-card__img--bg,
-        .offer-card--privatpersonen.is-open .offer-card__img--bg {
-          transform: translateY(-10%) scale(1.08);
-        }
-
-        @media (max-width: 1023px) {
-          .offer-card {
-            min-height: 24rem;
-          }
-
-          .offer-card__media {
-            width: clamp(10.5rem, 30vw, 15rem);
-            margin: -1.25rem -1.25rem -0.5rem 0;
-          }
-
-          .offer-card--sportler .offer-card__media,
-          .offer-card--privatpersonen .offer-card__media {
-            margin-right: -1.75rem;
-          }
-
-          .offer-card--sportler .offer-card__media {
-            margin-right: -2.25rem;
-          }
-
-          .offer-card__title {
-            font-size: clamp(1.05rem, 2.6vw, 1.25rem);
-            letter-spacing: 0.08em;
-          }
-        }
-
-        @media (max-width: 767px) {
-          .offer-card {
-            min-height: auto;
-          }
-
-          .offer-card__media {
-            width: clamp(9.5rem, 48vw, 13rem);
-            margin: -0.75rem auto 0;
-            align-self: center;
-          }
-
-          .offer-card--sportler .offer-card__media,
-          .offer-card--privatpersonen .offer-card__media {
-            margin-right: auto;
-          }
-
-          .offer-card:is(:hover, :focus-visible),
-          .offer-card.is-open {
-            transform: translateY(-4px) scale(1.01);
-          }
-        }
-
-        .offer__details {
-          margin-top: clamp(2.25rem, 5vw, 3.5rem);
-          max-width: 60ch;
-        }
-
-        .offer__details[data-animate="true"] {
-          opacity: 0;
-          transform: translateY(8px);
-          transition: opacity 400ms ease, transform 400ms ease;
-        }
-
-        .offer__details.is-visible {
-          opacity: 1;
-          transform: translateY(0);
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-
-          .offer-card,
-          .offer-card__img,
-          .offer-card__details,
-          .offer__details[data-animate="true"] {
-            transition-duration: 0.01ms;
-            transition-delay: 0ms;
-          }
-
-          .offer-card__img {
-            transform: translateY(0) scale(1);
-          }
-        }
-      </style>
-
-      <script>
-        (function () {
-          const cards = Array.from(document.querySelectorAll('[data-offer-card]'));
-          const grid = document.querySelector('[data-offer-grid]');
-          const details = document.querySelector('[data-offer-details]');
-          const pointerCoarse = window.matchMedia('(pointer: coarse)');
-
-          const isTouchLike = () => pointerCoarse.matches;
-
-          const setDetailsState = (card, expanded) => {
-            const panel = card.querySelector('.offer-card__details');
-            if (panel) {
-              panel.setAttribute('aria-hidden', expanded ? 'false' : 'true');
-            }
-          };
-
-          const openCard = (card) => {
-            card.classList.add('is-open');
-            card.setAttribute('aria-expanded', 'true');
-            setDetailsState(card, true);
-          };
-
-          const collapseCard = (card) => {
-            card.classList.remove('is-open');
-            card.setAttribute('aria-expanded', 'false');
-            setDetailsState(card, false);
-          };
-
-          const closeCards = (except) => {
-            cards.forEach((card) => {
-              if (!except || card !== except) {
-                collapseCard(card);
-              }
-            });
-          };
-
-          if (typeof pointerCoarse.addEventListener === 'function') {
-            pointerCoarse.addEventListener('change', () => {
-              if (!isTouchLike()) {
-                closeCards();
-              }
-            });
-          }
-
-          cards.forEach((card) => {
-            card.addEventListener('focus', () => {
-              if (!card.classList.contains('is-open')) {
-                card.setAttribute('aria-expanded', 'true');
-                setDetailsState(card, true);
-              }
-            });
-
-            card.addEventListener('blur', () => {
-              if (!card.classList.contains('is-open')) {
-                card.setAttribute('aria-expanded', 'false');
-                setDetailsState(card, false);
-              }
-            });
-
-            card.addEventListener('click', (event) => {
-              if (!isTouchLike()) {
-                closeCards();
-                return;
-              }
-
-              if (!card.classList.contains('is-open')) {
-                event.preventDefault();
-                closeCards();
-                openCard(card);
-                return;
-              }
-
-              closeCards();
-            });
-          });
-
-          document.addEventListener('click', (event) => {
-            if (!isTouchLike()) {
-              return;
-            }
-            if (grid && !grid.contains(event.target)) {
-              closeCards();
-            }
-          });
-
-          const prepareDetailsReveal = () => {
-            if (!details) {
-              return;
-            }
-            details.dataset.animate = 'true';
-
-            if ('IntersectionObserver' in window) {
-              const observer = new IntersectionObserver((entries, obs) => {
-                entries.forEach((entry) => {
-                  if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    obs.unobserve(entry.target);
-                  }
-                });
-              }, { threshold: 0.2 });
-
-              observer.observe(details);
-            } else {
-              details.classList.add('is-visible');
-            }
-          };
-
-          if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', prepareDetailsReveal);
-          } else {
-            prepareDetailsReveal();
-          }
-        })();
-      </script>
+      
     </section>
 
     <section id="methode" class="section mentality" aria-labelledby="mentality-title">
@@ -697,11 +287,11 @@
                   <p>In meinen Coachings arbeite ich mit Sportler:innen genau an diesem Punkt: Erfolge werden verankert. Fehler werden zu Lehrmeistern, Rückschläge zu Treibstoff – und Erkenntnis zu mentaler Stärke.</p>
                 </div>
                 <div class="mentality-card__actions">
-                  <button class="card__link mentality-card__toggle" type="button" aria-expanded="false" onclick="return window.toggleMentalityCard && window.toggleMentalityCard(this);">Mehr anzeigen</button>
+          <button class="card__link mentality-card__toggle" type="button" aria-expanded="false">Mehr anzeigen</button>
                 </div>
               </div>
               <div class="mentality-card__visual" aria-hidden="true">
-                <img class="mentality__image" src="assets/images/ball.jpg" alt="" loading="lazy" />
+                <img class="mentality__image" src="assets/images/ball.jpg" alt="Symbolbild: Ball" loading="lazy" />
               </div>
             </div>
           </article>
@@ -731,11 +321,11 @@
                   <p>Zu dieser hier aufgeführten „Eine Sache der Mentalität“ kommen u. a. die Intension und Führungsqualität hinzu. Jetzt wird es schon komplex. Noch ein Grund, mit Coaching und Fortbildung dem Ganzen eine zukunftsorientierte Form zu geben …</p>
                 </div>
                 <div class="mentality-card__actions">
-                  <button class="card__link mentality-card__toggle" type="button" aria-expanded="false" onclick="return window.toggleMentalityCard && window.toggleMentalityCard(this);">Mehr anzeigen</button>
+                  <button class="card__link mentality-card__toggle" type="button" aria-expanded="false">Mehr anzeigen</button>
                 </div>
               </div>
               <div class="mentality-card__visual" aria-hidden="true">
-                <img class="mentality__image" src="assets/images/business.jpg" alt="" loading="lazy" />
+                <img class="mentality__image" src="assets/images/business.jpg" alt="Symbolbild: Business-Szene" loading="lazy" />
               </div>
             </div>
           </article>
@@ -765,7 +355,7 @@
                 </p>
               </div>
               <div class="card__actions">
-                <button class="card__link card__toggle" type="button" aria-expanded="false" onclick="return window.toggleCaseCard && window.toggleCaseCard(this);">Mehr anzeigen</button>
+                <button class="card__link card__toggle" type="button" aria-expanded="false">Mehr anzeigen</button>
                 <a class="card__link" href="mailto:info@hatz-hm.de?subject=Case%20Study%20Anfrage">Mehr
                   erfahren</a>
                 <img class="card__logo" src="Bilder/referenzen/image.png" alt="Projektlogo" loading="lazy" />
@@ -781,7 +371,7 @@
                   Menschen aus dem Mittelpunkt zu rücken.</p>
               </div>
               <div class="card__actions">
-                <button class="card__link card__toggle" type="button" aria-expanded="false" onclick="return window.toggleCaseCard && window.toggleCaseCard(this);">Mehr anzeigen</button>
+                <button class="card__link card__toggle" type="button" aria-expanded="false">Mehr anzeigen</button>
                 <a class="card__link" href="mailto:info@hatz-hm.de?subject=Summit%20Ventures">Mehr erfahren</a>
                 <img class="card__logo" src="Bilder/referenzen/1024px-Bosch-logotype.svg.png" alt="BOSCH Logo"
                   loading="lazy" />
@@ -952,8 +542,8 @@
     <div class="container"><h2 id="cta-title">Darf ich Sie einladen?<span class="hero__dot">.</span></h2></div>
     <section class="section cta" aria-labelledby="cta-title">
       <div class="cta__media" aria-hidden="true">
-        <img class="cta__img" src="assets/images/briefzu.png" alt="" loading="lazy" />
-        <img class="cta__img cta__img--alt" src="assets/images/briefoffen.png" alt="" loading="lazy" />
+  <img class="cta__img" src="assets/images/briefzu.png" alt="Briefumschlag geschlossen" loading="lazy" />
+  <img class="cta__img cta__img--alt" src="assets/images/briefoffen.png" alt="Briefumschlag geöffnet" loading="lazy" />
       </div>
       <div class="container cta__inner reveal" data-js-reveal>
         <p>Lernen Sie mich und meine Arbeitsweise in einem unverbindlichen Erstgespräch kennen.
@@ -1156,7 +746,11 @@
             </div>
           </dl>
         </div>
-        <form class="contact__form" aria-label="Kontaktformular">
+  <form name="Kontaktformular" class="contact__form" method="post" action="" data-netlify="true" data-netlify-honeypot="bot-field" aria-label="Kontaktformular">
+          <input type="hidden" name="form-name" value="Kontaktformular" />
+          <div style="display:none">
+            <label>Wenn Sie ein Mensch sind, lassen Sie dieses Feld leer: <input name="bot-field" /></label>
+          </div>
           <div class="form-field">
             <label for="contact-name">Name</label>
             <input id="contact-name" name="name" type="text" autocomplete="name" required />
@@ -1170,11 +764,12 @@
             <textarea id="contact-message" name="message" rows="5" required></textarea>
           </div>
           <div class="form-field form-field--consent">
-            <input id="contact-consent" name="consent" type="checkbox" required />
+            <input id="contact-consent" name="consent" type="checkbox" required aria-describedby="contact-consent-desc" />
             <label for="contact-consent">
               <span>Ich stimme zu, dass meine Angaben zur Kontaktaufnahme gespeichert werden.</span>
               <a href="legal/datenschutz.html">Mehr erfahren</a>
             </label>
+            <span id="contact-consent-desc" class="sr-only">Ihre Angaben werden ausschließlich zur Bearbeitung Ihrer Anfrage gespeichert.</span>
           </div>
           <button class="btn btn--primary" type="submit">Nachricht senden</button>
         </form>
@@ -1202,8 +797,7 @@
       </div>
       <div class="site-footer__meta">
         <ul class="site-footer__social">
-          <li><a href="https://www.linkedin.com/in/rainer-hatz-a41a6711b/"
-              aria-label="LinkedIn Profil von HATZ-Human Management">LinkedIn</a></li>
+      <li><a href="https://www.linkedin.com/in/rainer-hatz-a41a6711b/" aria-label="LinkedIn Profil von HATZ-Human Management" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
           <li><a href="mailto:info@hatz-hm.de" aria-label="E-Mail an HATZ-Human Management senden">E-Mail</a></li>
         </ul>
         <ul class="site-footer__legal">
@@ -1214,12 +808,9 @@
       </div>
     </div>
   </footer>
+  <script src="assets/js/components/offer-cards.js" defer></script>
   <script src="assets/js/main.js" defer></script>
 </body>
 
 </html>
-@media (max-width: 639px) {
-.offer-card__title {
-white-space: normal;
-}
 }

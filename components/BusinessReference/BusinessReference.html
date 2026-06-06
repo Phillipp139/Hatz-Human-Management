@@ -1,0 +1,99 @@
+<section class="br" aria-labelledby="br-title">
+  <div class="br__inner">
+    <header class="refs__section-head br__head">
+      <h2 id="br-title">Business Referenzen</h2>
+    </header>
+    <div class="br__content">
+      <ul class="br__preview" data-br-preview>
+        <!-- Wird aus dem Template befüllt -->
+      </ul>
+      <button class="btn btn--primary br__open" type="button" data-br-open>Alle Referenzen anzeigen</button>
+    </div>
+  </div>
+
+  <!-- Vollständige Liste als Template (einmaliger Content-Source) -->
+  <template id="br-all-template">
+    <ul class="br__all-list">
+      <li>Mercedes-Benz AG</li>
+      <li>Robert Bosch GmbH; Seminare</li>
+      <li>Robert Bosch GmbH; Azubi-Programm</li>
+      <li>ABB AG</li>
+      <li>Frigo-Trans GmbH</li>
+      <li>arvato infoscore GmbH</li>
+      <li>Lilly Deutschland</li>
+      <li>Optiker Gilde</li>
+      <li>Velotraum</li>
+      <li>IAK; Institut für angewandte Kreativität</li>
+      <li>GlaxoSmithKline</li>
+      <li>Stadtverwaltung Baden-Baden</li>
+      <li>Stadtverwaltung Bühl</li>
+      <li>Stadtverwaltung Weil am Rhein</li>
+      <li>Stadtverwaltung Villingen-Schwenningen</li>
+      <li>Stadtverwaltung Blumberg</li>
+      <li>Josef Mettler GmbH&Co.KG</li>
+      <li>Hauraton GmbH Co.KG</li>
+      <li>Caritasverband Rastatt e.V.</li>
+      <li>Caritasverband Freiburg e.V.</li>
+      <li>Internext GmbH</li>
+      <li>Polizeipräsidium Karlsruhe</li>
+      <li>Elektro-Montage-Gesellschaft F&amp;P GmbH</li>
+      <li>Dow MF Produktion GmbH  Co. OHG</li>
+      <li>Steinbeis Business Academy</li>
+      <li>SWR; Südwestrundfunk</li>
+      <li>KIT; Karlsruher Institut für Technologie</li>
+      <li>fc-Ingenieure</li>
+      <li>Radhaus Kastner</li>
+      <li>Gausch Tankschifffahrt</li>
+      <li>Kräss GlasCon GmbH</li>
+      <li>RivieraPool</li>
+      <li>PFM AG</li>
+      <li>Bayer Technology Services</li>
+      <li>Ücker und Partner</li>
+      <li>Breitfeld &amp; Schliekert GmbH</li>
+      <li>Emtrion</li>
+      <li>MEIER Feinmechanik GmbH</li>
+      <li>Teamhaus</li>
+      <li>Centra Feinwerktechnik GmbH</li>
+      <li>R+V Service Center GmbH</li>
+      <li>Heidelberger Betonelemente GmbH &amp; Co. KG</li>
+      <li>Artbox</li>
+      <li>Bahn-Marketing</li>
+      <li>Novartis Tiergesundheit GmbH</li>
+      <li>Assekuranz Lehel</li>
+      <li>SAP</li>
+      <li>Bayer Vital</li>
+      <li>GSE; Gesellschaft für Stadtentwickung B.-Baden</li>
+      <li>Ziermann Textilpflegemaschinen</li>
+      <li>BÖWE</li>
+      <li>azteka</li>
+      <li>Hergard; Kindermoden</li>
+      <li>Peters Gute Backstube; Coaching, Workshops, Azubi-Programm</li>
+      <li>actemium AG (CH)</li>
+      <li>WDL Nordschwarzwald GmbH</li>
+      <li>SFSintec</li>
+      <li>Stadtwerke Schwetzingen</li>
+      <li>Belle AG</li>
+      <li>Eigenbetrieb Umwelttechnik Baden-Baden</li>
+      <li>Netze BW GmbH</li>
+      <li data-br-featured>Dozent / Freier Referent</li>
+      <li>KVJS; Kommunalverband Jugend und Soziales</li>
+      <li data-br-featured>DHBW; Duale Hochschule Baden-Württemberg Karlsruhe</li>
+      <li data-br-featured>DHBW; Duale Hochschule Baden-Württemberg Mannheim</li>
+      <li data-br-featured>GSRN; Graduated School Rhein-Neckar</li>
+    </ul>
+  </template>
+
+  <!-- Modal/Overlay -->
+  <div class="br-modal" data-br-modal aria-hidden="true">
+    <div class="br-modal__backdrop" data-br-backdrop></div>
+    <div class="br-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="br-modal-title" tabindex="-1">
+      <header class="br-modal__head">
+        <h3 id="br-modal-title">Business Referenzen</h3>
+        <button type="button" class="br-modal__close" aria-label="Modal schließen" data-br-close>&times;</button>
+      </header>
+      <div class="br-modal__body" data-br-body>
+        <!-- Wird aus dem Template befüllt; enthält Special-Abschnitt -->
+      </div>
+    </div>
+  </div>
+</section>

@@ -644,7 +644,8 @@ body.has-custom-cursor .site-logo {
 .site-header__inner-wrap {
   width: 100%;
   margin-inline: 0;
-  padding-inline-start: max(0px, env(safe-area-inset-left));
+  /* Mehr Luft links und rechts am Rand */
+  padding-inline-start: calc(var(--header-edge-padding) + env(safe-area-inset-left));
   padding-inline-end: calc(var(--header-edge-padding) + env(safe-area-inset-right));
 }
 
@@ -1343,6 +1344,7 @@ body.is-nav-open {
 
 @media (max-width: 768px) {
   .site-header__inner-wrap {
+    padding-inline-start: calc(clamp(1rem, 4vw, 1.5rem) + env(safe-area-inset-left));
     padding-inline-end: calc(clamp(1rem, 4vw, 1.5rem) + env(safe-area-inset-right));
   }
 

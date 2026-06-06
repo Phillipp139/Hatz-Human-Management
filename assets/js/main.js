@@ -1255,7 +1255,26 @@
   };
 
   const init = () => {
-    initHtmlIncludes();
+    // Defensive cleanup: remove stuck scroll-blocking classes or inline styles
+    try {
+      const stuckClasses = ['is-br-modal-open', 'is-nav-open'];
+      stuckClasses.forEach((c) => {
+        if (document.body.classList.contains(c)) document.body.classList.remove(c);
+        if (document.documentElement.classList.contains(c)) document.documentElement.classList.remove(c);
+      });
+      // Reset inline styles that may lock scrolling
+      if (document.body.style.position === 'fixed') {
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+      }
+      // Also clear overflow flags
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    } catch (_) {
+      /* no-op */
+    }
+  initHtmlIncludes();
     initNav();
     initThemeToggle();
     initSmoothScroll();
@@ -1299,6 +1318,26 @@
       }
     });
   };
+
+  // Re-run defensive cleanup shortly after init to catch late scripts that may set scroll lock
+  const deferredCleanupRuns = [500, 1500, 3000];
+  const runDeferredCleanup = () => {
+    try {
+      const stuckClasses = ['is-br-modal-open', 'is-nav-open'];
+      stuckClasses.forEach((c) => {
+        if (document.body.classList.contains(c)) document.body.classList.remove(c);
+        if (document.documentElement.classList.contains(c)) document.documentElement.classList.remove(c);
+      });
+      if (document.body.style.position === 'fixed') {
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+      }
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    } catch (_) { /* no-op */ }
+  };
+  deferredCleanupRuns.forEach((t) => setTimeout(runDeferredCleanup, t));
 
   // Lightweight HTML include loader for shared components (e.g., profile/about section)
   function initHtmlIncludes() {
@@ -1386,24 +1425,44 @@
 
   // Prevent iOS Safari top rubber-band (bounce) when pulling down at page top
   const initNoBounce = () => {
+    // Strengere Erkennung für iOS/iPadOS: mac mit touchpoints ist nur iPadOS (MacIntel + touch)
     const isiOS = /iP(ad|hone|od)/.test(navigator.platform) ||
-                  (/Mac/.test(navigator.platform) && navigator.maxTouchPoints > 1);
+                  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     if (!isiOS) return;
     let startY = 0;
     const getScrollY = () => window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+
+    const hasScrollableAncestor = (node) => {
+      let el = node instanceof Element ? node : node?.parentElement;
+      while (el && el !== document.body) {
+        try {
+          const style = window.getComputedStyle(el);
+          const overflowY = style.overflowY;
+          if ((overflowY === 'auto' || overflowY === 'scroll') && el.scrollHeight > el.clientHeight) return true;
+        } catch (_) {
+          // access denied? ignore and continue
+        }
+        el = el.parentElement;
+      }
+      return false;
+    };
+
     const onTouchStart = (e) => {
       if (!e.touches || e.touches.length === 0) return;
       startY = e.touches[0].clientY;
     };
+
     const onTouchMove = (e) => {
       if (!e.touches || e.touches.length === 0) return;
       const currentY = e.touches[0].clientY;
       const deltaY = currentY - startY;
-      if (getScrollY() <= 0 && deltaY > 0) {
-        // Prevent overscroll bounce when pulling down at top
+      // only prevent when: at top of page, pulling down, event is cancelable and
+      // there is no scrollable ancestor (so normal inner scrolling isn't affected)
+      if (e.cancelable && getScrollY() <= 0 && deltaY > 0 && !hasScrollableAncestor(e.target)) {
         e.preventDefault();
       }
     };
+
     document.addEventListener('touchstart', onTouchStart, { passive: true });
     document.addEventListener('touchmove', onTouchMove, { passive: false });
   };
@@ -1534,10 +1593,11 @@
   const initCasesToggle = () => {
     const grid = doc.querySelector('.cases__grid');
     if (!grid) return;
+    if (grid.dataset.casesEnhanced === '1') return;
+    grid.dataset.casesEnhanced = '1';
     const mqMobile = window.matchMedia('(max-width: 540px)');
-    // Target only the two left cards in the grid (direct children)
-    const directCards = Array.from(grid.children).filter((el) => el.classList && el.classList.contains('card'));
-    const cards = directCards.slice(0, 2);
+    // Target all cards inside grid (robust against markup changes)
+    const cards = Array.from(grid.querySelectorAll('.card'));
 
     const setupCard = (card) => {
       const actions = card.querySelector('.card__actions');
@@ -1598,13 +1658,9 @@
 
     cards.forEach(setupCard);
 
-    // Event delegation: ensure clicks on dynamically inserted toggles work reliably
-    const handleGridClick = (ev) => {
-      const btn = (ev.target instanceof Element) ? ev.target.closest('.card__toggle') : null;
-      if (!btn) return;
+    const toggleFromButton = (btn) => {
       const card = btn.closest('.card');
       if (!card) return;
-      ev.preventDefault();
       // Ensure body exists for this card
       let actions = card.querySelector('.card__actions');
       let body = card.querySelector('.card__body');
@@ -1632,14 +1688,29 @@
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
       btn.textContent = open ? 'Weniger anzeigen' : 'Mehr anzeigen';
       if (mailto) mailto.style.display = open ? '' : 'none';
-      // trigger transition reliably
       if (body) void body.offsetHeight;
       if (open) {
         card.scrollIntoView({ behavior: prefersReducedMotion.matches ? 'auto' : 'smooth', block: 'nearest' });
       }
     };
 
+    // Event delegation: ensure clicks on dynamically inserted toggles work reliably
+    const handleGridClick = (ev) => {
+      const btn = (ev.target instanceof Element) ? ev.target.closest('.card__toggle') : null;
+      if (!btn) return;
+      ev.preventDefault();
+      toggleFromButton(btn);
+    };
+
     grid.addEventListener('click', handleGridClick);
+
+    // Also bind direct listeners on existing toggles
+    Array.from(grid.querySelectorAll('.card__toggle')).forEach((btn) => {
+      btn.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        toggleFromButton(btn);
+      });
+    });
   };
 
   // Fallback: inline handler for buttons in markup

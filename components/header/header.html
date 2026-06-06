@@ -1,0 +1,66 @@
+<!-- Header component markup extracted from index.html -->
+<header class="site-header" data-js-header role="banner">
+  <div class="site-header__inner-wrap">
+    <div class="site-header__inner">
+      <div class="site-header__brand">
+        <a class="site-logo" href="/#hero" aria-label="Zur Startsektion">
+          <span class="site-logo__mark" aria-hidden="true"></span>
+          <img class="site-logo__text" src="Bilder/Logolinks.png" alt="HATZ Human-Management" />
+        </a>
+      </div>
+      <nav class="site-nav" aria-label="Hauptnavigation" data-js-nav data-focus-trap>
+        <ul id="primary-navigation" class="site-nav__list">
+          <li class="site-nav__item has-submenu">
+            <a href="#angebot" class="site-nav__link" aria-haspopup="true" aria-expanded="false">Angebot</a>
+            <button class="site-subnav__toggle" type="button" aria-expanded="false" aria-controls="subnav-angebot">
+              <span class="sr-only">Untermenü „Angebot“ öffnen</span>
+              <span aria-hidden="true" class="site-subnav__icon">+</span>
+            </button>
+            <ul class="site-subnav" id="subnav-angebot" aria-label="Untermenü Angebot" hidden>
+              <li><a href="/angebot/unternehmen/">Für Unternehmen</a></li>
+              <li><a href="/angebot/sportler/">Für Sportler</a></li>
+              <li><a href="/angebot/privatpersonen/">Für Privatpersonen</a></li>
+            </ul>
+          </li>
+          <li><a href="/referenzen/">Referenzen</a></li>
+          <li><a href="/#methode">Methodik</a></li>
+          <li><a href="/#ueber">Über</a></li>
+          <li><a href="/#faq">FAQ</a></li>
+          <li><a href="/#kontakt">Kontakt</a></li>
+          <li class="site-nav__cta"><a class="btn btn--primary" href="/#kontakt">Erstgespräch</a></li>
+        </ul>
+      </nav>
+      <div class="site-header__controls">
+        <a class="btn btn--primary site-header__cta" href="/#kontakt">Erstgespräch</a>
+        <button class="theme-toggle" type="button" aria-label="Darstellung umschalten" data-js-theme-toggle>
+          <span class="theme-icon theme-icon--sun" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="img" focusable="false">
+              <circle cx="12" cy="12" r="5" />
+              <g>
+                <line x1="12" y1="1" x2="12" y2="4" />
+                <line x1="12" y1="20" x2="12" y2="23" />
+                <line x1="4.22" y1="4.22" x2="6.34" y2="6.34" />
+                <line x1="17.66" y1="17.66" x2="19.78" y2="19.78" />
+                <line x1="1" y1="12" x2="4" y2="12" />
+                <line x1="20" y1="12" x2="23" y2="12" />
+                <line x1="4.22" y1="19.78" x2="6.34" y2="17.66" />
+                <line x1="17.66" y1="6.34" x2="19.78" y2="4.22" />
+              </g>
+            </svg>
+          </span>
+          <span class="theme-icon theme-icon--moon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="img" focusable="false">
+              <path d="M21 14.5A9 9 0 0110.5 3 7 7 0 1021 14.5z" />
+            </svg>
+          </span>
+        </button>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation"
+          aria-label="Navigation umschalten" data-js-nav-toggle>
+          <span class="sr-only">Menü öffnen</span>
+          <span class="nav-toggle__label" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+

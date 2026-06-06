@@ -8,6 +8,7 @@
   <meta name="description" content="Business- und Sport-Referenzen: Erfolgsgeschichten von Klient:innen aus Unternehmen und Leistungssport." />
   <link rel="stylesheet" href="../assets/fonts/WEB/css/plein.css" />
   <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="../components/BusinessReference/BusinessReference.css" />
   <style>
     :root { --refs-gap: clamp(2rem, 6vw, 3.2rem); }
 
@@ -118,7 +119,7 @@
     <section class="section page-hero" aria-labelledby="page-title">
       <div class="container page-hero__grid">
         <h1 class="page-hero__title" id="page-title">Referenzen<span class="hero__dot">.</span></h1>
-        <p class="page-hero__sub">Ausgewählte Erfolgsgeschichten aus Business und Leistungssport – komprimiert, nachvollziehbar, wirksam.</p>
+        <p class="page-hero__sub">Ausgewählte Referenzen aus Business und Leistungssport</p>
       </div>
     </section>
 
@@ -153,6 +154,9 @@
               </div>
             </article>
           </div>
+          
+          <!-- Business Referenzen (zweiter Container, gleicher Stil) -->
+          <div class="br-mount" data-include="../components/BusinessReference/BusinessReference.html"></div>
         </div>
 
         <div class="refs__col refs__col--sport">
@@ -238,7 +242,7 @@
       </div>
       <div class="site-footer__meta">
         <ul class="site-footer__social">
-          <li><a href="https://www.linkedin.com/in/rainer-hatz-a41a6711b/" aria-label="LinkedIn Profil">LinkedIn</a></li>
+          <li><a href="https://www.linkedin.com/in/rainer-hatz-a41a6711b/" aria-label="LinkedIn Profil" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
           <li><a href="mailto:info@hatz-hm.de" aria-label="E-Mail senden">E-Mail</a></li>
         </ul>
         <ul class="site-footer__legal">
@@ -251,6 +255,7 @@
   </footer>
 
   <script src="../assets/js/main.js" defer></script>
+  <script src="../components/BusinessReference/BusinessReference.js" defer></script>
   <script>
     // Sport-Voices Slider
     document.addEventListener("DOMContentLoaded", () => {
