@@ -102,11 +102,31 @@
 
     function unlockScroll() {
       try {
+        // If body.style.top was set to a negative px value when locking, restore scroll
+        const topVal = document.body.style.top || '';
+        let restoreY = null;
+        if (topVal && typeof topVal === 'string') {
+          // expects format like '-123px'
+          const m = topVal.match(/(-?\d+)px/);
+          if (m && m[1]) {
+            // m[1] contains sign when present (e.g. '-200')
+            restoreY = -parseInt(m[1], 10);
+          }
+        }
         document.body.classList.remove('is-br-modal-open');
         document.documentElement.classList.remove('is-br-modal-open');
+        // clear inline lock styles
         document.body.style.position = '';
         document.body.style.top = '';
         document.body.style.width = '';
+        // also clear overflow on root elements
+        try { document.body.style.overflow = ''; } catch (_) {}
+        try { document.documentElement.style.overflow = ''; } catch (_) {}
+        // if we parsed a previous scroll Y, restore it
+        if (Number.isFinite(restoreY) && restoreY !== null) {
+          // small timeout to allow style changes to take effect before scrolling
+          window.setTimeout(() => { try { window.scrollTo(0, restoreY); } catch (_) {} }, 0);
+        }
       } catch (_) { /* no-op */ }
     }
 
@@ -159,7 +179,7 @@
     if (backdrop) backdrop.addEventListener('click', closeModal);
 
     // Safety: if body remained locked but no visible modal exists, unlock on next user interaction
-    document.addEventListener('click', (ev) => {
+    const safetyUnlockHandler = (ev) => {
       try {
         if (document.body.style.position === 'fixed') {
           const visible = document.querySelector('[data-br-modal][aria-hidden="false"]');
@@ -168,6 +188,14 @@
           }
         }
       } catch (_) {}
+    };
+    document.addEventListener('click', safetyUnlockHandler, true);
+    // also handle touchstart (mobile) and key interactions just in case
+    document.addEventListener('touchstart', safetyUnlockHandler, { passive: true, capture: true });
+    document.addEventListener('keydown', (ev) => {
+      if (ev.key === 'Escape') {
+        try { unlockScroll(); } catch (_) {}
+      }
     }, true);
 
     brSection.dataset.brInitialized = '1';
