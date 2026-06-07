@@ -1339,28 +1339,7 @@
   };
   deferredCleanupRuns.forEach((t) => setTimeout(runDeferredCleanup, t));
 
-  // Global emergency helper to forcibly unlock scroll (helpful during debugging)
-  window.__forceUnlockScroll = function forceUnlockScroll() {
-    try {
-      const topVal = document.body.style.top || '';
-      let restoreY = null;
-      const m = topVal.match(/(-?\d+)px/);
-      if (m && m[1]) restoreY = -parseInt(m[1], 10);
-      ['is-br-modal-open', 'is-nav-open'].forEach(c => {
-        try { document.body.classList.remove(c); } catch (_) {}
-        try { document.documentElement.classList.remove(c); } catch (_) {}
-      });
-      try { document.body.style.position = ''; } catch (_) {}
-      try { document.body.style.top = ''; } catch (_) {}
-      try { document.body.style.width = ''; } catch (_) {}
-      try { document.body.style.overflow = ''; } catch (_) {}
-      try { document.documentElement.style.overflow = ''; } catch (_) {}
-      if (Number.isFinite(restoreY) && restoreY !== null) {
-        setTimeout(() => { try { window.scrollTo(0, restoreY); } catch (_) {} }, 0);
-      }
-      console.log('window.__forceUnlockScroll executed');
-    } catch (e) { console.warn('forceUnlockScroll failed', e); }
-  };
+  // (debug helper removed for production)
 
   // Lightweight HTML include loader for shared components (e.g., profile/about section)
   function initHtmlIncludes() {

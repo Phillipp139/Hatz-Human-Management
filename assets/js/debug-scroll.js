@@ -36,39 +36,6 @@
     } catch (_) { console.warn('unlock failed'); }
   });
   overlay.appendChild(unlockBtn);
-  const forceBtn = create('button', { id: 'scroll-debug-force', style: 'display:block;background:#0066cc;color:#fff;border:none;padding:8px 10px;border-radius:6px;cursor:pointer;margin:6px 0;' }, 'Force enable wheel (click)');
-  forceBtn.addEventListener('click', () => {
-    try {
-      if (!document.getElementById('dev-forced-scroll')) {
-        const s = document.createElement('style');
-        s.id = 'dev-forced-scroll';
-        s.textContent = 'html, body { overflow: auto !important; position: static !important; height: auto !important; } * { pointer-events: auto !important; }';
-        document.head.appendChild(s);
-      }
-      if (typeof window.__forceUnlockScroll === 'function') window.__forceUnlockScroll();
-      updateInfo();
-      console.log('force enable wheel applied');
-    } catch (e) { console.warn('force enable failed', e); }
-  });
-  overlay.appendChild(forceBtn);
-  const detectBtn = create('button', { id: 'scroll-debug-detect', style: 'display:block;background:#ff9900;color:#000;border:none;padding:8px 10px;border-radius:6px;cursor:pointer;margin:6px 0;' }, 'Detect wheel preventDefault');
-  detectBtn.addEventListener('click', () => {
-    try {
-      if (window.__wheelPreventDetectorInstalled) { console.log('wheel preventDefault detector already installed'); return; }
-      const orig = Event.prototype.preventDefault;
-      Event.prototype.preventDefault = function () {
-        try { if (this && this.type === 'wheel') { console.warn('preventDefault called on wheel event:', this, '\nstack:', (new Error()).stack); } } catch (_) {}
-        return orig.apply(this, arguments);
-      };
-      window.__wheelPreventDetectorInstalled = true;
-      console.log('wheel preventDefault detector installed — now use the mouse wheel and check console for warnings');
-    } catch (e) { console.warn('install failed', e); }
-  });
-  overlay.appendChild(detectBtn);
-
-  const refreshBtn = create('button', { style: 'display:inline-block;background:#444;color:#fff;border:none;padding:6px 8px;border-radius:6px;cursor:pointer;margin-right:6px;' }, 'Refresh');
-  refreshBtn.addEventListener('click', updateInfo);
-  overlay.appendChild(refreshBtn);
 
   const closeBtn = create('button', { style: 'display:inline-block;background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.15);padding:6px 8px;border-radius:6px;cursor:pointer;margin-left:6px;' }, 'Close');
   closeBtn.addEventListener('click', () => overlay.remove());
@@ -76,20 +43,6 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     document.body.appendChild(overlay);
-    // Try automatic unlock once (use global helper if available)
-    try {
-      if (typeof window.__forceUnlockScroll === 'function') {
-        window.__forceUnlockScroll();
-      } else {
-        document.body.classList.remove('is-br-modal-open','is-nav-open');
-        document.documentElement.classList.remove('is-br-modal-open','is-nav-open');
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.width = '';
-        document.body.style.overflow = '';
-        document.documentElement.style.overflow = '';
-      }
-    } catch (_) {}
     updateInfo();
     // update periodically to catch changes
     const iv = setInterval(updateInfo, 500);
