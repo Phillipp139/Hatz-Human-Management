@@ -1,5 +1,22 @@
 (() => {
   if (!location.search.includes('debug_scroll=1')) return;
+  // Minimal instrumentation: log stack when preventDefault is called on wheel events
+  try {
+    if (!window.__wheelPreventDetectorInstalled) {
+      const _origPrevent = Event.prototype.preventDefault;
+      Event.prototype.preventDefault = function () {
+        try {
+          if (this && this.type === 'wheel') {
+            // warn with limited stack trace to find origin
+            console.warn('DETECT: preventDefault called on wheel event', { event: this }, (new Error()).stack.split('\n').slice(0,6).join('\n'));
+          }
+        } catch (_) {}
+        return _origPrevent.apply(this, arguments);
+      };
+      window.__wheelPreventDetectorInstalled = true;
+      console.log('wheel preventDefault detector installed (debug_scroll=1)');
+    }
+  } catch (e) { console.warn('failed to install wheel detector', e); }
   const create = (tag, attrs = {}, txt) => { const el = document.createElement(tag); Object.keys(attrs).forEach(k => el.setAttribute(k, attrs[k])); if (txt) el.textContent = txt; return el; };
   const overlay = create('div', { id: 'scroll-debug-overlay', style: 'position:fixed;right:12px;top:12px;z-index:99999;background:rgba(0,0,0,0.85);color:#fff;padding:12px;border-radius:8px;font-family:system-ui,sans-serif;font-size:13px;max-width:320px;' });
   const title = create('div', {}, 'Scroll Debug');
