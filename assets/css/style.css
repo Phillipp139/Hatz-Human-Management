@@ -63,10 +63,14 @@ html, body { overscroll-behavior-y: none; }
 }
 
 /* Global: horizontales Scrollen/Bounce unterbinden */
-html,
+html {
+  max-width: 100vw;
+  overflow-x: clip; /* clip statt hidden, damit die vertikale Scrollbar nicht verschwindet */
+  overscroll-behavior-x: none;
+}
 body {
   max-width: 100vw;
-  overflow-x: hidden;
+  overflow-x: clip; /* clip statt hidden, damit die vertikale Scrollbar nicht verschwindet */
   overscroll-behavior-x: none;
 }
 
@@ -175,7 +179,7 @@ body {
   font-size: clamp(1rem, 0.26vw + 0.94rem, 1.1rem);
   line-height: 1.6;
   letter-spacing: 0.01em;
-  overflow-x: hidden;
+  overflow-x: clip; /* clip statt hidden, damit die vertikale Scrollbar nicht verschwindet */
 }
 
 body > * {
@@ -1271,7 +1275,10 @@ body.is-nav-open {
 
 @media (max-width: 1024px) {
   /* Prevent horizontal scroll/bounce on mobile/tablet */
-  html,
+  html {
+    overflow-x: clip;
+  }
+
   body {
     overflow-x: hidden;
     /* Deaktiviert Bounce/Over-Scroll in beide Richtungen */
