@@ -4,17 +4,15 @@
   const STYLE_ID = 'force-unlock-style';
 
   function installCssOverride() {
-    if (document.getElementById(STYLE_ID)) return;
+    // CSS override intentionally disabled.
+    // Setting overflow: auto !important on both html AND body causes body to become
+    // an inner scroll container, which hides the viewport scrollbar.
+    // runCleanup() already handles stuck classes and inline styles correctly.
+    // Remove any previously injected override if present (e.g., from old cached version).
     try {
-      const css = `html, body { overflow: auto !important; position: static !important; top: auto !important; width: auto !important; }`;
-      const el = document.createElement('style');
-      el.id = STYLE_ID;
-      el.appendChild(document.createTextNode(css));
-      // insert as early as possible
-      (document.head || document.documentElement).appendChild(el);
-    } catch (e) {
-      /* noop */
-    }
+      const old = document.getElementById(STYLE_ID);
+      if (old) old.remove();
+    } catch (e) { /* noop */ }
   }
 
   function runCleanup() {

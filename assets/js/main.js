@@ -1290,7 +1290,7 @@
     initCustomCursor();
     initThemeInfoOverlay();
     initMobileStartScroll();
-    initMobileCtasInTrustbar();
+    // initMobileCtasInTrustbar(); // Undefined function call removed to prevent script crash
     initNoBounce();
     initCtaEnvelopeScroll();
     initCasesToggle();
