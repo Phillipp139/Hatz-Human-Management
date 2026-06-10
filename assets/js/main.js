@@ -1266,22 +1266,18 @@
       btn.textContent = 'Wird gesendet…';
 
       try {
-        const res = await fetch('/', {
+        await fetch('/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: new URLSearchParams(new FormData(form)).toString(),
         });
 
-        if (res.ok) {
-          form.innerHTML = `
-            <div class="contact__success" role="alert">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>
-              <h3>Nachricht gesendet!</h3>
-              <p>Vielen Dank. Ich melde mich so schnell wie möglich bei Ihnen zurück.</p>
-            </div>`;
-        } else {
-          throw new Error('Server error');
-        }
+        form.innerHTML = `
+          <div class="contact__success" role="alert">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>
+            <h3>Nachricht gesendet!</h3>
+            <p>Vielen Dank. Ich melde mich so schnell wie möglich bei Ihnen zurück.</p>
+          </div>`;
       } catch (_) {
         btn.disabled = false;
         btn.textContent = originalText;
