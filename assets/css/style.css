@@ -1909,7 +1909,9 @@ body.is-nav-open .site-header {
 
   /* Duplikat nur mobil einblenden, sonst verstecken */
   .hero__headline-dup {
-    display: inline !important;
+    display: inline-flex !important;
+    gap: clamp(0.6rem, 4vw, 1rem);
+    align-items: baseline;
   }
 
   /* Desktop-Breath-Animation auf Mobile überschreiben: nur Marquee laufen lassen */
@@ -2191,8 +2193,6 @@ body[data-theme="dark"] #angebot {
   align-items: center;
   gap: clamp(var(--space-md), 4vw, var(--space-xl));
   will-change: transform;
-  /* Fallback/CSS-Marquee: sorgt für Bewegung auch wenn JS stoppt */
-  animation: quote-marquee-scroll 16s linear infinite;
 }
 
 .logo-marquee__item {
