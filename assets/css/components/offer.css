@@ -299,5 +299,34 @@
   .offer-card__title {
     white-space: normal;
   }
+
+  .offer__grid {
+    gap: 1rem;
+  }
+
+  .offer-card {
+    --offer-card-pad: 1.1rem;
+    border-radius: 18px;
+    gap: 0.6rem;
+  }
+
+  .offer-card__media {
+    width: clamp(7rem, 36vw, 10rem);
+    margin: -0.5rem auto 0;
+  }
+
+  .offer-card--sportler .offer-card__media,
+  .offer-card--privatpersonen .offer-card__media {
+    margin-right: auto;
+  }
+
+  .offer-card__head {
+    min-height: 2.8rem;
+  }
+
+  .offer-card__title {
+    font-size: 1rem;
+    letter-spacing: 0.07em;
+  }
 }
 

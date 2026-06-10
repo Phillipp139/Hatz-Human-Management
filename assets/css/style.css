@@ -3903,16 +3903,11 @@ body[data-theme="dark"] .mentality {
   background: transparent;
 }
 
-/* Active panel content on baby blue */
+/* Active panel content */
 .mentality__panel.is-active .mentality__grid {
-  background: #cfe2f3;
   border-radius: var(--radius-md);
   padding: clamp(var(--space-sm), 3vw, var(--space-lg));
   position: relative;
-}
-
-body[data-theme="dark"] .mentality__panel.is-active .mentality__grid {
-  background: #0a2342;
 }
 
 /* Reduce line spacing inside the opened panel so text is more compact */
@@ -3949,36 +3944,8 @@ body[data-theme="dark"] .mentality__panel.is-active .mentality__grid {
   }
 }
 
-/* Full-bleed background: solid baby blue at top, fades to transparent downwards */
 .mentality__cards::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100vw;
-  /* extend beyond container to screen edges */
-  height: 100%;
-  pointer-events: none;
-  z-index: -1;
-  /* Babyblau beginnt erst weiter unten auszufaden und hat mehr Raum nach unten */
-  background: linear-gradient(to bottom, #cfe2f3 0%, #cfe2f3 85%, rgba(207, 226, 243, 0) 100%);
-}
-
-/* Dark Mode: same concept with dark tone */
-body[data-theme="dark"] .mentality__cards::before {
-  background: linear-gradient(to bottom, #0a2342 0%, #0a2342 85%, rgba(10, 35, 66, 0) 100%);
-}
-
-/* Desktop: früher mit Transparenz beginnen für längeren, weicheren Fade */
-@media (min-width: 769px) {
-  .mentality__cards::before {
-    background: linear-gradient(to bottom, #cfe2f3 0%, #cfe2f3 65%, rgba(207, 226, 243, 0) 100%);
-  }
-
-  body[data-theme="dark"] .mentality__cards::before {
-    background: linear-gradient(to bottom, #0a2342 0%, #0a2342 65%, rgba(10, 35, 66, 0) 100%);
-  }
+  display: none;
 }
 
 .mentality-card__grid {
