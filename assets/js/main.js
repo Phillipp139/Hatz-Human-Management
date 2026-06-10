@@ -1266,11 +1266,12 @@
       btn.textContent = 'Wird gesendet…';
 
       try {
-        await fetch('/', {
+        const res = await fetch('https://formspree.io/f/meewzraa', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams(new FormData(form)).toString(),
+          headers: { 'Accept': 'application/json' },
+          body: new FormData(form),
         });
+        if (!res.ok) throw new Error('Server error');
 
         form.innerHTML = `
           <div class="contact__success" role="alert">
