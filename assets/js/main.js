@@ -1254,6 +1254,46 @@
     setOverlayState(false);
   };
 
+  function initContactForm() {
+    const form = doc.querySelector('.contact__form');
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('[type="submit"]');
+      const originalText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Wird gesendet…';
+
+      try {
+        const res = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(new FormData(form)).toString(),
+        });
+
+        if (res.ok) {
+          form.innerHTML = `
+            <div class="contact__success" role="alert">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>
+              <h3>Nachricht gesendet!</h3>
+              <p>Vielen Dank. Ich melde mich so schnell wie möglich bei Ihnen zurück.</p>
+            </div>`;
+        } else {
+          throw new Error('Server error');
+        }
+      } catch (_) {
+        btn.disabled = false;
+        btn.textContent = originalText;
+        const err = doc.createElement('p');
+        err.className = 'contact__error';
+        err.setAttribute('role', 'alert');
+        err.textContent = 'Leider ist ein Fehler aufgetreten. Bitte schreiben Sie direkt an info@hatz-hm.de.';
+        if (!form.querySelector('.contact__error')) form.appendChild(err);
+      }
+    });
+  }
+
   const init = () => {
     // Defensive cleanup: remove stuck scroll-blocking classes or inline styles
     try {
@@ -1295,6 +1335,7 @@
     initCtaEnvelopeScroll();
     initCasesToggle();
     initMentalityCards();
+    initContactForm();
     marqueeController = initMarquee();
     prefersReducedMotion.addEventListener("change", (event) => {
       const prefersReduced = event.matches;
