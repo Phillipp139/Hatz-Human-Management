@@ -715,7 +715,8 @@ body.has-custom-cursor .site-logo {
   padding-inline-end: calc(var(--header-edge-padding) + env(safe-area-inset-right));
 }
 
-.site-header.is-scrolled {
+.site-header.is-scrolled,
+body[data-page="sub"] .site-header {
   background-color: var(--surface-elev-current, var(--surface-elev));
   backdrop-filter: blur(12px);
   box-shadow: var(--shadow-elev-1);
