@@ -54,10 +54,10 @@
   font-size: 16px;
 }
 
-/* Disable horizontal overscroll bounce where supported */
+/* Kein Overscroll-Bounce (horizontal + vertikal) – verhindert iOS-Rubber-Band-Effekt am Header */
 html,
 body {
-  overscroll-behavior-x: none;
+  overscroll-behavior: none;
 }
 
 /* Einheitliches Box-Modell, beugt Überläufen vor */
@@ -72,12 +72,12 @@ html {
   max-width: 100vw;
   overflow-x: clip;
   /* clip statt hidden, damit die vertikale Scrollbar nicht verschwindet */
-  overscroll-behavior-x: none;
+  overscroll-behavior: none;
 }
 
 body {
   max-width: 100vw;
-  overscroll-behavior-x: none;
+  overscroll-behavior: none;
   /* overflow-x intentionally NOT set on body: setting it promotes overflow-y
      from visible to auto, turning body into a self-sizing scroll container
      that never overflows → no scrollbar. html overflow-x: clip handles
@@ -365,16 +365,16 @@ svg {
 }
 
 .skip-link {
-  position: absolute;
+  position: fixed;
   inset-inline-start: var(--space-sm);
-  top: var(--space-sm);
+  /* Genug negativen Abstand, damit Bounce es nie ans Tageslicht bringt */
+  top: calc(var(--space-sm) + env(safe-area-inset-top, 0px));
   padding: var(--space-2xs) var(--space-sm);
   background: var(--primary);
   color: var(--bg);
   border-radius: var(--radius-sm);
-  transform: translateY(-150%);
+  transform: translateY(calc(-100% - var(--space-sm) - env(safe-area-inset-top, 0px) - 4px));
   transition: transform var(--speed-fast) ease;
-  /* Keep skip link above sticky header */
   z-index: 3000;
 }
 
@@ -1461,6 +1461,20 @@ body.is-nav-open .site-header {
 }
 
 @media (max-width: 768px) {
+  /* Fixed statt sticky: verhindert iOS-Bounce-Mitschaukeln */
+  html {
+    scroll-padding-top: calc(var(--header-height) + env(safe-area-inset-top, 0px) + var(--space-sm));
+  }
+
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* Hintergrund läuft hinter Dynamic Island / Notch durch */
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
   .site-header__inner-wrap {
     padding-inline-start: calc(clamp(1rem, 4vw, 1.5rem) + env(safe-area-inset-left));
     padding-inline-end: calc(clamp(1rem, 4vw, 1.5rem) + env(safe-area-inset-right));
@@ -1503,7 +1517,7 @@ body.is-nav-open .site-header {
   }
 
   .hero {
-    padding-block-start: max(calc(var(--header-height) + var(--space-xs)),
+    padding-block-start: max(calc(var(--header-height) + env(safe-area-inset-top, 0px) + var(--space-xs)),
         clamp(var(--space-lg), 12vw, var(--space-xl)));
     padding-block-end: clamp(var(--space-lg), 12vw, var(--space-xl));
     --hero-portrait-width: clamp(360px, 82vw, 560px);
