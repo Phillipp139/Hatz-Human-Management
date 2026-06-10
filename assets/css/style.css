@@ -367,13 +367,13 @@ svg {
 .skip-link {
   position: fixed;
   inset-inline-start: var(--space-sm);
-  /* Genug negativen Abstand, damit Bounce es nie ans Tageslicht bringt */
   top: calc(var(--space-sm) + env(safe-area-inset-top, 0px));
   padding: var(--space-2xs) var(--space-sm);
   background: var(--primary);
   color: var(--bg);
   border-radius: var(--radius-sm);
-  transform: translateY(calc(-100% - var(--space-sm) - env(safe-area-inset-top, 0px) - 4px));
+  /* -100vh: kein Bounce kann ihn erreichen */
+  transform: translateY(-100vh);
   transition: transform var(--speed-fast) ease;
   z-index: 3000;
 }
