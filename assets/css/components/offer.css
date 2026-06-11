@@ -184,7 +184,7 @@
 
 .offer-card:is(:hover, :focus-visible) .offer-card__img,
 .offer-card.is-open .offer-card__img {
-  transform: translateY(-5%) scale(1.07);
+  transform: translateY(-3%) scale(1.04);
 }
 
 .offer-card:focus-visible .offer-card__details,
@@ -200,12 +200,12 @@
 .offer-card--sportler.is-open .offer-card__img,
 .offer-card--privatpersonen:is(:hover, :focus-visible) .offer-card__img,
 .offer-card--privatpersonen.is-open .offer-card__img {
-  transform: translateY(-6%) scale(1.09);
+  transform: translateY(-4%) scale(1.05);
 }
 
 .offer-card--sportler:is(:hover, :focus-visible) .offer-card__img,
 .offer-card--sportler.is-open .offer-card__img {
-  transform: translateY(-8%) scale(1.11);
+  transform: translateY(-5%) scale(1.06);
 }
 
 .offer-card--privatpersonen .offer-card__img {
@@ -214,7 +214,7 @@
 
 .offer-card--privatpersonen:is(:hover, :focus-visible) .offer-card__img,
 .offer-card--privatpersonen.is-open .offer-card__img {
-  transform: translateY(-5%) scale(1.07);
+  transform: translateY(-3%) scale(1.04);
 }
 
 .offer-card--privatpersonen .offer-card__img--bg {
