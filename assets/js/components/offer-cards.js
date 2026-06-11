@@ -42,6 +42,29 @@
     });
   }
 
+  // 3D tilt on desktop
+  const TILT_MAX = 7;
+  cards.forEach((card) => {
+    card.addEventListener('mouseenter', () => {
+      card.style.transition = 'transform 120ms ease-out, box-shadow 320ms ease';
+    });
+
+    card.addEventListener('mousemove', (e) => {
+      if (isTouchLike()) return;
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const rotateY = ((x / rect.width) - 0.5) * 2 * TILT_MAX;
+      const rotateX = (0.5 - (y / rect.height)) * 2 * TILT_MAX;
+      card.style.transform = `perspective(900px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transition = 'transform 500ms ease, box-shadow 320ms ease';
+      card.style.transform = '';
+    });
+  });
+
   cards.forEach((card) => {
     card.addEventListener('focus', () => {
       if (!card.classList.contains('is-open')) {
