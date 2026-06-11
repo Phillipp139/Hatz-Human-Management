@@ -242,11 +242,13 @@
     .info-card {
       position: sticky;
       top: clamp(1.5rem, 4vw, 3rem);
-      border: 1px solid rgba(10, 35, 66, 0.3);
+      border: 1px solid rgba(10, 35, 66, 0.18);
       border-radius: 16px;
       padding: clamp(1.4rem, 3vw, 2rem);
-      background: transparent;
-      box-shadow: none;
+      background: rgba(243, 248, 255, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 4px 24px -8px rgba(10, 35, 66, 0.1);
       display: none;
       opacity: 0;
       transform: translateY(12px);
@@ -373,7 +375,7 @@
   </style>
 </head>
 
-<body data-theme="light">
+<body data-theme="light" data-page="sub">
   <a href="#main-content" class="skip-link">Zum Inhalt springen</a>
   <header class="site-header" data-js-header role="banner">
     <div class="site-header__inner-wrap">
