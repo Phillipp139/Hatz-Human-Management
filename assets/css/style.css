@@ -717,9 +717,15 @@ body.has-custom-cursor .site-logo {
 
 .site-header.is-scrolled,
 body[data-page="sub"] .site-header {
-  background-color: var(--surface-elev-current, var(--surface-elev));
-  backdrop-filter: blur(12px);
+  background-color: rgba(252, 252, 250, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   box-shadow: var(--shadow-elev-1);
+}
+
+body[data-theme="dark"] .site-header.is-scrolled,
+body[data-theme="dark"][data-page="sub"] .site-header {
+  background-color: rgba(12, 16, 22, 0.94);
 }
 
 body[data-page="sub"] .section:not(.page-hero) {
